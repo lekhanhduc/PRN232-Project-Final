@@ -1,4 +1,11 @@
 
+using medical_appointment_booking.Configuration;
+using medical_appointment_booking.Models;
+using medical_appointment_booking.Repositories;
+using medical_appointment_booking.Services;
+using medical_appointment_booking.Services.Impl;
+using Microsoft.EntityFrameworkCore;
+
 namespace medical_appointment_booking
 {
     public class Program
@@ -7,16 +14,34 @@ namespace medical_appointment_booking
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            builder.Services.AddControllers()
+                 .AddJsonOptions(options =>
+                 {
+                     options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+                 });
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddDbContext<AppDbContext>(options =>
+               options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddCustomJwtAuthentication(builder.Configuration); // JWT
+            CorsConfiguration.ConfigureServices(builder.Services); // CORS
+
+            builder.Services.AddScoped<UserRepository>();
+            builder.Services.AddScoped<RoleRepository>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IJwtService, JwtService>();
+
+            builder.Services.AddHttpContextAccessor();
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -24,7 +49,9 @@ namespace medical_appointment_booking
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 

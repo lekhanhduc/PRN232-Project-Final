@@ -1,0 +1,16 @@
+﻿namespace medical_appointment_booking.Dtos.Response
+{
+    public class SignInResponse
+    {
+        public string AccessToken { get; set; }
+        public string RefreshToken { get; set; }
+        public string TokenType { get; set; }
+
+        public SignInResponse(string AccessToken, string RefreshToken, string TokenType)
+        {
+            this.AccessToken = AccessToken;
+            this.RefreshToken = RefreshToken;
+            this.TokenType = TokenType;
+        }
+    }
+}

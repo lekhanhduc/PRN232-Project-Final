@@ -1,12 +1,105 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\PRN232-Project\\medical-appointment-booking\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\prn232-project\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\prn232-project\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\usercreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\usercreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\prn232-project\\medical-appointment-booking\\medical-appointment-booking\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\prn232-project\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\usercreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\usercreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\prn232-project\\medical-appointment-booking\\medical-appointment-booking\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UserCreationResponse.cs",
+              "DocumentMoniker": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
+              "ToolTip": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAA1wBAAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T16:08:52.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\UserService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\UserService.cs",
+              "ToolTip": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\UserService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\UserService.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAowD4AAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T16:01:01.258Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UserCreationRequest.cs",
+              "DocumentMoniker": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\UserCreationRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\UserCreationRequest.cs",
+              "ToolTip": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\UserCreationRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\UserCreationRequest.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAA1wBEAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T15:59:51.5Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\UserController.cs",
+              "ToolTip": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\UserController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\UserController.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAA1wBkAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T15:59:48.104Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Models\\User.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\User.cs",
+              "ToolTip": "D:\\PRN232-Project\\medical-appointment-booking\\medical-appointment-booking\\Models\\User.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T15:53:39.211Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
