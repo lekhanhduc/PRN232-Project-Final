@@ -1,5 +1,6 @@
 
 using medical_appointment_booking.Configuration;
+using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
 using medical_appointment_booking.Services;
@@ -31,6 +32,7 @@ namespace medical_appointment_booking
 
             builder.Services.AddCustomJwtAuthentication(builder.Configuration); // JWT
             CorsConfiguration.ConfigureServices(builder.Services); // CORS
+            builder.Services.AddHttpContextAccessor(); // HttpContextAccessor
 
             builder.Services.AddScoped<UserRepository>();
             builder.Services.AddScoped<RoleRepository>();
@@ -51,6 +53,7 @@ namespace medical_appointment_booking
             app.UseHttpsRedirection();
             app.UseCors("AllowAll");
 
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -16,18 +16,15 @@ namespace medical_appointment_booking.Services.Impl
         private readonly ILogger<AuthenticationService> logger;
         private readonly IJwtService jwtService;
         private readonly PasswordHasher<User> passwordHasher;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly UserRepository userRepository;
 
         public AuthService(
             ILogger<AuthenticationService> logger,
             IJwtService jwtService,
-            IHttpContextAccessor _httpContextAccessor,
             UserRepository userRepository)
         {
             this.logger = logger;
             this.jwtService = jwtService;
-            this._httpContextAccessor = _httpContextAccessor;
             this.passwordHasher = new PasswordHasher<User>();
             this.userRepository = userRepository;
         }
@@ -67,20 +64,6 @@ namespace medical_appointment_booking.Services.Impl
 
             var accessToken = jwtService.GenerateAccessToken(claims);
             var refreshToken = jwtService.GenerateRefreshToken(claims);
-
-            // Kiểm tra HttpContext trước khi đặt cookie
-            var httpContext = _httpContextAccessor?.HttpContext;
-            if (httpContext != null)
-            {
-                httpContext.Response.Cookies.Append("refreshToken", refreshToken, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = false,
-                    SameSite = SameSiteMode.Lax,
-                    Expires = DateTimeOffset.UtcNow.AddDays(14)
-                });
-            }
-
 
             logger.LogInformation("SignIn success for userId: {UserId}", user.Id);
 

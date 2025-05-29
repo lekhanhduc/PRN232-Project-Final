@@ -50,7 +50,7 @@ namespace medical_appointment_booking.Middlewares
         {
             var response = context.Response;
             response.ContentType = "application/json";
-            response.StatusCode = (int)HttpStatusCode.OK;
+            response.StatusCode = exception.ErrorCode.Code;
 
             var errorResponse = new ErrorResponse
             {
@@ -109,7 +109,7 @@ namespace medical_appointment_booking.Middlewares
             var errorResponse = new ErrorResponse
             {
                 Code = response.StatusCode,
-                Message = "An unexpected error occurred.",
+                Message = exception.Message,
                 Url = context.Request.Path,
                 Timestamp = DateTime.Now
             };

@@ -40,7 +40,7 @@ namespace medical_appointment_booking.Services.Impl
             user.LastName = request.LastName;
             user.Name = request.FirstName + " " + request.LastName;
             user.Dob = request.Dob;
-            user.Enabled = false;
+            user.Enabled = true;
              
             var role = await roleRepository.FindByRoleName(DefinitionRole.USER);
             if (role == null)
@@ -53,7 +53,6 @@ namespace medical_appointment_booking.Services.Impl
             await userRepository.CreateUserAsync(user);
 
             logger.LogInformation("User created successfully with email: {Email}", request.Phone);
-
 
             return new UserCreationResponse
                 (

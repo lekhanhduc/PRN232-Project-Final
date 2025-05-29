@@ -23,6 +23,7 @@ namespace medical_appointment_booking.Repositories
         public async Task<User?> FindUserByPhone(string phone)
         {
             return await _context.Users
+                .Include(u => u.Role)
                                  .FirstOrDefaultAsync(u => u.Phone == phone);
         }
 
