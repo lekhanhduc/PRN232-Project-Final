@@ -1,5 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using medical_appointment_booking.Common;
 using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Middlewares;
@@ -17,16 +18,70 @@ namespace medical_appointment_booking.Services.Impl
         private readonly IJwtService jwtService;
         private readonly PasswordHasher<User> passwordHasher;
         private readonly UserRepository userRepository;
+        private readonly RoleRepository roleRepository;
+        private readonly GoogleAuthClient googleAuthClient;
+        private readonly GoogleUserInfoClient googleUserInfoClient;
 
         public AuthService(
             ILogger<AuthenticationService> logger,
             IJwtService jwtService,
-            UserRepository userRepository)
+            UserRepository userRepository,
+            RoleRepository roleRepository,
+            GoogleAuthClient googleAuthClient,
+            GoogleUserInfoClient googleUserInfoClient)
         {
             this.logger = logger;
             this.jwtService = jwtService;
             this.passwordHasher = new PasswordHasher<User>();
             this.userRepository = userRepository;
+            this.roleRepository = roleRepository;
+            this.googleAuthClient = googleAuthClient;
+            this.googleUserInfoClient = googleUserInfoClient;
+        }
+
+        public async Task<SignInResponse> SignInWithGoogle(string code)
+        {
+
+            var token = await googleAuthClient.ExchangeTokenAsync(code);
+            var userInfo = await googleUserInfoClient.GetUserInfoAsync(token.AccessToken);
+
+            var user = await userRepository.FindUserByEmail(userInfo.Email);
+
+            if (user == null)
+            {
+                var role = await roleRepository.FindByRoleName(DefinitionRole.USER);
+                if (role == null)
+                {
+                    role = new Role();
+                    role.Name = DefinitionRole.USER;
+                    await roleRepository.CreateRole(role);
+                }
+                user = new User
+                {
+                    Email = userInfo.Email,
+                    FirstName = userInfo.GivenName,
+                    LastName = userInfo.FamilyName,
+                    Name = userInfo.Name,
+                    Avatar = userInfo.Picture,
+                    Enabled = true,
+                    Role = role
+                };
+
+                await userRepository.CreateUserAsync(user);
+            }
+            var claims = new[]
+            {
+                new Claim("userId", user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("Authorities", user.Role.Name)
+            };
+
+            var accessToken = jwtService.GenerateAccessToken(claims);
+            var refreshToken = jwtService.GenerateRefreshToken(claims);
+
+            logger.LogInformation("SignIn Google success for userId: {UserId}", user.Id);
+
+            return new SignInResponse(accessToken, refreshToken, "Bearer");
         }
 
 
@@ -34,7 +89,7 @@ namespace medical_appointment_booking.Services.Impl
         {
             logger.LogInformation("SignIn start ...");
 
-            var user = await userRepository.FindUserByPhone(request.Phone);
+            var user = await userRepository.FindUserByEmailOrPhone(request.PhoneOrEmail);
 
             if (user == null)
             {

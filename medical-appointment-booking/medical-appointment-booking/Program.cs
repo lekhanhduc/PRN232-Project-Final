@@ -23,7 +23,16 @@ namespace medical_appointment_booking
                      options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
                  });
 
-            builder.Services.AddControllers();
+            builder.Services.AddHttpClient<GoogleAuthClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://oauth2.googleapis.com/");
+            });
+
+            builder.Services.AddHttpClient<GoogleUserInfoClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://www.googleapis.com/");
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

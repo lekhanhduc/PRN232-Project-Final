@@ -2,6 +2,8 @@
 using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +31,21 @@ namespace medical_appointment_booking.Controllers
                 result = result
             };
         }
+
+        [HttpPost("outbound")]
+        [AllowAnonymous]
+        public async Task<ApiResponse<SignInResponse>> SigInGoogle([FromQuery] string code)
+        {
+            var result = await authService.SignInWithGoogle(code);
+
+            return new ApiResponse<SignInResponse>
+            {
+                code = ((int)HttpStatusCode.OK),
+                message = "SignIn Google Successfully",
+                result = result
+            };
+        }
+
 
     }
 }

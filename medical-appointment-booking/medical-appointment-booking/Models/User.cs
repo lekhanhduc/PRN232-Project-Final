@@ -33,6 +33,9 @@ namespace medical_appointment_booking.Models
         [Column("gender", TypeName = "nvarchar(50)")]
         public Gender? Gender { get; set; }
 
+        [Column("avatar")]
+        public string? Avatar { get; set; }
+
 
         [Column("address")]
         public string? Address { get; set; }

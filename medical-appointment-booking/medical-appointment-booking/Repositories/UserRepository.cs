@@ -17,7 +17,15 @@ namespace medical_appointment_booking.Repositories
         public async Task<User?> FindUserByEmail(string email)
         {
             return await _context.Users
+                .Include(u => u.Role)
                                  .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<User?> FindUserByEmailOrPhone(string emailOrPhone)
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Email == emailOrPhone || u.Phone == emailOrPhone);
         }
 
         public async Task<User?> FindUserByPhone(string phone)
