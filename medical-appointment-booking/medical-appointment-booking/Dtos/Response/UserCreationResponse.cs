@@ -9,8 +9,6 @@
         public DateOnly? Dob { get; set; }
         public string UserType { get; set; }
 
-        public UserCreationResponse() { }
-
         public UserCreationResponse(string Phone, string Email, string FirstName, string LastName, DateOnly Dob, string UserType)
         {
             this.Phone = Phone;

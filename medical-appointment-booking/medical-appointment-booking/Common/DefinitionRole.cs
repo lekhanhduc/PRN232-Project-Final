@@ -3,7 +3,8 @@
     public interface DefinitionRole
     {
         public static readonly string USER = "USER";
-        public static readonly string TEACHER = "TEACHER";
-        public static readonly string ADMIN = "ADMIN";
+        public static readonly string DOCTOR = "DOCTOR";
+        public static readonly string PATIENT = "PATIENT";
+        public static readonly string RECEPTIONIST = "RECEPTIONISTs";
     }
 }

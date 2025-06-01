@@ -21,6 +21,7 @@ namespace medical_appointment_booking.Services.Impl
         private readonly RoleRepository roleRepository;
         private readonly GoogleAuthClient googleAuthClient;
         private readonly GoogleUserInfoClient googleUserInfoClient;
+        private readonly PatientRepository patientRepository;
 
         public AuthService(
             ILogger<AuthenticationService> logger,
@@ -28,7 +29,8 @@ namespace medical_appointment_booking.Services.Impl
             UserRepository userRepository,
             RoleRepository roleRepository,
             GoogleAuthClient googleAuthClient,
-            GoogleUserInfoClient googleUserInfoClient)
+            GoogleUserInfoClient googleUserInfoClient,
+            PatientRepository patientRepository)
         {
             this.logger = logger;
             this.jwtService = jwtService;
@@ -37,6 +39,7 @@ namespace medical_appointment_booking.Services.Impl
             this.roleRepository = roleRepository;
             this.googleAuthClient = googleAuthClient;
             this.googleUserInfoClient = googleUserInfoClient;
+            this.patientRepository = patientRepository;
         }
 
         public async Task<SignInResponse> SignInWithGoogle(string code)
@@ -59,16 +62,20 @@ namespace medical_appointment_booking.Services.Impl
                 user = new User
                 {
                     Email = userInfo.Email,
-                    FirstName = userInfo.GivenName,
-                    LastName = userInfo.FamilyName,
-                    Name = userInfo.Name,
-                    Avatar = userInfo.Picture,
-                    Enabled = true,
                     Role = role
                 };
-
                 await userRepository.CreateUserAsync(user);
+
+                Patient patient = new Patient
+                {
+                    UserId = user.Id,
+                    FirstName = userInfo.GivenName,
+                    LastName = userInfo.FamilyName,
+                    Avatar = userInfo.Picture,
+                };
+                await patientRepository.CreatePatientAsync(patient);
             }
+
             var claims = new[]
             {
                 new Claim("userId", user.Id.ToString()),
@@ -97,7 +104,7 @@ namespace medical_appointment_booking.Services.Impl
                 throw new AppException(ErrorCode.USER_NOT_EXISTED);
             }
 
-            if (!user.Enabled)
+            if (user.UserStatus != UserStatus.ACTIVE)
             {
                 throw new AppException(ErrorCode.ACCOUNT_LOCKED);
             }

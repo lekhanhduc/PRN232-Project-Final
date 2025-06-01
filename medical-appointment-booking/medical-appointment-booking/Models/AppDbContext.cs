@@ -10,12 +10,44 @@ namespace medical_appointment_booking.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Schedules> Schedules { get; set; }
-        public DbSet<Clinics> Clinics { get; set; }
-        public DbSet<Appointments> Appointments { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
+        public DbSet<Specialty> Specialties { get; set; }
+        public DbSet<Patient> Patients { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<AppointmentHistory> AppointmentHistories { get; set; }
+        public DbSet<ServicePackage> ServicePackages { get; set; }
+        //public DbSet<DoctorService> DoctorServices { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<TimeSlot> TimeSlots { get; set; }
+        public DbSet<WorkSchedule> WorkSchedules { get; set; }
+        public DbSet<DoctorLeave> DoctorLeaves { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            // Cấu hình cho Appointment
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(a => a.CreatedBy)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.CancelledByUser)
+                .WithMany()
+                .HasForeignKey(a => a.CancelledBy)
+                .OnDelete(DeleteBehavior.NoAction); 
+
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.Patient)
+                .WithMany()
+                .HasForeignKey(a => a.PatientId)
+                .OnDelete(DeleteBehavior.NoAction); 
+
+            modelBuilder.Entity<Appointment>()
+                .HasOne(a => a.Doctor)
+                .WithMany()
+                .HasForeignKey(a => a.DoctorId)
+                .OnDelete(DeleteBehavior.NoAction); 
         }
     }
 }

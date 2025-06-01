@@ -10,7 +10,6 @@
         public string LastName { get; set; }
         public DateOnly Dob { get; set; }
 
-        public UserCreationRequest() { }
 
         public UserCreationRequest(string Phone, string Email,  string Password, string FirstName, string LastName, DateOnly Dob)
         {

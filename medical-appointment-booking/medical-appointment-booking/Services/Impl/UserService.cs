@@ -11,16 +11,18 @@ namespace medical_appointment_booking.Services.Impl
     public class UserService : IUserService
     {
         private readonly UserRepository userRepository;
+        private readonly PatientRepository patientRepository;
         private readonly RoleRepository roleRepository;
         private readonly PasswordHasher<User> passwordHasher;
         private readonly ILogger<UserService> logger;
 
-        public UserService(UserRepository userRepository, RoleRepository roleRepository, ILogger<UserService> logger)
+        public UserService(UserRepository userRepository, RoleRepository roleRepository, ILogger<UserService> logger, PatientRepository patientRepository)
         {
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;
             this.passwordHasher = new PasswordHasher<User>();
             this.logger = logger;
+            this.patientRepository = patientRepository;
         }
 
         public async Task<UserCreationResponse> CreateUser(UserCreationRequest request)
@@ -36,11 +38,6 @@ namespace medical_appointment_booking.Services.Impl
             user.Phone = request.Phone;
             user.Email = request.Email.Trim();
             user.Password = passwordHasher.HashPassword(user, request.Password.Trim());
-            user.FirstName = request.FirstName;
-            user.LastName = request.LastName;
-            user.Name = request.FirstName + " " + request.LastName;
-            user.Dob = request.Dob;
-            user.Enabled = true;
              
             var role = await roleRepository.FindByRoleName(DefinitionRole.USER);
             if (role == null)
@@ -52,18 +49,27 @@ namespace medical_appointment_booking.Services.Impl
             user.Role = role;
             await userRepository.CreateUserAsync(user);
 
+            var patient = new Patient
+            {
+                UserId = user.Id,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Dob = request.Dob
+            };
+
+            await patientRepository.CreatePatientAsync(patient);
+
             logger.LogInformation("User created successfully with email: {Email}", request.Phone);
 
             return new UserCreationResponse
                 (
                     user.Phone,
                     user.Email,
-                    user.FirstName,
-                    user.LastName,
-                    user.Dob,
+                    patient.FirstName,
+                    patient.LastName,
+                    patient.Dob,
                     user.Role.Name
                 );
-
         }
 
     }
