@@ -6,6 +6,20 @@ interface CustomRequestInit extends RequestInit {
     skipAuth?: boolean;
 }
 
+const PUBLIC_ENDPOINTS = [
+    '/api/v1/auth/login',
+    '/api/v1/users',
+    '/api/v1/auth/forgot-password',
+    '/api/v1/auth/reset-password',
+    '/api/v1/auth/verify-email',
+];
+
+function isPublicEndpoint(url: string): boolean {
+    return PUBLIC_ENDPOINTS.some(endpoint => {
+        return url.includes(endpoint) || url.endsWith(endpoint);
+    });
+}
+
 let refreshingPromise: Promise<boolean> | null = null;
 
 async function refreshAccessToken(): Promise<boolean> {
@@ -45,7 +59,9 @@ export const fetchInterceptor = async (url: string, options: CustomRequestInit =
         ...requestOptions.headers,
     };
 
-    if (!requestOptions.skipAuth) {
+    const isPublic = options.skipAuth || isPublicEndpoint(url);
+
+    if (!isPublic) {
         const token = tokenStorage.getAccessToken();
         if (token) {
             requestOptions.headers = {
