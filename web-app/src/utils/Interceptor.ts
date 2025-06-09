@@ -33,7 +33,7 @@ async function refreshAccessToken(): Promise<boolean> {
                 'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
             },
-            credentials: 'include'
+            // credentials: 'include'
         });
 
         if (!response.ok) throw new Error('Refresh failed');
@@ -51,7 +51,7 @@ async function refreshAccessToken(): Promise<boolean> {
 export const fetchInterceptor = async (url: string, options: CustomRequestInit = {}): Promise<Response> => {
     const requestOptions: CustomRequestInit = {
         ...options,
-        credentials: 'include'
+        // credentials: 'include'
     };
 
     requestOptions.headers = {
