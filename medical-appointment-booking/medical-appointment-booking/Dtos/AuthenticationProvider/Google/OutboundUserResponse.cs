@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace medical_appointment_booking.Dtos.Response
+namespace medical_appointment_booking.Dtos.AuthenticationProvider.Google
 {
     public class OutboundUserResponse
     {

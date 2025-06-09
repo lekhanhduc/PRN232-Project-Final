@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using medical_appointment_booking.Dtos.Response;
+using medical_appointment_booking.Dtos.AuthenticationProvider.Google;
 
 namespace medical_appointment_booking.Repositories
 {

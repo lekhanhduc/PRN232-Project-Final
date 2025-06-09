@@ -14,11 +14,11 @@ namespace medical_appointment_booking.Models
 
         [Required]
         [Column("first_name")]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         [Required]
         [Column("last_name")]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         [Column("phone")]
         public string? Phone { get; set; }

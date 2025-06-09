@@ -22,6 +22,8 @@ namespace medical_appointment_booking.Services.Impl
         private readonly GoogleAuthClient googleAuthClient;
         private readonly GoogleUserInfoClient googleUserInfoClient;
         private readonly PatientRepository patientRepository;
+        private readonly FacebookAuthClient facebookAuthClient;
+        private readonly FacebookUserInfoClient facebookUserInfoClient;
 
         public AuthService(
             ILogger<AuthenticationService> logger,
@@ -30,7 +32,9 @@ namespace medical_appointment_booking.Services.Impl
             RoleRepository roleRepository,
             GoogleAuthClient googleAuthClient,
             GoogleUserInfoClient googleUserInfoClient,
-            PatientRepository patientRepository)
+            PatientRepository patientRepository,
+            FacebookAuthClient facebookAuthClient,
+            FacebookUserInfoClient facebookUserInfoClient)
         {
             this.logger = logger;
             this.jwtService = jwtService;
@@ -40,6 +44,8 @@ namespace medical_appointment_booking.Services.Impl
             this.googleAuthClient = googleAuthClient;
             this.googleUserInfoClient = googleUserInfoClient;
             this.patientRepository = patientRepository;
+            this.facebookAuthClient = facebookAuthClient;
+            this.facebookUserInfoClient = facebookUserInfoClient;
         }
 
         public async Task<SignInResponse> SignInWithGoogle(string code)
@@ -88,7 +94,7 @@ namespace medical_appointment_booking.Services.Impl
 
             logger.LogInformation("SignIn Google success for userId: {UserId}", user.Id);
 
-            return new SignInResponse(accessToken, refreshToken, "Bearer");
+            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer");
         }
 
 
@@ -129,7 +135,70 @@ namespace medical_appointment_booking.Services.Impl
 
             logger.LogInformation("SignIn success for userId: {UserId}", user.Id);
 
-            return new SignInResponse(accessToken, refreshToken, "Bearer");
+            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer");
+        }
+
+        public async Task<SignInResponse> SignInWithFacebook(string code)
+        {
+            var exchangeToken = await facebookAuthClient.ExchangeTokenAsync(code);
+            if (exchangeToken == null)
+            {
+                throw new ArgumentException("Exchange token is null");
+            }
+            var userInfo = await facebookUserInfoClient.GetUserProfileAsync(exchangeToken.AccessToken);
+
+            if (userInfo == null)
+            {
+                throw new ArgumentException("Profile is null");
+            }
+
+            var email = userInfo.Email;
+            if (string.IsNullOrEmpty(email))
+            {
+                email = GenerateUniqueEmail(userInfo.Id);
+                logger.LogWarning("Email không có sẵn, đã sinh email tạm: {Email}", email);
+            }
+
+            var user = await userRepository.FindUserByEmail(userInfo.Email);
+
+            if (user == null)
+            {
+                var role = await roleRepository.FindByRoleName(DefinitionRole.USER);
+                if (role == null)
+                {
+                    role = new Role();
+                    role.Name = DefinitionRole.USER;
+                    await roleRepository.CreateRole(role);
+                }
+                user = new User
+                {
+                    Email = userInfo.Email,
+                    Role = role
+                };
+
+                await userRepository.CreateUserAsync(user);
+
+                Patient patient = new Patient
+                {
+                    UserId = user.Id,
+                    Avatar = userInfo.Picture.Data.Url,
+                };
+                await patientRepository.CreatePatientAsync(patient);
+            }
+
+            var claims = new[]
+            {
+            new Claim("userId", user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim("Authorities", user.Role.Name)
+        };
+
+            var accessToken = jwtService.GenerateAccessToken(claims);
+            var refreshToken = jwtService.GenerateRefreshToken(claims);
+
+            logger.LogInformation("Đăng nhập bằng Facebook thành công cho userId: {UserId}", user.Id);
+
+            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer");
         }
 
         public Task<SignInResponse> RefreshToken()
@@ -140,6 +209,13 @@ namespace medical_appointment_booking.Services.Impl
         public Task SignOut()
         {
             throw new NotImplementedException();
+        }
+
+
+        private string GenerateUniqueEmail(string login)
+        {
+            var uniqueId = Guid.NewGuid().ToString("N"); // "N" để tạo chuỗi không có dấu gạch nối
+            return $"{login}-{uniqueId}@generated.com";
         }
     }
 }
