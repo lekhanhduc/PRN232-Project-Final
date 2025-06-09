@@ -33,6 +33,16 @@ namespace medical_appointment_booking
                 client.BaseAddress = new Uri("https://www.googleapis.com/");
             });
 
+            builder.Services.AddHttpClient<FacebookAuthClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://graph.facebook.com/");
+            });
+
+            builder.Services.AddHttpClient<FacebookUserInfoClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://graph.facebook.com/");
+            });
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 

@@ -8,6 +8,8 @@ namespace medical_appointment_booking.Services
         Task<SignInResponse> SignIn(SignInRequest request);
         Task<SignInResponse> RefreshToken();
         Task<SignInResponse> SignInWithGoogle(string code);
+
+        Task<SignInResponse> SignInWithFacebook(string code);
         Task SignOut();
     }
 }

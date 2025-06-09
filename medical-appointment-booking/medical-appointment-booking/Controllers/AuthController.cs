@@ -46,6 +46,19 @@ namespace medical_appointment_booking.Controllers
             };
         }
 
+        [HttpPost("facebook")]
+        [AllowAnonymous]
+        public async Task<ApiResponse<SignInResponse>> SigInFacebook([FromQuery] string code)
+        {
+            var result = await authService.SignInWithFacebook(code);
+
+            return new ApiResponse<SignInResponse>
+            {
+                code = ((int)HttpStatusCode.OK),
+                message = "SignIn Facebook Successfully",
+                result = result
+            };
+        }
 
     }
 }
