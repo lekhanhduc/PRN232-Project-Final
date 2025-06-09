@@ -1,6 +1,6 @@
 ﻿namespace medical_appointment_booking.Services
 {
-    public interface IMailService
+    public interface IMailService1
     {
         Task SendEmailWelcome(string to, string name, string phone, DateTime registrationDate);
     }
