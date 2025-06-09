@@ -1,0 +1,66 @@
+﻿
+using SendGrid;
+using SendGrid.Helpers.Mail;
+
+namespace medical_appointment_booking.Services.Impl
+{
+    public class MailService : IMailService
+    {
+
+        private readonly string _sendGridApiKey;
+        private readonly string _welcomeTemplateId;  
+        private readonly string _emailFrom;
+        private readonly ILogger<MailService> _logger;
+
+        public MailService(IConfiguration configuration, ILogger<MailService> logger)
+        {
+            _sendGridApiKey = configuration["SendGrid:ApiKey"]
+                ?? throw new ArgumentNullException("SendGrid:ApiKey is required");
+
+            _welcomeTemplateId = configuration["SendGrid:WelcomeTemplateId"]
+                ?? throw new ArgumentNullException("SendGrid:WelcomeTemplateId is required");
+
+            _emailFrom = configuration["SendGrid:FromEmail"]
+                ?? throw new ArgumentNullException("SendGrid:FromEmail is required");
+
+            _logger = logger;
+        }
+
+
+        public async Task SendEmailWelcome(string to, string name, string phone, DateTime registrationDate)
+        {
+            var client = new SendGridClient(_sendGridApiKey);
+
+            var from = new EmailAddress(_emailFrom, "Medical Appointment");
+            var toEmail = new EmailAddress(to);
+
+            var msg = new SendGridMessage
+            {
+                TemplateId = _welcomeTemplateId,
+                From = from,
+                Subject = "Welcome to Medical Appointment"
+            };
+
+            msg.AddTo(toEmail);
+
+            msg.SetTemplateData(new
+            {
+                email = to,
+                phone = phone,
+                full_name = name,
+                registration_date = registrationDate.ToString("dd/MM/yyyy")
+            });
+
+            var response = await client.SendEmailAsync(msg);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
+            {
+                _logger.LogInformation("Email sent successfully to {Email}", to);
+            }
+            else
+            {
+                _logger.LogError("Failed to send email to {Email}. Status: {StatusCode} {Body}", to, response.StatusCode, response.Body);
+            }
+        }
+    }
+}

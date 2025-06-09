@@ -14,15 +14,18 @@ namespace medical_appointment_booking.Services.Impl
         private readonly PatientRepository patientRepository;
         private readonly RoleRepository roleRepository;
         private readonly PasswordHasher<User> passwordHasher;
+        private readonly IMailService mailService;
         private readonly ILogger<UserService> logger;
 
-        public UserService(UserRepository userRepository, RoleRepository roleRepository, ILogger<UserService> logger, PatientRepository patientRepository)
+        public UserService(UserRepository userRepository, RoleRepository roleRepository, ILogger<UserService> logger,
+            PatientRepository patientRepository, IMailService mailService)
         {
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;
             this.passwordHasher = new PasswordHasher<User>();
             this.logger = logger;
             this.patientRepository = patientRepository;
+            this.mailService = mailService;
         }
 
         public async Task<UserCreationResponse> CreateUser(UserCreationRequest request)
@@ -60,6 +63,8 @@ namespace medical_appointment_booking.Services.Impl
             await patientRepository.CreatePatientAsync(patient);
 
             logger.LogInformation("User created successfully with email: {Email}", request.Phone);
+
+            await mailService.SendEmailWelcome(user.Email, patient.FirstName + " " + patient.LastName, user.Phone, user.CreatedAt);
 
             return new UserCreationResponse
                 (
