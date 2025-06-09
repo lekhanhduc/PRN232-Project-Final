@@ -48,6 +48,46 @@ namespace medical_appointment_booking.Services.Impl
             this.facebookUserInfoClient = facebookUserInfoClient;
         }
 
+        public async Task<SignInResponse> SignIn(SignInRequest request)
+        {
+            logger.LogInformation("SignIn start ...");
+
+            var user = await userRepository.FindUserByEmailOrPhone(request.PhoneOrEmail);
+
+            if (user == null)
+            {
+                logger.LogError("SignIn Failed: User not found.");
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
+
+            if (user.UserStatus != UserStatus.ACTIVE)
+            {
+                throw new AppException(ErrorCode.ACCOUNT_LOCKED);
+            }
+
+            var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
+
+            if (passwordVerificationResult != PasswordVerificationResult.Success)
+            {
+                logger.LogError("SignIn Failed: Invalid password.");
+                throw new AppException(ErrorCode.UNAUTHORIZED);
+            }
+
+            var claims = new[]
+            {
+                new Claim("userId", user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("Authorities", user.Role.Name)
+            };
+
+            var accessToken = jwtService.GenerateAccessToken(claims);
+            var refreshToken = jwtService.GenerateRefreshToken(claims);
+
+            logger.LogInformation("SignIn success for userId: {UserId}", user.Id);
+
+            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer");
+        }
+
         public async Task<SignInResponse> SignInWithGoogle(string code)
         {
 
@@ -98,46 +138,6 @@ namespace medical_appointment_booking.Services.Impl
         }
 
 
-        public async Task<SignInResponse> SignIn(SignInRequest request)
-        {
-            logger.LogInformation("SignIn start ...");
-
-            var user = await userRepository.FindUserByEmailOrPhone(request.PhoneOrEmail);
-
-            if (user == null)
-            {
-                logger.LogError("SignIn Failed: User not found.");
-                throw new AppException(ErrorCode.USER_NOT_EXISTED);
-            }
-
-            if (user.UserStatus != UserStatus.ACTIVE)
-            {
-                throw new AppException(ErrorCode.ACCOUNT_LOCKED);
-            }
-
-            var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
-
-            if (passwordVerificationResult != PasswordVerificationResult.Success)
-            {
-                logger.LogError("SignIn Failed: Invalid password.");
-                throw new AppException(ErrorCode.UNAUTHORIZED);
-            }
-
-            var claims = new[]
-            {
-                new Claim("userId", user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim("Authorities", user.Role.Name)
-            };
-
-            var accessToken = jwtService.GenerateAccessToken(claims);
-            var refreshToken = jwtService.GenerateRefreshToken(claims);
-
-            logger.LogInformation("SignIn success for userId: {UserId}", user.Id);
-
-            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer");
-        }
-
         public async Task<SignInResponse> SignInWithFacebook(string code)
         {
             var exchangeToken = await facebookAuthClient.ExchangeTokenAsync(code);
@@ -155,11 +155,11 @@ namespace medical_appointment_booking.Services.Impl
             var email = userInfo.Email;
             if (string.IsNullOrEmpty(email))
             {
-                email = GenerateUniqueEmail(userInfo.Id);
+                email = GenerateUniqueEmail("facebook");
                 logger.LogWarning("Email không có sẵn, đã sinh email tạm: {Email}", email);
             }
 
-            var user = await userRepository.FindUserByEmail(userInfo.Email);
+            var user = await userRepository.FindUserByEmail(email);
 
             if (user == null)
             {
@@ -172,7 +172,7 @@ namespace medical_appointment_booking.Services.Impl
                 }
                 user = new User
                 {
-                    Email = userInfo.Email,
+                    Email = email,
                     Role = role
                 };
 
