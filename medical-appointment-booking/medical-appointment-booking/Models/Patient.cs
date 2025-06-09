@@ -12,11 +12,9 @@ namespace medical_appointment_booking.Models
         public long UserId { get; set; }
         public User User { get; set; }
 
-        [Required]
         [Column("first_name")]
         public string? FirstName { get; set; }
 
-        [Required]
         [Column("last_name")]
         public string? LastName { get; set; }
 
