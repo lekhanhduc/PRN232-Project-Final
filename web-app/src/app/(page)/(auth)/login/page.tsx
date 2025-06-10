@@ -6,13 +6,11 @@ import toast, { Toaster } from 'react-hot-toast';
 import { SignInRequest } from '@/types/auth';
 import { loginUser } from '@/services/authService';
 import { login } from '@/redux/slice/authSlice';
-import { GoogleConfiguration } from '@/configuration/GoogleConfiguration';
-import { FacebookConfiguration } from '@/configuration/FacebookConfiguration';
 import Link from 'next/link';
 import { useAppDispatch } from '@/redux/hook';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { getRedirectPath } from '@/utils/Authorities';
 import SocialLoginButtons from '@/components/social/SocialLoginButtons';
+import { getRedirectPath } from '@/utils/authorities';
 
 const SignIn = () => {
     const dispatch = useAppDispatch();
@@ -101,16 +99,6 @@ const SignIn = () => {
         } finally {
             setIsLoading(false);
         }
-    };
-
-    const handleGoogleLogin = () => {
-        const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GoogleConfiguration.client_id}&redirect_uri=${GoogleConfiguration.redirect_uri}&response_type=${GoogleConfiguration.response_type}&scope=${GoogleConfiguration.scope}&prompt=consent`;
-        window.location.href = url;
-    };
-
-    const handleFacebookLogin = () => {
-        const url = `https://www.facebook.com/v23.0/dialog/oauth?client_id=${FacebookConfiguration.client_id}&redirect_uri=${FacebookConfiguration.redirect_uri}&response_type=${FacebookConfiguration.response_type}&scope=${FacebookConfiguration.scope}`;
-        window.location.href = url;
     };
 
     return (

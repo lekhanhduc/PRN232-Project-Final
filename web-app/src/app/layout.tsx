@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ToastProvider from "@/components/providers/ToastProvider";
 import StoreProvider from "@/redux/StoreProvider";
+import React from "react";
+import LayoutWrapper from "@/components/layouts/LayoutWrapper";
 
 export const metadata: Metadata = {
   title: "Medical and Healthcare",
@@ -16,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StoreProvider>
-          {children}
-          <ToastProvider />
-        </StoreProvider>
+        <LayoutWrapper>
+          <StoreProvider>
+            {children}
+            <ToastProvider />
+          </StoreProvider>
+        </LayoutWrapper>
       </body>
     </html>
   );
