@@ -4,7 +4,6 @@ import Head from 'next/head';
 import HeroSection from './sections/HeroSection';
 import ServicesPreview from './sections/SevicesPreview';
 import StartsSection from './sections/StartsSection';
-import Footer from './layouts/Footer';
 
 const HomePage: React.FC = () => {
     return (

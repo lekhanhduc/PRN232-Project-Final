@@ -1,14 +1,14 @@
 'use client'
 import React, { useState } from 'react';
 import { Calendar, Clock, Star, FileText, Stethoscope } from 'lucide-react';
-import { DoctorHeroSection } from '@/components/doctors/DoctorHeroSection';
 import { TabNavigation } from '@/components/doctors/tab/TabNavigation';
 import { ServicesTab } from '@/components/doctors/tab/ServicesTab';
 import { OverviewTab } from '@/components/doctors/tab/OverviewTab';
 import { ReviewsTab } from '@/components/doctors/tab/ReviewsTab';
 import { AppointmentTab } from '@/components/doctors/tab/AppointmentTab';
 import { WorkingHoursTab } from '@/components/doctors/tab/WorkingHoursTab';
-import { DoctorQuickStats } from '@/components/doctors/DoctorQuickStats';
+import { DoctorHeroSection } from '@/components/doctors/details/DoctorHeroSection';
+import { DoctorQuickStats } from '@/components/doctors/details/DoctorQuickStats';
 
 const doctorData = {
     id: '123',
