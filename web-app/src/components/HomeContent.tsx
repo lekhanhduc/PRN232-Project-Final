@@ -1,17 +1,34 @@
-export default function HomeContent() {
+// pages/index.tsx
+import React from 'react';
+import Head from 'next/head';
+import { Play, ArrowRight, Heart, Users, Award, Clock } from 'lucide-react';
+import Header from './layouts/Header';
+import HeroSection from './sections/HeroSection';
+import ServicesPreview from './sections/SevicesPreview';
+import StartsSection from './sections/StartsSection';
+import Foodter from './layouts/Foodter';
+
+const HomePage: React.FC = () => {
     return (
-        <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-            <div className="flex items-center justify-center">
+        <>
+            <Head>
+                <title>Medically - Helping People Lead Healthy & Happy Lives</title>
+                <meta name="description" content="Professional medical services to help you lead a healthy and happy life" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
+
+                <Header />
+                <HeroSection />
+                <StartsSection />
+                <ServicesPreview />
+
+                <Foodter />
             </div>
-            <div className="text-center">
-                <h1 className="text-4xl font-bold mb-4">Welcome to Our Application</h1>
-                <p className="text-lg text-gray-600">
-                    This is the home page of our application.
-                </p>
-            </div>
-            <footer className="text-sm text-gray-500">
-                © {new Date().getFullYear()} Your Company Name
-            </footer>
-        </div>
+        </>
     );
-}
+};
+
+export default HomePage;
