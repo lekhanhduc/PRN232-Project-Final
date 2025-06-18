@@ -104,7 +104,6 @@ namespace medical_appointment_booking.Services
             var (secretKey, qrCodeBase64) = GenerateSetupCode(user.Email ?? "", "MedicalAppointmentBooking");
             user.TwoFactorSecret = secretKey;
             user.Enable2FA = true;
-            user.UserStatus = UserStatus.ACTIVE;
             await userRepository.UpdateUser(user);
 
             return qrCodeBase64;

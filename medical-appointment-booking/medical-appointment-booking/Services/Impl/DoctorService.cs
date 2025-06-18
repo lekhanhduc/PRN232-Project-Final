@@ -61,11 +61,11 @@ namespace medical_appointment_booking.Services.Impl
                 throw new AppException(ErrorCode.SPECIALTY_NOT_FOUND);
             }
 
-            var role = await roleRepository.FindByRoleName(DefinitionRole.USER);
+            var role = await roleRepository.FindByRoleName(DefinitionRole.DOCTOR);
             if (role == null)
             {
                 role = new Role();
-                role.Name = DefinitionRole.USER;
+                role.Name = DefinitionRole.DOCTOR;
                 await roleRepository.CreateRole(role);
             }
 
@@ -101,7 +101,16 @@ namespace medical_appointment_booking.Services.Impl
 
             await doctorRepository.CreateDoctorAsync(newDoctor);
 
-            await mailService.SendEmailWelcome(newUser.Email, newDoctor.FirstName + " " + newDoctor.LastName, newUser.Phone, newDoctor.CreatedAt);
+            await mailService.SendDoctorWelcomeEmail(
+                to: newUser.Email,
+                doctorName: newDoctor.FirstName + " " + newDoctor.LastName,
+                email: newUser.Email,
+                temporaryPassword: password,
+                licenseNumber: newDoctor.LicenseNumber,
+                specialty: specialty.SpecialtyName,
+                consultationFee: newDoctor.ConsultationFee,
+                registrationDate: newDoctor.CreatedAt
+            );
 
             return new DoctorCreationResponse
             {
