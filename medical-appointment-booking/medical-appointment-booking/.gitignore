@@ -20,20 +20,18 @@ medical-appointment-booking/vs/
 ../vs
 .vsconfig
 
+./application.json
+
 # File cấu hình Visual Studio
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
-<<<<<<< HEAD
 
 # File log
-=======
 **/bin/
 **/obj/
 
->>>>>>> 7e52686 (Add file gitignore)
-logs/
 *.log
 
 # File tạm và cache
