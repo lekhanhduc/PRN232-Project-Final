@@ -2,9 +2,20 @@
 import React, { useState } from "react";
 import { Heart, Search, ShoppingBag, UserCircle, LogIn, UserPlus, History, LogOut } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const router = useRouter();
+
+    const handleLogout = () => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+
+        setIsDropdownOpen(false);
+
+        router.push("/login");
+    };
 
     return (
         <div>
@@ -56,7 +67,7 @@ const Header = () => {
                                             <LogIn className="w-5 h-5 mr-3 text-blue-600" />
                                             <span className="text-base">Login</span>
                                         </Link>
-                                        <Link href="registration" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                        <Link href="/registration" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
                                             <UserPlus className="w-5 h-5 mr-3 text-blue-600" />
                                             <span className="text-base">Register</span>
                                         </Link>
@@ -65,10 +76,13 @@ const Header = () => {
                                             <span className="text-base">Order History</span>
                                         </Link>
                                         <div className="border-t border-gray-200 mt-1"></div>
-                                        <Link href="/login" className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-colors">
+                                        <button
+                                            onClick={handleLogout}
+                                            className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-colors w-full text-left"
+                                        >
                                             <LogOut className="w-5 h-5 mr-3" />
                                             <span className="text-base font-medium">Logout</span>
-                                        </Link>
+                                        </button>
                                     </div>
                                 )}
                             </div>
@@ -77,7 +91,7 @@ const Header = () => {
                 </div>
             </header>
         </div>
-    )
-}
+    );
+};
 
-export default Header; 
+export default Header;

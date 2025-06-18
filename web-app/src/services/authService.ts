@@ -4,7 +4,7 @@ import { fetchInterceptor } from "@/utils/interceptor";
 
 export const loginUser = async (request: SignInRequest): Promise<SignInResponse> => {
     const response = await fetchInterceptor(
-        `${API_URL}/api/v1/auth/login`,
+        `${API_URL}/api/v1/auth/sign-in`,
         {
             method: 'POST',
             body: JSON.stringify(request),
