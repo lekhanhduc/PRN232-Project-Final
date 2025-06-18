@@ -56,12 +56,19 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<UserRepository>();
             builder.Services.AddScoped<RoleRepository>();
             builder.Services.AddScoped<PatientRepository>();
+            builder.Services.AddScoped<DoctorRepository>();
+            builder.Services.AddScoped<SpecialtyRepository>();
+
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
             builder.Services.AddScoped<IMailService, MailService>();
+            builder.Services.AddScoped<IPatientService, PatientService>();
+            builder.Services.AddScoped<IDoctorService, DoctorService>();
+            builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
+            builder.Services.AddScoped<TwoFactorService>();
+            builder.Services.AddSingleton<CloudinaryService>();
 
-            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 

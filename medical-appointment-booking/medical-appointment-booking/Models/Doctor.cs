@@ -12,6 +12,14 @@ namespace medical_appointment_booking.Models
         public long UserId { get; set; }
         public User User { get; set; }
 
+
+        [Column("first_name")]
+        public string? FirstName { get; set; }
+
+        [Column("last_name")]
+        public string? LastName { get; set; }
+
+
         [Column("specialty_id")]
         [ForeignKey("Specialty")]
         public int? SpecialtyId { get; set; } 
@@ -45,5 +53,8 @@ namespace medical_appointment_booking.Models
         [Column("bio")]
         public string? Bio { get; set; }
 
+        [Column("avatar")]
+        public string? Avatar { get; set; }
     }
+
 }

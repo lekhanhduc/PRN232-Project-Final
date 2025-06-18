@@ -61,5 +61,11 @@ namespace medical_appointment_booking.Repositories
                 .Include(u => u.Role)
                                  .FirstOrDefaultAsync(u => u.Id == id);
         }
+
+        public async Task UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -22,6 +22,13 @@ namespace medical_appointment_booking.Middlewares
         public static readonly ErrorCode ROLE_NOT_EXISTED = new ErrorCode(404, "Role not existed", HttpStatusCode.NotFound);
         public static readonly ErrorCode FORBIDDEN = new ErrorCode(403, "Forbitdden", HttpStatusCode.Forbidden);
         public static readonly ErrorCode ACCOUNT_LOCKED = new ErrorCode(403, "Account locked", HttpStatusCode.Forbidden);
+        public static readonly ErrorCode INVALID_DATE_OF_BIRTH = new ErrorCode(400, "Date of birth must be less than current time", HttpStatusCode.BadRequest);
+        public static readonly ErrorCode LICENSENUMBER_EXISTED = new ErrorCode(400, "License number already exists", HttpStatusCode.BadRequest);
+        public static readonly ErrorCode SPECIALTY_NOT_FOUND = new ErrorCode(404, "Specialty not found", HttpStatusCode.NotFound);
+        public static readonly ErrorCode SPECIALTY_EXISTED = new ErrorCode(400, "Specialty existed", HttpStatusCode.BadRequest);
+        public static readonly ErrorCode TWO_FACTOR_SECRET_NOT_SET = new ErrorCode(400,"Two-factor authentication is not configured for this account.",HttpStatusCode.BadRequest);
+        public static readonly ErrorCode INVALID_2FA_CODE = new ErrorCode(401, "The verification code is invalid or has expired.", HttpStatusCode.Unauthorized);
 
     }
+
 }
