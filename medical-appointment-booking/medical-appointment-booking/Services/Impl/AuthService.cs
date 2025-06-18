@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using medical_appointment_booking.Common;
 using medical_appointment_booking.Dtos.Request;
-using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
@@ -60,10 +59,6 @@ namespace medical_appointment_booking.Services.Impl
                 throw new AppException(ErrorCode.USER_NOT_EXISTED);
             }
 
-            if (user.UserStatus != UserStatus.ACTIVE)
-            {
-                throw new AppException(ErrorCode.ACCOUNT_LOCKED);
-            }
 
             var passwordVerificationResult = passwordHasher.VerifyHashedPassword(user, user.Password, request.Password);
 
@@ -71,6 +66,23 @@ namespace medical_appointment_booking.Services.Impl
             {
                 logger.LogError("SignIn Failed: Invalid password.");
                 throw new AppException(ErrorCode.UNAUTHORIZED);
+            }
+
+            if (user.UserStatus == UserStatus.INACTIVE)
+            {
+                throw new AppException(ErrorCode.ACCOUNT_LOCKED);
+            }
+
+            if (user.UserStatus == UserStatus.PENDING_VERIFICATION)
+            {
+
+                return new SignInResponse(TwoFaStep.SETUP_REQUIRED);
+            }
+
+            if (user.Role.Name == DefinitionRole.DOCTOR && user.UserStatus == UserStatus.ACTIVE && user.Enable2FA)
+            {
+                // xác minh OTP
+                return new SignInResponse(TwoFaStep.VERIFICATION_REQUIRED);
             }
 
             var claims = new[]
@@ -85,7 +97,7 @@ namespace medical_appointment_booking.Services.Impl
 
             logger.LogInformation("SignIn success for userId: {UserId}", user.Id);
 
-            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer");
+            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer", TwoFaStep.NONE);
         }
 
         public async Task<SignInResponse> SignInWithGoogle(string code)
@@ -134,7 +146,7 @@ namespace medical_appointment_booking.Services.Impl
 
             logger.LogInformation("SignIn Google success for userId: {UserId}", user.Id);
 
-            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer");
+            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer", TwoFaStep.NONE);
         }
 
 
@@ -198,7 +210,7 @@ namespace medical_appointment_booking.Services.Impl
 
             logger.LogInformation("Đăng nhập bằng Facebook thành công cho userId: {UserId}", user.Id);
 
-            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer");
+            return new SignInResponse(accessToken, refreshToken, user.Role.Name, "Bearer", TwoFaStep.NONE);
         }
 
         public Task<SignInResponse> RefreshToken()

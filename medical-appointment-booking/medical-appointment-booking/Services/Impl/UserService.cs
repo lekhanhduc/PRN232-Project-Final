@@ -42,11 +42,11 @@ namespace medical_appointment_booking.Services.Impl
             user.Email = request.Email.Trim();
             user.Password = passwordHasher.HashPassword(user, request.Password.Trim());
              
-            var role = await roleRepository.FindByRoleName(DefinitionRole.USER);
+            var role = await roleRepository.FindByRoleName(DefinitionRole.ADMIN);
             if (role == null)
             {
                 role = new Role();
-                role.Name = DefinitionRole.USER;
+                role.Name = DefinitionRole.ADMIN;
                 await roleRepository.CreateRole(role);
             }
             user.Role = role;
@@ -76,6 +76,8 @@ namespace medical_appointment_booking.Services.Impl
                     user.Role.Name
                 );
         }
+
+
 
     }
 }

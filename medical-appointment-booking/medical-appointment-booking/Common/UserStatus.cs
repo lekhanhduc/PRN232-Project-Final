@@ -2,6 +2,6 @@
 {
     public enum UserStatus
     {
-        ACTIVE, INACTIVE, DELETED, BANNED
+        ACTIVE, INACTIVE, DELETED, BANNED, PENDING_VERIFICATION
     }
 }

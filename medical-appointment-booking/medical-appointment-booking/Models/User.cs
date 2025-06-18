@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Reflection;
 using medical_appointment_booking.Common;
 
 namespace medical_appointment_booking.Models
@@ -22,6 +21,13 @@ namespace medical_appointment_booking.Models
 
         [Column("user_status", TypeName = "nvarchar(20)")]
         public UserStatus UserStatus { get; set; } = UserStatus.ACTIVE;
+
+        [Column("two_factor_secret")]
+        public string? TwoFactorSecret { get; set; }
+
+        [Column("is_2fa_verified")]
+        public bool Enable2FA { get; set; } = false;
+
 
         [Required]
         [ForeignKey("Role")]
