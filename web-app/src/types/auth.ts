@@ -1,5 +1,5 @@
 export interface SignInRequest {
-    emailOrPhone: string;
+    phoneOrEmail: string;
     password: string;
 }
 
@@ -8,4 +8,10 @@ export interface SignInResponse {
     refreshToken: string;
     userType: string;
     tokenType: string;
+    twoFaStep: number
+}
+
+export interface TwoFASetupResponse {
+    code: number,
+    result: string
 }

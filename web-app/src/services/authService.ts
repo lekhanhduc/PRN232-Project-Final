@@ -1,10 +1,10 @@
 import { SignInRequest, SignInResponse } from "@/types/auth";
-import { API_URL } from "@/utils/BaseUrl";
-import { fetchInterceptor } from "@/utils/Interceptor";
+import { API_URL } from "@/utils/baseUrl";
+import { fetchInterceptor } from "@/utils/interceptor";
 
 export const loginUser = async (request: SignInRequest): Promise<SignInResponse> => {
     const response = await fetchInterceptor(
-        `${API_URL}/api/v1/auth/login`,
+        `${API_URL}/api/v1/auth/sign-in`,
         {
             method: 'POST',
             body: JSON.stringify(request),

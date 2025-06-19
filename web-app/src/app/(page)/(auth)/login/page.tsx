@@ -3,16 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
-import { SignInRequest } from '@/types/auth';
+import { SignInRequest, SignInResponse, TwoFASetupResponse } from '@/types/auth';
 import { loginUser } from '@/services/authService';
 import { login } from '@/redux/slice/authSlice';
-import { GoogleConfiguration } from '@/configuration/GoogleConfiguration';
-import { FacebookConfiguration } from '@/configuration/FacebookConfiguration';
 import Link from 'next/link';
 import { useAppDispatch } from '@/redux/hook';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { getRedirectPath } from '@/utils/Authorities';
 import SocialLoginButtons from '@/components/social/SocialLoginButtons';
+import { getRedirectPath } from '@/utils/Authorities';
+import Modal from 'react-modal';
+import { ApiResponse } from '@/types/apiResonse';
+
 
 const SignIn = () => {
     const dispatch = useAppDispatch();
@@ -22,6 +23,10 @@ const SignIn = () => {
     const [loading, setLoading] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const [twoFaStep, setTwoFaStep] = useState<'NONE' | 'SETUP_REQUIRED' | 'VERIFICATION_REQUIRED'>('NONE');
+    const [qrCodeData, setQrCodeData] = useState<string>('');
+    const [otpCode, setOtpCode] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
@@ -47,7 +52,7 @@ const SignIn = () => {
             return;
         }
 
-        const request: SignInRequest = { emailOrPhone, password };
+        const request: SignInRequest = { phoneOrEmail: emailOrPhone, password };
         setIsLoading(true);
 
         const loadingToast = toast.loading('Đang đăng nhập...', {
@@ -56,61 +61,102 @@ const SignIn = () => {
 
         try {
             const data = await loginUser(request);
-
+            console.log(data);
             toast.dismiss(loadingToast);
-            toast.success('Đăng nhập thành công! Chào mừng bạn trở lại! 🏥', {
-                duration: 3000,
-                position: 'top-right',
-                style: {
-                    background: '#059669',
-                    color: '#fff',
-                },
-                iconTheme: {
-                    primary: '#fff',
-                    secondary: '#059669',
-                },
-            });
 
-            localStorage.setItem('accessToken', data.accessToken);
-            localStorage.setItem('refreshToken', data.refreshToken);
+            if (data.twoFaStep === 1) {
+                const response = await fetch('https://localhost:7166/api/v1/2fa', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phoneOrEmail: emailOrPhone }),
+                });
+                const twoFaData: TwoFASetupResponse = await response.json();
+                console.log('twoFaData:', twoFaData);
+                console.log(twoFaData)
+                if (twoFaData.code === 200 && twoFaData.result) {
+                    setQrCodeData(twoFaData.result);
 
-            dispatch(login());
+                    setTwoFaStep('SETUP_REQUIRED');
+                    setIsModalOpen(true);
+                } else {
+                    throw new Error('Không thể lấy mã QR');
+                }
+            } else if (data.twoFaStep === 2) {
+                setTwoFaStep('VERIFICATION_REQUIRED');
+                setIsModalOpen(true);
+            } else {
+                toast.success('Đăng nhập thành công! Chào mừng bạn trở lại! 🏥', {
+                    duration: 3000,
+                    position: 'top-right',
+                    style: { background: '#059669', color: '#fff' },
+                    iconTheme: { primary: '#fff', secondary: '#059669' },
+                });
 
-            const redirectPath = getRedirectPath(data.userType);
-
-            setTimeout(() => {
-                router.push(redirectPath);
-            }, 500);
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                console.error('Login error:', error.message);
+                localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('refreshToken', data.refreshToken);
+                dispatch(login());
+                const redirectPath = getRedirectPath(data.userType);
+                setTimeout(() => router.push(redirectPath), 500);
             }
+        } catch (error: unknown) {
             toast.dismiss(loadingToast);
             toast.error('Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin!', {
                 duration: 5000,
                 position: 'top-right',
-                style: {
-                    background: '#DC2626',
-                    color: '#fff',
-                },
-                iconTheme: {
-                    primary: '#fff',
-                    secondary: '#DC2626',
-                },
+                style: { background: '#DC2626', color: '#fff' },
+                iconTheme: { primary: '#fff', secondary: '#DC2626' },
             });
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleGoogleLogin = () => {
-        const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GoogleConfiguration.client_id}&redirect_uri=${GoogleConfiguration.redirect_uri}&response_type=${GoogleConfiguration.response_type}&scope=${GoogleConfiguration.scope}&prompt=consent`;
-        window.location.href = url;
-    };
+    const handle2FASubmit = async () => {
+        if (!otpCode) {
+            toast.error('Vui lòng nhập mã OTP!', { duration: 4000, position: 'top-right' });
+            return;
+        }
 
-    const handleFacebookLogin = () => {
-        const url = `https://www.facebook.com/v23.0/dialog/oauth?client_id=${FacebookConfiguration.client_id}&redirect_uri=${FacebookConfiguration.redirect_uri}&response_type=${FacebookConfiguration.response_type}&scope=${FacebookConfiguration.scope}`;
-        window.location.href = url;
+        setIsLoading(true);
+        const loadingToast = toast.loading('Đang xác minh OTP...', { position: 'top-right' });
+
+        try {
+            const response = await fetch('https://localhost:7166/api/v1/2fa/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phoneOrEmail: emailOrPhone, code: otpCode }),
+            });
+            const data: ApiResponse<SignInResponse> = await response.json();
+
+            if (data.code === 200 && data.result) {
+                toast.dismiss(loadingToast);
+                toast.success('Xác minh OTP thành công!', {
+                    duration: 3000,
+                    position: 'top-right',
+                    style: { background: '#059669', color: '#fff' },
+                    iconTheme: { primary: '#fff', secondary: '#059669' },
+                });
+
+                localStorage.setItem('accessToken', data.result.accessToken);
+                localStorage.setItem('refreshToken', data.result.refreshToken);
+                dispatch(login());
+                const redirectPath = getRedirectPath(data.result.userType);
+                setTimeout(() => router.push(redirectPath), 500);
+                setIsModalOpen(false);
+            } else {
+                throw new Error('Mã OTP không hợp lệ');
+            }
+        } catch (error: unknown) {
+            toast.dismiss(loadingToast);
+            toast.error('Xác minh OTP thất bại. Vui lòng thử lại!', {
+                duration: 5000,
+                position: 'top-right',
+                style: { background: '#DC2626', color: '#fff' },
+                iconTheme: { primary: '#fff', secondary: '#DC2626' },
+            });
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -244,11 +290,9 @@ const SignIn = () => {
                                     isLoading={isLoading}
                                     dividerText="Hoặc đăng nhập bằng"
                                 />
-
                             </form>
                         </div>
 
-                        {/* Register Link */}
                         <div className="text-center mt-6">
                             <p className="text-gray-600">
                                 Chưa có tài khoản?{' '}
@@ -258,7 +302,6 @@ const SignIn = () => {
                             </p>
                         </div>
 
-                        {/* Trust Indicators */}
                         <div className="mt-8 text-center">
                             <div className="flex items-center justify-center space-x-6 text-sm text-gray-500">
                                 <div className="flex items-center">
@@ -284,6 +327,66 @@ const SignIn = () => {
                     </div>
                 </div>
             </div>
+
+            <Modal
+                isOpen={isModalOpen}
+                onRequestClose={() => setIsModalOpen(false)}
+                style={{
+                    content: {
+                        top: '50%',
+                        left: '50%',
+                        right: 'auto',
+                        bottom: 'auto',
+                        marginRight: '-50%',
+                        transform: 'translate(-50%, -50%)',
+                        maxWidth: '400px',
+                        width: '90%',
+                        borderRadius: '12px',
+                        padding: '24px',
+                    },
+                }}
+            >
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                    {twoFaStep === 'SETUP_REQUIRED' ? 'Cài đặt Xác thực Hai Yếu tố' : 'Xác minh Mã OTP'}
+                </h2>
+                {twoFaStep === 'SETUP_REQUIRED' && (
+                    <div className="mb-6">
+                        <p className="text-gray-600 mb-4">Quét mã QR bên dưới bằng ứng dụng xác thực (như Google Authenticator):</p>
+                        <div className="flex justify-center">
+                            <img src={qrCodeData} alt="QR Code" style={{ width: '200px', height: '200px' }} />
+                        </div>
+                    </div>
+                )}
+                <div>
+                    <label htmlFor="otpCode" className="block text-sm font-semibold text-gray-700 mb-2">
+                        Nhập mã OTP
+                    </label>
+                    <input
+                        type="text"
+                        id="otpCode"
+                        value={otpCode}
+                        onChange={(e) => setOtpCode(e.target.value)}
+                        disabled={isLoading}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        placeholder="Nhập mã OTP"
+                    />
+                </div>
+                <div className="mt-6 flex justify-end space-x-4">
+                    <button
+                        onClick={() => setIsModalOpen(false)}
+                        className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
+                    >
+                        Hủy
+                    </button>
+                    <button
+                        onClick={handle2FASubmit}
+                        disabled={isLoading}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        {isLoading ? 'Đang xác minh...' : 'Xác minh'}
+                    </button>
+                </div>
+            </Modal>
         </>
     );
 };

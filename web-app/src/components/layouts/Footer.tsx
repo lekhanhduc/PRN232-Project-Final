@@ -1,7 +1,7 @@
 import { Heart } from "lucide-react";
 import Link from "next/link";
 
-const Foodter = () => {
+const Footer = () => {
     return (
         <footer className="bg-gray-900 text-white py-12">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,4 +57,4 @@ const Foodter = () => {
     )
 }
 
-export default Foodter;
+export default Footer;

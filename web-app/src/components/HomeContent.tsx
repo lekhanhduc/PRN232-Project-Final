@@ -1,12 +1,9 @@
-// pages/index.tsx
+'use client'
 import React from 'react';
 import Head from 'next/head';
-import { Play, ArrowRight, Heart, Users, Award, Clock } from 'lucide-react';
-import Header from './layouts/Header';
 import HeroSection from './sections/HeroSection';
 import ServicesPreview from './sections/SevicesPreview';
 import StartsSection from './sections/StartsSection';
-import Foodter from './layouts/Foodter';
 
 const HomePage: React.FC = () => {
     return (
@@ -19,13 +16,9 @@ const HomePage: React.FC = () => {
             </Head>
 
             <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
-
-                <Header />
                 <HeroSection />
                 <StartsSection />
                 <ServicesPreview />
-
-                <Foodter />
             </div>
         </>
     );
