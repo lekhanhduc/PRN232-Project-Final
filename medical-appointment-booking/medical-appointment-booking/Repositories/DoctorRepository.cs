@@ -26,6 +26,14 @@ namespace medical_appointment_booking.Repositories
                 .FirstOrDefaultAsync(d => d.Id == id);
         }
 
+        public async Task<long> ToTalDoctorsBySpecialty(int specialty)
+        {
+            return await context.Doctors .Include(d => d.Specialty)
+                .Include(u => u.User)
+                .Where(d => d.SpecialtyId == specialty)
+                .CountAsync();
+        }
+
         public async Task<Doctor?> GetDoctorByLicenseNumber(string licenseNumber)
         {
             return await context.Doctors.Include(d => d.User)
