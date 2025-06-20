@@ -10,9 +10,9 @@ import Link from 'next/link';
 import { useAppDispatch } from '@/redux/hook';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import SocialLoginButtons from '@/components/social/SocialLoginButtons';
-import { getRedirectPath } from '@/utils/Authorities';
 import Modal from 'react-modal';
 import { ApiResponse } from '@/types/apiResonse';
+import { getRedirectPath } from '@/utils/authorities';
 
 
 const SignIn = () => {

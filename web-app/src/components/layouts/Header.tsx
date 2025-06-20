@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
+    const token = localStorage.getItem('accessToken');
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const router = useRouter();
 
@@ -63,26 +65,41 @@ const Header = () => {
                                             <p className="text-sm text-gray-500">Welcome to</p>
                                             <p className="font-medium text-gray-900">Medically Healthcare</p>
                                         </div>
-                                        <Link href="/login" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
-                                            <LogIn className="w-5 h-5 mr-3 text-blue-600" />
-                                            <span className="text-base">Login</span>
-                                        </Link>
-                                        <Link href="/registration" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
-                                            <UserPlus className="w-5 h-5 mr-3 text-blue-600" />
-                                            <span className="text-base">Register</span>
-                                        </Link>
-                                        <Link href="#" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
-                                            <History className="w-5 h-5 mr-3 text-blue-600" />
-                                            <span className="text-base">Order History</span>
-                                        </Link>
-                                        <div className="border-t border-gray-200 mt-1"></div>
-                                        <button
-                                            onClick={handleLogout}
-                                            className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-colors w-full text-left"
-                                        >
-                                            <LogOut className="w-5 h-5 mr-3" />
-                                            <span className="text-base font-medium">Logout</span>
-                                        </button>
+
+                                        {!token &&
+                                            <>
+                                                <Link href="/login" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                    <LogIn className="w-5 h-5 mr-3 text-blue-600" />
+                                                    <span className="text-base">Login</span>
+                                                </Link>
+
+                                                <Link href="/registration" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                    <UserPlus className="w-5 h-5 mr-3 text-blue-600" />
+                                                    <span className="text-base">Register</span>
+                                                </Link>
+                                            </>
+                                        }
+
+
+                                        {
+                                            token &&
+                                            <Link href="#" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                <History className="w-5 h-5 mr-3 text-blue-600" />
+                                                <span className="text-base">Order History</span>
+                                            </Link>
+                                        }
+
+
+                                        {
+                                            token &&
+                                            <button
+                                                onClick={handleLogout}
+                                                className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-colors w-full text-left"
+                                            >
+                                                <LogOut className="w-5 h-5 mr-3" />
+                                                <span className="text-base font-medium">Logout</span>
+                                            </button>
+                                        }
                                     </div>
                                 )}
                             </div>
