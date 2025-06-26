@@ -1,4 +1,5 @@
-﻿using medical_appointment_booking.Models;
+﻿using medical_appointment_booking.Common;
+using medical_appointment_booking.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace medical_appointment_booking.Repositories
@@ -10,6 +11,15 @@ namespace medical_appointment_booking.Repositories
         public DoctorRepository(AppDbContext context)
         {
             this.context = context;
+        }
+
+        public IQueryable<Doctor> GetDoctorsQueryable()
+        {
+            return context.Doctors
+                .Include(d => d.User)
+                .Include(d => d.Specialty)
+                .Where(d => d.User.UserStatus != UserStatus.DELETED)
+                .AsQueryable();
         }
 
         public async Task CreateDoctorAsync(Doctor doctor)

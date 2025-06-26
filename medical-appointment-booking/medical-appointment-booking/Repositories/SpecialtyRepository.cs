@@ -18,7 +18,7 @@ namespace medical_appointment_booking.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<Specialty?> GetSpecialty (int id)
+        public async Task<Specialty?> GetSpecialty (int? id)
         {
             return await context.Specialties.FirstOrDefaultAsync(g => g.Id == id);
         }
