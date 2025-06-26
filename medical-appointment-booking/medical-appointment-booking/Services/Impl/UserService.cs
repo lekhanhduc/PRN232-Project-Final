@@ -57,6 +57,7 @@ namespace medical_appointment_booking.Services.Impl
                 UserId = user.Id,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                Phone = request.Phone,
                 Dob = request.Dob
             };
 
