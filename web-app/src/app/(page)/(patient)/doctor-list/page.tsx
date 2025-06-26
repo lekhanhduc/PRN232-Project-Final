@@ -8,7 +8,7 @@ import ResultsCounter from '@/components/doctors/ResultsCounter';
 import SpecialtySelector from '@/components/doctors/SpecialtySelector';
 import React, { useState } from 'react';
 
-const ITEMS_PER_PAGE = 6; // Số bác sĩ mỗi trang
+const ITEMS_PER_PAGE = 6;
 
 const DoctorsList: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');

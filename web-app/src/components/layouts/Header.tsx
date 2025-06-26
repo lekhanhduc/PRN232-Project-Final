@@ -1,21 +1,42 @@
 'use client'
-import React, { useState } from "react";
-import { Heart, Search, ShoppingBag, UserCircle, LogIn, UserPlus, History, LogOut } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Heart, Search, ShoppingBag, UserCircle, LogIn, UserPlus, History, LogOut, User, Calendar, Settings, Bell } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
-    const token = localStorage.getItem('accessToken');
+    const [token, setToken] = useState<string | null>(null);
+
+    useEffect(() => {
+        setToken(localStorage.getItem('accessToken'));
+    }, []);
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const router = useRouter();
 
+    // Đóng dropdown khi click outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Element;
+            if (!target.closest('.user-dropdown')) {
+                setIsDropdownOpen(false);
+            }
+        };
+
+        if (isDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isDropdownOpen]);
+
     const handleLogout = () => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-
+        setToken(null);
         setIsDropdownOpen(false);
-
         router.push("/login");
     };
 
@@ -50,7 +71,7 @@ const Header = () => {
                             </div>
 
                             {/* User Dropdown */}
-                            <div className="relative">
+                            <div className="relative user-dropdown">
                                 <button
                                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                     className="flex items-center space-x-2 focus:outline-none bg-blue-50 hover:bg-blue-100 p-2 rounded-full transition-colors"
@@ -62,8 +83,17 @@ const Header = () => {
                                 {isDropdownOpen && (
                                     <div className="absolute right-0 mt-3 w-64 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-200">
                                         <div className="px-4 py-3 border-b border-gray-200">
-                                            <p className="text-sm text-gray-500">Welcome to</p>
-                                            <p className="font-medium text-gray-900">Medically Healthcare</p>
+                                            {token ? (
+                                                <>
+                                                    <p className="text-sm text-gray-500">Xin chào</p>
+                                                    <p className="font-medium text-gray-900">Bệnh nhân</p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <p className="text-sm text-gray-500">Welcome to</p>
+                                                    <p className="font-medium text-gray-900">Medically Healthcare</p>
+                                                </>
+                                            )}
                                         </div>
 
                                         {!token &&
@@ -81,13 +111,36 @@ const Header = () => {
                                         }
 
 
-                                        {
-                                            token &&
-                                            <Link href="#" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
-                                                <History className="w-5 h-5 mr-3 text-blue-600" />
-                                                <span className="text-base">Order History</span>
-                                            </Link>
-                                        }
+                                        {token && (
+                                            <>
+                                                <Link href="/profile" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                    <User className="w-5 h-5 mr-3 text-blue-600" />
+                                                    <span className="text-base">Hồ sơ cá nhân</span>
+                                                </Link>
+
+                                                <Link href="/appointments" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                    <Calendar className="w-5 h-5 mr-3 text-blue-600" />
+                                                    <span className="text-base">Lịch hẹn</span>
+                                                </Link>
+
+                                                <Link href="/notifications" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                    <Bell className="w-5 h-5 mr-3 text-blue-600" />
+                                                    <span className="text-base">Thông báo</span>
+                                                </Link>
+
+                                                <Link href="/settings" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                    <Settings className="w-5 h-5 mr-3 text-blue-600" />
+                                                    <span className="text-base">Cài đặt</span>
+                                                </Link>
+
+                                                <Link href="#" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                    <History className="w-5 h-5 mr-3 text-blue-600" />
+                                                    <span className="text-base">Lịch sử đặt hẹn</span>
+                                                </Link>
+
+                                                <div className="border-t border-gray-200 my-2"></div>
+                                            </>
+                                        )}
 
 
                                         {
