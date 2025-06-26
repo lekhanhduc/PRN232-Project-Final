@@ -9,12 +9,14 @@ namespace medical_appointment_booking.Services.Impl
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly PatientRepository patientRepository;
+        private readonly UserRepository userRepository;
 
 
-        public PatientService(PatientRepository patientRepository, IHttpContextAccessor httpContextAccessor)
+        public PatientService(PatientRepository patientRepository, IHttpContextAccessor httpContextAccessor, UserRepository userRepository)
         {
             this.patientRepository = patientRepository;
             this.httpContextAccessor = httpContextAccessor;
+            this.userRepository = userRepository;
         }
 
         public async Task<PatientDetailResponse> GetInfoPatient()
@@ -26,17 +28,21 @@ namespace medical_appointment_booking.Services.Impl
             }
 
             var accountId = int.Parse(accountIdClaim);
-            var user = await patientRepository.GetPatientByIdAsync(accountId);
+
+            var existingUser = await userRepository.FindUserById(accountId);
+
+            var user = await patientRepository.GetPatientByUserIdAsync(accountId);
             if (user == null)
             {
                 throw new AppException(ErrorCode.USER_NOT_EXISTED);
             }
 
-
             return new PatientDetailResponse
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
+                Email = existingUser.Email,
+                Enable2FA = existingUser.Enable2FA,
                 Dob = user.Dob,
                 Gender = user.Gender,
                 Phone = user.Phone,
@@ -55,7 +61,7 @@ namespace medical_appointment_booking.Services.Impl
 
             var accountId = int.Parse(accountIdClaim);
 
-            var existingPatient = await patientRepository.GetPatientByIdAsync(accountId);
+            var existingPatient = await patientRepository.GetPatientByUserIdAsync(accountId);
             if (existingPatient == null)
             {
                 throw new AppException(ErrorCode.USER_NOT_EXISTED);
