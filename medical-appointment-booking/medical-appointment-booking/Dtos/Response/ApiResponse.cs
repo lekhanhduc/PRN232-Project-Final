@@ -22,6 +22,6 @@
             this.message = message;
             this.result = result;
         }
-
     }
+    
 }

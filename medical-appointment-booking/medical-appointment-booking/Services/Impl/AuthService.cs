@@ -37,7 +37,7 @@ namespace medical_appointment_booking.Services.Impl
         {
             this.logger = logger;
             this.jwtService = jwtService;
-            this.passwordHasher = new PasswordHasher<User>();
+            passwordHasher = new PasswordHasher<User>();
             this.userRepository = userRepository;
             this.roleRepository = roleRepository;
             this.googleAuthClient = googleAuthClient;
@@ -79,9 +79,15 @@ namespace medical_appointment_booking.Services.Impl
                 return new SignInResponse(TwoFaStep.SETUP_REQUIRED);
             }
 
-            if (user.Role.Name == DefinitionRole.DOCTOR && user.UserStatus == UserStatus.ACTIVE && user.Enable2FA)
+            if (user.Role?.Name == DefinitionRole.DOCTOR && user.UserStatus == UserStatus.ACTIVE && user.Enable2FA)
             {
                 // xác minh OTP
+                return new SignInResponse(TwoFaStep.VERIFICATION_REQUIRED);
+            }
+            
+            if (user.Enable2FA)
+            {
+            
                 return new SignInResponse(TwoFaStep.VERIFICATION_REQUIRED);
             }
 

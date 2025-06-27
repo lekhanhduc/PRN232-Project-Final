@@ -15,6 +15,7 @@ namespace medical_appointment_booking.Services
 
         private readonly UserRepository userRepository;
         private readonly IJwtService jwtService;
+        private readonly Logger<TwoFactorService> logger;
 
         public TwoFactorService(UserRepository userRepository, IJwtService jwtService)
         {
@@ -56,11 +57,13 @@ namespace medical_appointment_booking.Services
             var user = await userRepository.FindUserByEmailOrPhone(request.PhoneOrEmail);
             if (user == null)
             {
+                logger.LogError("User not found");
                 throw new AppException(ErrorCode.USER_NOT_EXISTED);
             }
 
             if (string.IsNullOrEmpty(user.TwoFactorSecret))
             {
+                logger.LogError("Two factor secret not set");
                 throw new AppException(ErrorCode.TWO_FACTOR_SECRET_NOT_SET);
             }
 
@@ -69,10 +72,11 @@ namespace medical_appointment_booking.Services
 
             if (!isValid)
             {
+                logger.LogError("Invalid 2FA code");
                 throw new AppException(ErrorCode.INVALID_2FA_CODE);
             }
 
-            if (user.UserStatus == UserStatus.PENDING_VERIFICATION)
+            if (user.UserStatus == UserStatus.PENDING_VERIFICATION || (user.UserStatus == UserStatus.ACTIVE && !user.Enable2FA))
             {
                 user.UserStatus = UserStatus.ACTIVE;
                 user.Enable2FA = true;
@@ -103,7 +107,7 @@ namespace medical_appointment_booking.Services
 
             var (secretKey, qrCodeBase64) = GenerateSetupCode(user.Email ?? "", "MedicalAppointmentBooking");
             user.TwoFactorSecret = secretKey;
-            user.Enable2FA = true;
+            user.Enable2FA = false;
             await userRepository.UpdateUser(user);
 
             return qrCodeBase64;
