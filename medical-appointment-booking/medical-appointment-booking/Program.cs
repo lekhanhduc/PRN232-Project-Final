@@ -58,6 +58,7 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<PatientRepository>();
             builder.Services.AddScoped<DoctorRepository>();
             builder.Services.AddScoped<SpecialtyRepository>();
+            builder.Services.AddScoped<ScheduleRepository>();
 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
@@ -66,6 +67,7 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
             builder.Services.AddScoped<TwoFactorService>();
             builder.Services.AddSingleton<CloudinaryService>();
 

@@ -6,7 +6,7 @@ using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace medical_appointment_booking.Services.Impl
 {
@@ -20,6 +20,7 @@ namespace medical_appointment_booking.Services.Impl
         private readonly RoleRepository roleRepository;
         private readonly IMailService mailService;
         private readonly SpecialtyRepository specialtyRepository;
+        private readonly ScheduleRepository scheduleRepository;
         private readonly ILogger<DoctorService> logger;
 
         public DoctorService(
@@ -29,6 +30,7 @@ namespace medical_appointment_booking.Services.Impl
             RoleRepository roleRepository,
             IMailService mailService,
             SpecialtyRepository specialtyRepository,
+            ScheduleRepository scheduleRepository,
             ILogger<DoctorService> logger)
         {
             this.doctorRepository = doctorRepository;
@@ -38,6 +40,7 @@ namespace medical_appointment_booking.Services.Impl
             this.roleRepository = roleRepository;
             this.mailService = mailService;
             this.specialtyRepository = specialtyRepository;
+            this.scheduleRepository = scheduleRepository;
             this.logger = logger;
         }
 
@@ -131,10 +134,153 @@ namespace medical_appointment_booking.Services.Impl
             };
         }
 
-
-        public Task<DoctorDetailResponse> GetDoctorByIdAsync(long id)
+        public async Task<DoctorDetailResponse> GetDoctorByIdAsync(long id)
         {
-            throw new NotImplementedException();
+            var doctor = await doctorRepository.GetDoctorByIdAsync(id);
+            if (doctor == null)
+            {
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+            }
+
+            var specialty = await specialtyRepository.GetSpecialty(doctor.SpecialtyId);
+
+            return new DoctorDetailResponse
+            {
+                DoctorId = doctor.Id,
+                FullName = $"{doctor.FirstName} {doctor.LastName}",
+                Specialty = new SpecialtyDto
+                {
+                    SpecialtyId = specialty.Id,
+                    SpecialtyName = specialty.SpecialtyName,
+                    Description = specialty.Description
+                },
+                LicenseNumber = doctor.LicenseNumber,
+                Degree = doctor.Degree,
+                YearsOfExperience = doctor.YearsOfExperience,
+                ConsultationFee = doctor.ConsultationFee,
+                Bio = doctor.Bio,
+                Gender = doctor.Gender,
+                IsAvailable = doctor.IsAvailable
+            };
+        }
+
+        public async Task<PageResponse<DoctorSearchResponse>> SearchDoctorsAsync(string? specialtyName,
+            Gender? gender, bool? isAvailable, string? orderBy, int page, int pageSize)
+        {
+            try
+            {
+                // Build the base query
+                var query = doctorRepository.GetDoctorsQueryable();
+
+                // Apply filters
+                if (!string.IsNullOrEmpty(specialtyName))
+                {
+                    query = query.Where(d => d.Specialty.SpecialtyName.Contains(specialtyName));
+                }
+
+                if (gender.HasValue)
+                {
+                    query = query.Where(d => d.Gender == gender.Value);
+                }
+
+                if (isAvailable.HasValue)
+                {
+                    query = query.Where(d => d.IsAvailable == isAvailable.Value);
+                }
+
+                // Apply ordering
+                if (!string.IsNullOrEmpty(orderBy))
+                {
+                    switch (orderBy.ToLower())
+                    {
+                        case "experience":
+                            query = query.OrderBy(d => d.YearsOfExperience);
+                            break;
+                        case "experience_desc":
+                            query = query.OrderByDescending(d => d.YearsOfExperience);
+                            break;
+                        case "fee":
+                            query = query.OrderBy(d => d.ConsultationFee);
+                            break;
+                        case "fee_desc":
+                            query = query.OrderByDescending(d => d.ConsultationFee);
+                            break;
+                        default:
+                            query = query.OrderBy(d => d.FirstName);
+                            break;
+                    }
+                }
+                else
+                {
+                    query = query.OrderBy(d => d.FirstName);
+                }
+
+                // Get total count
+                var totalCount = await query.CountAsync();
+                var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+                // Apply pagination
+                var doctors = await query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                var result = new List<DoctorSearchResponse>();
+                foreach (var doctor in doctors)
+                {
+                    var workSchedules = await GetDoctorWorkSchedules(doctor.Id);
+                    result.Add(new DoctorSearchResponse
+                    {
+                        DoctorId = doctor.Id,
+                        FullName = $"Dr. {doctor.FirstName} {doctor.LastName}".Trim(),
+                        Specialty = new SpecialtyDto
+                        {
+                            SpecialtyId = doctor.Specialty.Id,
+                            SpecialtyName = doctor.Specialty.SpecialtyName
+                        },
+                        Gender = doctor.Gender,
+                        YearsOfExperience = doctor.YearsOfExperience,
+                        ConsultationFee = doctor.ConsultationFee,
+                        Bio = doctor.Bio,
+                        WorkSchedules = workSchedules
+                    });
+                }
+
+                return new PageResponse<DoctorSearchResponse>
+                {
+                    CurrentPages = page,
+                    PageSizes = pageSize,
+                    TotalPages = totalPages,
+                    TotalElements = totalCount,
+                    Items = result
+                };
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Error searching doctors");
+                throw;
+            }
+        }
+
+        private async Task<List<WorkScheduleDto>> GetDoctorWorkSchedules(long doctorId)
+        {
+            // This method should fetch work schedules from your schedule repository
+            // Replace with your actual implementation
+            var schedules = await scheduleRepository.GetDoctorSchedulesAsync(doctorId);
+
+            return schedules.Select(s => new WorkScheduleDto
+            {
+                ScheduleId = s.Id,
+                WorkDate = s.WorkDate.ToString("yyyy-MM-dd"),
+                StartTime = s.StartTime.ToString(@"hh\:mm"),
+                EndTime = s.EndTime.ToString(@"hh\:mm"),
+                TimeSlots = s.TimeSlots?.Select(ts => new TimeSlotDto
+                {
+                    SlotId = ts.Id,
+                    SlotTime = ts.SlotTime.ToString(@"hh\:mm"),
+                    IsAvailable = ts.IsAvailable
+                }).ToList() ?? new List<TimeSlotDto>()
+            }).ToList();
         }
 
         private string GenerateRandomPassword(int length = 12)
