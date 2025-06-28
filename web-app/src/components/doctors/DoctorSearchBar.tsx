@@ -16,7 +16,7 @@ const DoctorSearchBar: React.FC<DoctorSearchBarProps> = ({ searchTerm, setSearch
             <input
                 type="text"
                 className="block w-full pl-12 pr-4 py-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-gray-700 placeholder-gray-400"
-                placeholder="Tìm kiếm theo tên bác sĩ hoặc chuyên khoa..."
+                placeholder="Tìm kiếm theo tên bác sĩ..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
