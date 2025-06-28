@@ -20,9 +20,9 @@ namespace medical_appointment_booking.Repositories
             return patient;
         }
 
-        public async Task<Patient?> GetPatientByIdAsync(long id)
+        public async Task<Patient?> GetPatientByUserIdAsync(long id)
         {
-            return await dbContext.Patients.FindAsync(id);
+            return await dbContext.Patients.FirstOrDefaultAsync(p => p.UserId == id);
         }
         public async Task<IEnumerable<Patient>> GetAllPatientsAsync()
         {
@@ -37,7 +37,7 @@ namespace medical_appointment_booking.Repositories
 
         public async Task DeletePatientAsync(long id)
         {
-            var patient = await GetPatientByIdAsync(id);
+            var patient = await GetPatientByUserIdAsync(id);
             if (patient != null)
             {
                 dbContext.Patients.Remove(patient);
