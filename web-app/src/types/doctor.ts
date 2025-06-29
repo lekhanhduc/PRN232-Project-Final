@@ -99,9 +99,28 @@ export interface DoctorSearchResponse {
     workSchedules: WorkScheduleDto[];
 }
 
+export interface DoctorDetailResponse {
+    doctorId: number;
+    fullName: string;
+    specialty: SpecialtyDetailDto;
+    licenseNumber: string;
+    degree: string;
+    yearsOfExperience: number;
+    consultationFee: number;
+    bio: string;
+    gender?: Gender;
+    isAvailable: boolean;
+}
+
 export interface SpecialtyDto {
     id: number;
     name: string;
+}
+
+export interface SpecialtyDetailDto {
+    specialtyId: number;
+    specialtyName: string;
+    description: string;
 }
 
 export interface WorkScheduleDto {

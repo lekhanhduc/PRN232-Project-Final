@@ -9,6 +9,48 @@ export interface Patient {
     lastVisit?: string;
 }
 
+export interface DoctorInfoDto {
+    doctorId: number;
+    fullName: string;
+    specialty: string;
+    licenseNumber: string;
+    degree: string;
+    yearsOfExperience: number;
+    consultationFee: number;
+    bio: string;
+    gender?: string;
+    isAvailable: boolean;
+}
+
+export interface AppointmentResponse {
+    appointmentId: number;
+    appointmentNumber: string;
+    doctor: DoctorInfoDto;
+    appointmentDate: string;
+    appointmentTime: string;
+    status: 'confirmed' | 'pending' | 'completed' | 'cancelled' | 'rescheduled';
+    totalFee: number;
+    reasonForVisit: string;
+    canCancel: boolean;
+    canReschedule: boolean;
+}
+
+export interface CancelAppointmentRequest {
+    cancelReason: string;
+}
+
+export interface RescheduleAppointmentRequest {
+    newSlotId: number;
+    newAppointmentDate: string;
+    reason: string;
+}
+
+export interface RescheduleAppointmentResponse {
+    appointmentId: number;
+    newAppointmentDate: string;
+    newAppointmentTime: string;
+}
+
 export interface Appointment {
     id: string;
     patientId: string;

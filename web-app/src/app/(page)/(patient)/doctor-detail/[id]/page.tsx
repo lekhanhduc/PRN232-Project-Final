@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { Calendar, Clock, Star, FileText, Stethoscope } from 'lucide-react';
 import { TabNavigation } from '@/components/doctors/tab/TabNavigation';
 import { ServicesTab } from '@/components/doctors/tab/ServicesTab';
@@ -9,70 +10,18 @@ import { AppointmentTab } from '@/components/doctors/tab/AppointmentTab';
 import { WorkingHoursTab } from '@/components/doctors/tab/WorkingHoursTab';
 import { DoctorHeroSection } from '@/components/doctors/details/DoctorHeroSection';
 import { DoctorQuickStats } from '@/components/doctors/details/DoctorQuickStats';
-
-const doctorData = {
-    id: '123',
-    name: 'Dr. Sarah Johnson',
-    title: 'Senior Cardiologist & Heart Surgeon',
-    specialty: 'Interventional Cardiology',
-    qualifications: 'MD, PhD, FACC, FSCAI',
-    experience: '15+ years',
-    rating: 4.9,
-    reviews: 347,
-    totalPatients: 2500,
-    successRate: 98.5,
-    about: 'Dr. Sarah Johnson is a world-renowned interventional cardiologist with over 15 years of specialized experience in complex cardiac procedures. She has pioneered several minimally invasive techniques and has been recognized internationally for her contributions to cardiovascular medicine. Dr. Johnson combines cutting-edge technology with compassionate patient care, ensuring the best possible outcomes for her patients.',
-    education: [
-        { degree: 'Doctor of Medicine (MD)', institution: 'Harvard Medical School', year: '2008', honor: 'Magna Cum Laude' },
-        { degree: 'PhD in Cardiovascular Research', institution: 'Johns Hopkins University', year: '2006', honor: 'Summa Cum Laude' },
-        { degree: 'Residency - Internal Medicine', institution: 'Massachusetts General Hospital', year: '2011', honor: 'Chief Resident' },
-        { degree: 'Fellowship - Interventional Cardiology', institution: 'Cleveland Clinic Foundation', year: '2014', honor: 'Outstanding Fellow Award' },
-    ],
-    specializations: [
-        'Complex Coronary Interventions',
-        'Structural Heart Disease',
-        'Advanced Cardiac Imaging',
-        'Heart Failure Management',
-        'Preventive Cardiology',
-        'Women\'s Heart Health'
-    ],
-    awards: [
-        { title: 'Top Doctor in America', organization: 'Castle Connolly', year: '2023' },
-        { title: 'Excellence in Cardiac Innovation', organization: 'American Heart Association', year: '2022' },
-        { title: 'Physician of the Year', organization: 'New York Medical Society', year: '2021' },
-        { title: 'Research Excellence Award', organization: 'Journal of Cardiology', year: '2020' },
-    ],
-    languages: ['English', 'Spanish', 'French', 'Mandarin'],
-    services: [
-        { name: 'Cardiac Consultation', duration: '60 min', description: 'Comprehensive heart health evaluation' },
-        { name: 'Coronary Angiography', duration: '90 min', description: 'Advanced cardiac imaging procedure' },
-        { name: 'Angioplasty & Stenting', duration: '120 min', description: 'Minimally invasive artery opening' },
-        { name: 'Echocardiography', duration: '45 min', description: 'Ultrasound heart examination' },
-        { name: 'Stress Testing', duration: '60 min', description: 'Heart performance under stress' },
-        { name: 'Cardiac Rehabilitation', duration: '90 min', description: 'Post-procedure recovery program' },
-    ],
-    workingHours: [
-        { day: 'Monday', hours: '8:00 AM - 6:00 PM', available: true },
-        { day: 'Tuesday', hours: '8:00 AM - 6:00 PM', available: true },
-        { day: 'Wednesday', hours: '8:00 AM - 6:00 PM', available: true },
-        { day: 'Thursday', hours: '8:00 AM - 6:00 PM', available: true },
-        { day: 'Friday', hours: '8:00 AM - 4:00 PM', available: true },
-        { day: 'Saturday', hours: '9:00 AM - 1:00 PM', available: true },
-        { day: 'Sunday', hours: 'Emergency Only', available: false },
-    ],
-    image: 'https://randomuser.me/api/portraits/women/45.jpg',
-    verified: true,
-    featured: true,
-    acceptsInsurance: true,
-    telemedicine: true,
-    emergencyAvailable: true
-};
+import { useDoctorDetails } from '@/hooks/useDoctorDetails';
+import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 
 type ActiveTab = 'overview' | 'services' | 'reviews' | 'appointment' | 'hours';
 
 export default function DoctorDetail() {
+    const params = useParams();
+    const doctorId = Number(params.id);
     const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
     const [isFavorite, setIsFavorite] = useState(false);
+
+    const { doctor, loading, error } = useDoctorDetails(doctorId);
 
     const tabs: { id: ActiveTab; label: string; icon: React.ElementType }[] = [
         { id: 'overview', label: 'Overview', icon: FileText },
@@ -82,10 +31,83 @@ export default function DoctorDetail() {
         { id: 'hours', label: 'Working Hours', icon: Clock },
     ];
 
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 flex items-center justify-center">
+                <LoadingSpinner />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 flex items-center justify-center">
+                <div className="bg-red-50 border border-red-200 text-red-800 px-6 py-4 rounded-lg max-w-md">
+                    <h3 className="text-lg font-semibold mb-2">Error</h3>
+                    <p>{error}</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!doctor) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 flex items-center justify-center">
+                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-6 py-4 rounded-lg max-w-md">
+                    <h3 className="text-lg font-semibold mb-2">Doctor Not Found</h3>
+                    <p>The doctor you're looking for doesn't exist.</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Transform API data to match component expectations
+    const transformedDoctorData = {
+        id: doctor.doctorId.toString(),
+        name: doctor.fullName,
+        title: doctor.degree,
+        specialty: doctor.specialty.specialtyName,
+        qualifications: doctor.licenseNumber,
+        experience: `${doctor.yearsOfExperience}+ years`,
+        rating: 4.8, // Default rating since API doesn't provide it
+        reviews: 150, // Default reviews count
+        totalPatients: 1000, // Default patient count
+        successRate: 95, // Default success rate
+        about: doctor.bio,
+        education: [
+            { degree: doctor.degree, institution: 'Medical School', year: 'Graduated', honor: 'Licensed' },
+        ],
+        specializations: [doctor.specialty.specialtyName],
+        awards: [
+            { title: 'Licensed Physician', organization: 'Medical Board', year: 'Current' },
+        ],
+        languages: ['Vietnamese', 'English'],
+        services: [
+            { name: 'Consultation', duration: '30 min', description: 'General consultation' },
+            { name: 'Specialty Consultation', duration: '60 min', description: doctor.specialty.description },
+        ],
+        workingHours: [
+            { day: 'Monday', hours: '8:00 AM - 6:00 PM', available: doctor.isAvailable },
+            { day: 'Tuesday', hours: '8:00 AM - 6:00 PM', available: doctor.isAvailable },
+            { day: 'Wednesday', hours: '8:00 AM - 6:00 PM', available: doctor.isAvailable },
+            { day: 'Thursday', hours: '8:00 AM - 6:00 PM', available: doctor.isAvailable },
+            { day: 'Friday', hours: '8:00 AM - 4:00 PM', available: doctor.isAvailable },
+            { day: 'Saturday', hours: '9:00 AM - 1:00 PM', available: false },
+            { day: 'Sunday', hours: 'Emergency Only', available: false },
+        ],
+        image: `https://ui-avatars.com/api/?name=${encodeURIComponent(doctor.fullName)}&size=200&background=3B82F6&color=fff`,
+        verified: true,
+        featured: true,
+        acceptsInsurance: true,
+        telemedicine: true,
+        emergencyAvailable: doctor.isAvailable,
+        consultationFee: doctor.consultationFee
+    };
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50">
             <DoctorHeroSection
-                doctor={doctorData}
+                doctor={transformedDoctorData}
                 isFavorite={isFavorite}
                 onToggleFavorite={() => setIsFavorite(!isFavorite)} />
 
@@ -93,7 +115,7 @@ export default function DoctorDetail() {
                 <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
 
                     <div className="xl:col-span-3">
-                        <DoctorQuickStats doctor={doctorData} />
+                        <DoctorQuickStats doctor={transformedDoctorData} />
 
                         <div className="bg-white rounded-2xl shadow-sm border border-slate-200/60 mb-8 overflow-hidden">
                             <TabNavigation
@@ -104,15 +126,15 @@ export default function DoctorDetail() {
 
                             <div className="p-8">
                                 {activeTab === 'overview' && (
-                                    <OverviewTab doctor={doctorData} />
+                                    <OverviewTab doctor={transformedDoctorData} />
                                 )}
 
                                 {activeTab === 'services' && (
-                                    <ServicesTab services={doctorData.services} />
+                                    <ServicesTab services={transformedDoctorData.services} />
                                 )}
 
                                 {activeTab === 'reviews' && (
-                                    <ReviewsTab reviews={doctorData.reviews} rating={doctorData.rating} />
+                                    <ReviewsTab reviews={transformedDoctorData.reviews} rating={transformedDoctorData.rating} />
                                 )}
 
                                 {activeTab === 'appointment' && (
@@ -120,7 +142,7 @@ export default function DoctorDetail() {
                                 )}
 
                                 {activeTab === 'hours' && (
-                                    <WorkingHoursTab workingHours={doctorData.workingHours} />
+                                    <WorkingHoursTab workingHours={transformedDoctorData.workingHours} />
                                 )}
                             </div>
                         </div>

@@ -1,5 +1,5 @@
 import { ApiResponse } from '@/types/apiResonse';
-import { DoctorSearchResponse, Gender } from '@/types/doctor';
+import { DoctorSearchResponse, DoctorDetailResponse, Gender } from '@/types/doctor';
 import { PageResponse } from '@/types/pageResponse';
 import { API_URL } from '@/utils/baseUrl';
 
@@ -25,17 +25,48 @@ export const doctorService = {
         if (params.page) queryParams.append('page', params.page.toString());
         if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
 
-        const response = await fetch(`${API_URL}/api/v1/doctors/search?${queryParams.toString()}`, {
+        const url = `${API_URL}/api/v1/doctors/search?${queryParams.toString()}`;
+        console.log('🔍 Debug - Search Doctors URL:', url);
+        console.log('🔍 Debug - Search Parameters:', params);
+
+        const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
 
+        console.log('🔍 Debug - Response Status:', response.status);
+        console.log('🔍 Debug - Response OK:', response.ok);
+
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        return await response.json();
+        const data = await response.json();
+        console.log('🔍 Debug - Response Data:', data);
+        return data;
+    },
+
+    async getDoctorDetails(doctorId: number): Promise<ApiResponse<DoctorDetailResponse>> {
+        const url = `${API_URL}/api/v1/doctors/${doctorId}`;
+        console.log('🔍 Debug - Get Doctor Details URL:', url);
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        console.log('🔍 Debug - Doctor Details Response Status:', response.status);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('🔍 Debug - Doctor Details Response Data:', data);
+        return data;
     }
 }; 

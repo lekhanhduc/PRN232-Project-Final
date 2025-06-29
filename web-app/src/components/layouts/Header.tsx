@@ -133,7 +133,7 @@ const Header = () => {
                                                     <span className="text-base">Cài đặt</span>
                                                 </Link>
 
-                                                <Link href="#" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                                                <Link href="/appointments" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
                                                     <History className="w-5 h-5 mr-3 text-blue-600" />
                                                     <span className="text-base">Lịch sử đặt hẹn</span>
                                                 </Link>

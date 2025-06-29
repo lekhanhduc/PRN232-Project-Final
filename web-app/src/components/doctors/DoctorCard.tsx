@@ -74,7 +74,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
                                 isAvailableToday ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                             }`}
                         >
-                            {isAvailableToday ? 'Có sẵn hôm nay' : 'Không có sẵn'}
+                            {isAvailableToday ? 'Có sẵn hôm nay' : 'Không có sẵn hôm nay'}
                         </span>
                         {nextAvailableTime && (
                             <span className="text-xs text-gray-500 mt-1">
