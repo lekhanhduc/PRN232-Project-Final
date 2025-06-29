@@ -8,7 +8,7 @@ namespace medical_appointment_booking.Services
     {
         Task<DoctorCreationResponse> CreateDoctorAsync(DoctorCreationRequest request);
         Task<DoctorDetailResponse> GetDoctorByIdAsync(long id);
-        Task<PageResponse<DoctorSearchResponse>> SearchDoctorsAsync(string? specialtyName, 
+        Task<PageResponse<DoctorSearchResponse>> SearchDoctorsAsync(string? doctorName, string? specialtyName, 
             Gender? gender, bool? isAvailable, string? orderBy, int page, int pageSize);
     }
 }

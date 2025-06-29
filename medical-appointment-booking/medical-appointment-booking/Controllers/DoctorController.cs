@@ -44,6 +44,7 @@ namespace medical_appointment_booking.Controllers
 
         [HttpGet("search")]
         public async Task<ApiResponse<PageResponse<DoctorSearchResponse>>> SearchDoctors(
+                           [FromQuery] string? doctorName = null,
                            [FromQuery] string? specialtyName = null,
                            [FromQuery] Gender? gender = null,
                            [FromQuery] bool? isAvailable = null,
@@ -51,7 +52,7 @@ namespace medical_appointment_booking.Controllers
                            [FromQuery] int page = 1,
                            [FromQuery] int pageSize = 10)
         {
-            var result = await doctorService.SearchDoctorsAsync(specialtyName, gender, isAvailable, orderBy, page, pageSize);
+            var result = await doctorService.SearchDoctorsAsync(doctorName, specialtyName, gender, isAvailable, orderBy, page, pageSize);
             return new ApiResponse<PageResponse<DoctorSearchResponse>>
             {
                 code = 200,

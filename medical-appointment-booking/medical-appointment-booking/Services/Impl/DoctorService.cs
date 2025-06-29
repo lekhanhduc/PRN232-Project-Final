@@ -164,13 +164,22 @@ namespace medical_appointment_booking.Services.Impl
             };
         }
 
-        public async Task<PageResponse<DoctorSearchResponse>> SearchDoctorsAsync(string? specialtyName,
+        public async Task<PageResponse<DoctorSearchResponse>> SearchDoctorsAsync(string? doctorName, string? specialtyName,
             Gender? gender, bool? isAvailable, string? orderBy, int page, int pageSize)
         {
             try
             {
                 // Build the base query
                 var query = doctorRepository.GetDoctorsQueryable();
+
+                if (!string.IsNullOrEmpty(doctorName))
+                {
+                    var searchTerm = doctorName.Trim().ToLower();
+                    query = query.Where(d =>
+                        d.FirstName.ToLower().Contains(searchTerm) ||
+                        d.LastName.ToLower().Contains(searchTerm) ||
+                        (d.FirstName + " " + d.LastName).ToLower().Contains(searchTerm));
+                }
 
                 // Apply filters
                 if (!string.IsNullOrEmpty(specialtyName))
