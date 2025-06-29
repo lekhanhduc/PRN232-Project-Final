@@ -1,10 +1,14 @@
-﻿using System.Text;
+﻿using System.Numerics;
+using System.Text;
+using Azure.Core;
+using CloudinaryDotNet.Core;
 using medical_appointment_booking.Common;
 using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,6 +46,45 @@ namespace medical_appointment_booking.Services.Impl
             this.specialtyRepository = specialtyRepository;
             this.scheduleRepository = scheduleRepository;
             this.logger = logger;
+        }
+
+        public async Task<PageResponse<DoctorDetailResponse>> GetAllWithSearch(int page, int size, string? keyword = null)
+        {
+            var doctors = await doctorRepository.GetAll(page, size, keyword);
+            var totalElements = await doctorRepository.GetTotalCount(keyword);
+
+            var doctorResponses = new List<DoctorDetailResponse>();
+
+            foreach (var doctor in doctors)
+            {
+                doctorResponses.Add(new DoctorDetailResponse
+                {
+                    DoctorId = doctor.Id,
+                    FullName = doctor.FirstName + " " + doctor.LastName,
+                    Specialty = new SpecialtyDto
+                    {
+                        SpecialtyId = doctor.Specialty.Id,
+                        SpecialtyName = doctor.Specialty.SpecialtyName
+                    },
+                    LicenseNumber = doctor.LicenseNumber,
+                    Degree = doctor.Degree,
+                    ConsultationFee = doctor.ConsultationFee,
+                    IsAvailable = doctor.IsAvailable,
+                    Gender = doctor.Gender,
+                    YearsOfExperience = doctor.YearsOfExperience,
+                    Bio = doctor.Bio,
+
+                });
+            }
+
+            return new PageResponse<DoctorDetailResponse>
+            {
+                CurrentPages = page,
+                PageSizes = size,
+                TotalPages = size > 0 ? (int)Math.Ceiling((decimal)totalElements / size) : 0,
+                TotalElements = totalElements,
+                Items = doctorResponses
+            };
         }
 
         public async Task<DoctorCreationResponse> CreateDoctorAsync(DoctorCreationRequest request)
@@ -268,6 +311,7 @@ namespace medical_appointment_booking.Services.Impl
             // Replace with your actual implementation
             var schedules = await scheduleRepository.GetDoctorSchedulesAsync(doctorId);
 
+
             return schedules.Select(s => new WorkScheduleDto
             {
                 ScheduleId = s.Id,
@@ -303,6 +347,105 @@ namespace medical_appointment_booking.Services.Impl
 
             // Shuffle để không có pattern cố định
             return new string(password.ToString().ToCharArray().OrderBy(x => random.Next()).ToArray());
+        }
+
+        public async Task DeleteDoctor(long Id)
+        {
+            await doctorRepository.DeleteDoctorAsync(Id);
+        }
+        public async Task<DoctorDetailResponse> UpdateDoctor(DoctorUpdateRequest request)
+        {
+            //var accountIdClaim = httpContextAccessor.HttpContext?.User.FindFirst("userId")?.Value;
+            //if (string.IsNullOrEmpty(accountIdClaim))
+            //{
+            //    throw new AppException(ErrorCode.UNAUTHORIZED);
+            //}
+
+            //var accountId = int.Parse(accountIdClaim);
+
+            var existingDoctor = await doctorRepository.GetDoctorByIdAsync(request.Id);
+            if (existingDoctor == null)
+            {
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.FirstName))
+            {
+                existingDoctor.FirstName = request.FirstName.Trim();
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.LastName))
+            {
+                existingDoctor.LastName = request.LastName.Trim();
+            }
+
+            if (request.Gender.HasValue)
+            {
+                existingDoctor.Gender = request.Gender.Value;
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Email))
+            {
+                existingDoctor.User.Email = request.Email.Trim();
+            }
+            if (request.SpecialtyId.HasValue)
+            {
+                existingDoctor.SpecialtyId = request.SpecialtyId;
+            }
+            if (!string.IsNullOrWhiteSpace(request.LicenseNumber))
+            {
+                existingDoctor.LicenseNumber = request.LicenseNumber.Trim();
+            }
+            if (!string.IsNullOrWhiteSpace(request.Degree))
+            {
+                existingDoctor.Degree = request.Degree;
+            }
+            if (request.ConsultationFee.HasValue)
+            {
+                existingDoctor.ConsultationFee = (decimal)request.ConsultationFee;
+            }
+            if (request.IsAvailable.HasValue)
+            {
+                existingDoctor.IsAvailable = (bool)request.IsAvailable;
+            }
+            if (request.Gender.HasValue)
+            {
+                existingDoctor.Gender = request.Gender;
+            }
+            if (request.YearsOfExperience.HasValue)
+            {
+                existingDoctor.YearsOfExperience = (int)request.YearsOfExperience;
+            }
+            if (request.YearsOfExperience.HasValue)
+            {
+                existingDoctor.YearsOfExperience = (int)request.YearsOfExperience;
+            }
+            if (!string.IsNullOrWhiteSpace(request.Bio))
+            {
+                existingDoctor.Bio = request.Bio;
+            }
+
+            existingDoctor.UpdatedAt = DateTime.UtcNow;
+
+            await doctorRepository.UpdateDoctorAsync(existingDoctor);
+
+            return new DoctorDetailResponse
+            {
+                DoctorId = existingDoctor.Id,
+                FullName = existingDoctor.FirstName + " " + existingDoctor.LastName,
+                Specialty = new SpecialtyDto
+                {
+                    SpecialtyId = existingDoctor.Specialty.Id,
+                    SpecialtyName = existingDoctor.Specialty.SpecialtyName
+                },
+                LicenseNumber = existingDoctor.LicenseNumber,
+                Degree = existingDoctor.Degree,
+                ConsultationFee = existingDoctor.ConsultationFee,
+                IsAvailable = existingDoctor.IsAvailable,
+                Gender = existingDoctor.Gender,
+                YearsOfExperience = existingDoctor.YearsOfExperience,
+                Bio = existingDoctor.Bio,
+            };
         }
     }
 }
