@@ -150,3 +150,41 @@ export interface TabItem {
 
 export type AppointmentType = 'in-person' | 'telehealth';
 export type ActiveTab = 'overview' | 'services' | 'reviews' | 'appointment' | 'hours';
+
+// API Backend Types
+export interface DoctorSearchResponse {
+    doctorId: number;
+    fullName: string;
+    academicTitle: string;
+    specialty: SpecialtyDto;
+    gender?: Gender;
+    yearsOfExperience: number;
+    consultationFee: number;
+    bio: string;
+    workSchedules: WorkScheduleDto[];
+}
+
+export interface SpecialtyDto {
+    id: number;
+    name: string;
+}
+
+export interface WorkScheduleDto {
+    scheduleId: number;
+    workDate: string;
+    startTime: string;
+    endTime: string;
+    timeSlots: TimeSlotDto[];
+}
+
+export interface TimeSlotDto {
+    slotId: number;
+    slotTime: string;
+    isAvailable: boolean;
+}
+
+export enum Gender {
+    Male = 'Male',
+    Female = 'Female',
+    Other = 'Other'
+}

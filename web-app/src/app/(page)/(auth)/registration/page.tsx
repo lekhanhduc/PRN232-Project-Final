@@ -6,6 +6,9 @@ import toast, { Toaster } from 'react-hot-toast';
 import Link from 'next/link';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import SocialLoginButtons from '@/components/social/SocialLoginButtons';
+import { API_URL } from '@/utils/baseUrl';
+import { ApiResponse } from '@/types/apiResonse';
+import { UserCreationResponse } from '@/types/user';
 
 const Registration = () => {
     const router = useRouter();
@@ -97,10 +100,18 @@ const Registration = () => {
         });
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            const response = await fetch(`${API_URL}/api/v1/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result: ApiResponse<UserCreationResponse> = await response.json();
 
             toast.dismiss(loadingToast);
-            toast.success('Đăng ký thành công! Chào mừng bạn đến với hệ thống! 🎉', {
+            toast.success(`Đăng ký thành công! Chào mừng ${result.result?.firstName} ${result.result?.lastName} đến với hệ thống! 🎉`, {
                 duration: 3000,
                 position: 'top-right',
                 style: {
@@ -114,7 +125,7 @@ const Registration = () => {
             });
 
             setTimeout(() => {
-                router.push('/');
+                router.push('/login');
             }, 1000);
 
         } catch (error: unknown) {
