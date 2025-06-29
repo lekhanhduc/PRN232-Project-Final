@@ -1,57 +1,88 @@
-'use client'
+'use client';
+
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { Doctor } from '@/types/doctor';
+import { DoctorDetailResponse, DoctorCreationRequest, DoctorUpdateRequest } from '@/types/doctor';
+import { SpecialtyDetailResponse } from '@/types/specialty';
 import { DoctorFilters } from './DoctorFilters';
 import { DoctorTable } from './DoctorTable';
 import { DoctorModal } from './DoctorModal';
+import { createDoctor, updateDoctor, deleteDoctor } from '@/services/doctorService';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 interface DoctorsManagementProps {
-    doctors: Doctor[];
+    doctors: DoctorDetailResponse[];
+    specialties: SpecialtyDetailResponse[];
 }
 
-export const DoctorsManagement = ({ doctors }: DoctorsManagementProps) => {
+export const DoctorsManagement = ({ doctors, specialties }: DoctorsManagementProps) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedDepartment, setSelectedDepartment] = useState('all');
     const [showModal, setShowModal] = useState(false);
-    const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+    const [selectedDoctor, setSelectedDoctor] = useState<DoctorDetailResponse | null>(null);
 
-    const departments = ['Tất cả', 'Khoa Nội', 'Khoa Ngoại', 'Khoa Nhi', 'Khoa Tim mạch', 'Khoa Thần kinh'];
+    const departments = ['Tất cả', ...specialties.map(s => s.specialtyName)];
 
-    const filteredDoctors = doctors.filter(doctor => {
-        const matchesSearch = doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            doctor.department.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesDepartment = selectedDepartment === 'all' || doctor.department === selectedDepartment;
+   const filteredDoctors = doctors.filter(doctor => {
+        const name = doctor.userName?.toLowerCase() || '';
+        const dept = doctor.specialtyName?.toLowerCase() || '';
+        const matchesSearch = name.includes(searchTerm.toLowerCase()) || dept.includes(searchTerm.toLowerCase());
+        const matchesDepartment =
+            selectedDepartment === 'all' || doctor.specialtyName === selectedDepartment;
+
         return matchesSearch && matchesDepartment;
     });
 
-    const handleView = (doctor: Doctor) => {
+    const router = useRouter();
+
+    const handleView = (doctor: DoctorDetailResponse) => {
         setSelectedDoctor(doctor);
         setShowModal(true);
     };
 
-    const handleEdit = (doctor: Doctor) => {
+    const handleEdit = (doctor: DoctorDetailResponse) => {
         setSelectedDoctor(doctor);
         setShowModal(true);
     };
 
-    const handleDelete = (doctor: Doctor) => {
+    const handleDelete = (id: number) => {
         if (confirm('Bạn có chắc chắn muốn xóa bác sĩ này?')) {
-            // Handle delete
-            console.log('Delete doctor:', doctor.id);
+             try {             
+                deleteDoctor(id);
+                toast.success('Xóa bác sĩ thành công!');               
+                setShowModal(false);
+                setSelectedDoctor(null);
+                router.refresh();
+            } catch (error) {
+                toast.error('Đã xảy ra lỗi khi xử lý!');
+                console.error(error);
+            }
         }
     };
 
-    const handleModalSubmit = (data: Partial<Doctor>) => {
-        if (selectedDoctor) {
-            // Handle update
-            console.log('Update doctor:', { ...selectedDoctor, ...data });
-        } else {
-            // Handle create
-            console.log('Create doctor:', data);
-        }
-        setShowModal(false);
-        setSelectedDoctor(null);
+   const handleModalSubmit = async (
+        data: DoctorCreationRequest | DoctorUpdateRequest
+            ) => {
+            try {
+                if (selectedDoctor) {
+                const updateData: DoctorUpdateRequest = {
+                    ...(data as DoctorUpdateRequest)                 
+                };
+                await updateDoctor(updateData);
+                toast.success('Cập nhật bác sĩ thành công!');
+                } else {
+                await createDoctor(data as DoctorCreationRequest);
+                toast.success('Tạo bác sĩ thành công!');
+                }
+
+                setShowModal(false);
+                setSelectedDoctor(null);
+                router.refresh();
+            } catch (error) {
+                toast.error('Đã xảy ra lỗi khi xử lý!');
+                console.error(error);
+            }
     };
 
     const handleModalClose = () => {
@@ -94,10 +125,10 @@ export const DoctorsManagement = ({ doctors }: DoctorsManagementProps) => {
             <DoctorModal
                 isOpen={showModal}
                 doctor={selectedDoctor}
-                departments={departments}
+                specialties={specialties}
                 onClose={handleModalClose}
                 onSubmit={handleModalSubmit}
             />
         </div>
     );
-}; 
+};

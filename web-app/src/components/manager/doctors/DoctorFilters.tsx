@@ -27,7 +27,7 @@ export const DoctorFilters = ({
                             placeholder="Tìm kiếm bác sĩ..."
                             value={searchTerm}
                             onChange={(e) => onSearchChange(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 "
                         />
                     </div>
                 </div>
@@ -36,7 +36,7 @@ export const DoctorFilters = ({
                     <select
                         value={selectedDepartment}
                         onChange={(e) => onDepartmentChange(e.target.value)}
-                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                     >
                         {departments.map((dept) => (
                             <option key={dept} value={dept === 'Tất cả' ? 'all' : dept}>
