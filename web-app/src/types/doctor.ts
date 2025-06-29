@@ -1,21 +1,11 @@
-export enum Gender {
-    Male = 0,
-    Female = 1,
-    Other = 2
-}
-
-
 
 export interface DoctorDetailResponse {
-    id: number;
-    userId: number;
-    userName: string;
-    userEmail: string;
-    userPhone?: string;
-    userAvatar?: string;
-    specialtyId?: number;
-    specialtyName?: string;
-    specialtyDescription?: string;
+    doctorId: number;
+    fullName: string;  
+    specialty: SpecialtyDto; 
+    email: string;
+    phone?: string;
+    userAvatar?: string;   
     licenseNumber: string;
     degree?: string;
     consultationFee: number;
@@ -23,8 +13,6 @@ export interface DoctorDetailResponse {
     gender?: Gender;
     yearsOfExperience: number;
     bio?: string;
-    createdAt: string;     
-    updatedAt?: string;
 }
 
 export interface DoctorCreationRequest {
@@ -165,8 +153,8 @@ export interface DoctorSearchResponse {
 }
 
 export interface SpecialtyDto {
-    id: number;
-    name: string;
+    specialtyId: number;
+    specialtyName: string;
 }
 
 export interface WorkScheduleDto {

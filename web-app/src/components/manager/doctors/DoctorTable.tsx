@@ -44,27 +44,27 @@ export const DoctorTable = ({ doctors, onView, onEdit, onDelete }: DoctorTablePr
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {doctors.map((doctor) => (
-                            <tr key={doctor.id} className="hover:bg-gray-50">
+                            <tr key={doctor.doctorId} className="hover:bg-gray-50">
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
                                         <div className="h-10 w-10 flex-shrink-0">
                                             <img
                                                 className="h-10 w-10 rounded-full object-cover"
                                                 src={doctor.userAvatar || '/default-avatar.png'}
-                                                alt={doctor.userName}
+                                                alt={doctor.fullName}
                                             />
                                         </div>
                                         <div className="ml-4">
-                                            <div className="text-sm font-medium text-gray-900">{doctor.userName}</div>
-                                            <div className="text-sm text-gray-500">ID: {doctor.id}</div>
+                                            <div className="text-sm font-medium text-gray-900">{doctor.fullName}</div>
+                                            <div className="text-sm text-gray-500">ID: {doctor.doctorId}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-900">{doctor.specialtyName || 'Không rõ'}</div>
+                                    <div className="text-sm text-gray-900">{doctor.specialty.specialtyName || 'Không rõ'}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-900">{doctor.userEmail}</div>
+                                    <div className="text-sm text-gray-900">{doctor.email}</div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(doctor.isAvailable)}`}>
@@ -86,7 +86,7 @@ export const DoctorTable = ({ doctors, onView, onEdit, onDelete }: DoctorTablePr
                                             <Edit className="w-4 h-4" />
                                         </button>
                                         <button
-                                            onClick={() => onDelete(doctor.id)}
+                                            onClick={() => onDelete(doctor.doctorId)}
                                             className="text-red-600 hover:text-red-900"
                                         >
                                             <Trash2 className="w-4 h-4" />

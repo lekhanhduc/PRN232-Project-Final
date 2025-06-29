@@ -25,11 +25,11 @@ export const DoctorsManagement = ({ doctors, specialties }: DoctorsManagementPro
     const departments = ['Tất cả', ...specialties.map(s => s.specialtyName)];
 
    const filteredDoctors = doctors.filter(doctor => {
-        const name = doctor.userName?.toLowerCase() || '';
-        const dept = doctor.specialtyName?.toLowerCase() || '';
+        const name = doctor.fullName?.toLowerCase() || '';
+        const dept = doctor.specialty.specialtyName?.toLowerCase() || '';
         const matchesSearch = name.includes(searchTerm.toLowerCase()) || dept.includes(searchTerm.toLowerCase());
         const matchesDepartment =
-            selectedDepartment === 'all' || doctor.specialtyName === selectedDepartment;
+            selectedDepartment === 'all' || doctor.specialty.specialtyName === selectedDepartment;
 
         return matchesSearch && matchesDepartment;
     });

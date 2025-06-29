@@ -28,7 +28,7 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
             licenseNumber: formData.get('licenseNumber') as string,
             degree: formData.get('degree') as string,
             consultationFee: parseFloat(formData.get('consultationFee') as string),
-            gender: parseInt(formData.get('gender') as string) as Gender,
+            gender: formData.get('gender') as Gender,
             yearsOfExperience: parseInt(formData.get('yearsOfExperience') as string),
             bio: formData.get('bio') as string,
             avatar: '',
@@ -37,7 +37,7 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
         if (doctor) {
             const updateData: DoctorUpdateRequest = {
                 ...baseData,
-                id: doctor.id,
+                id: doctor.doctorId,
                 isAvailable: formData.get('isAvailable') === 'true',
             };
             onSubmit(updateData);
@@ -62,7 +62,7 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
                             <input
                                 name="lastName"
                                 type="text"
-                                defaultValue={doctor?.userName?.split(' ').slice(0, -1).join(' ') || ''}
+                                defaultValue={doctor?.fullName?.split(' ').slice(0, -1).join(' ') || ''}
                                 required
                                 className="input text-gray-700"
                             />
@@ -72,7 +72,7 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
                             <input
                                 name="firstName"
                                 type="text"
-                                defaultValue={doctor?.userName?.split(' ').slice(-1)[0] || ''}
+                                defaultValue={doctor?.fullName?.split(' ').slice(-1)[0] || ''}
                                 required
                                 className="input text-gray-700"
                             />
@@ -82,7 +82,7 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
                             <input
                                 name="email"
                                 type="email"
-                                defaultValue={doctor?.userEmail || ''}
+                                defaultValue={doctor?.email || ''}
                                 required
                                 className="input text-gray-700"
                             />
@@ -92,7 +92,7 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
                             <input
                                 name="phone"
                                 type="tel"
-                                defaultValue={doctor?.userPhone || ''}
+                                defaultValue={doctor?.phone || ''}
                                 required
                                 className="input text-gray-700"
                             />
@@ -101,7 +101,7 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
                             <label className="block text-sm font-medium text-gray-700">Chuyên khoa</label>
                             <select
                                 name="specialtyId"
-                                //defaultValue={doctor?.specialtyId?.toString()}
+                                defaultValue={doctor?.specialty.specialtyId?.toString()}
                                 required
                                 className="input text-gray-700"
                             >
@@ -145,12 +145,12 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
                             <label className="block text-sm font-medium text-gray-700">Giới tính</label>
                             <select
                                 name="gender"
-                                defaultValue={doctor?.gender?.toString() || '0'}
+                                defaultValue={doctor?.gender?.toString() || 'Male'}
                                 className="input text-gray-700"
                             >
-                                <option value="0">Nam</option>
-                                <option value="1">Nữ</option>
-                                <option value="2">Khác</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
                         <div>
