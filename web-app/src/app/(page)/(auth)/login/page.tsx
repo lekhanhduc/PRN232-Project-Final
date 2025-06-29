@@ -12,7 +12,7 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import SocialLoginButtons from '@/components/social/SocialLoginButtons';
 import Modal from 'react-modal';
 import { ApiResponse } from '@/types/apiResonse';
-import { getRedirectPath } from '@/utils/authorities';
+import { getRedirectPath } from '@/utils/Authorities';
 
 
 const SignIn = () => {
