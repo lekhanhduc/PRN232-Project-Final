@@ -9,7 +9,8 @@ import {
     BarChart3, 
     FileText,
     Shield,
-    Home
+    Home,
+    UserPlus
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -33,6 +34,12 @@ export const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
             label: 'Quản lý Bác sĩ', 
             icon: UserCheck,
             path: '/manager/doctors'
+        },
+        { 
+            id: 'receptionists', 
+            label: 'Quản lý Lễ tân', 
+            icon: UserPlus,
+            path: '/manager/receptionists'
         },
         { 
             id: 'departments', 
