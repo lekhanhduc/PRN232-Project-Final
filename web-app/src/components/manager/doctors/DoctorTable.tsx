@@ -1,6 +1,6 @@
 'use client';
 
-import { Edit, Trash2, Eye } from 'lucide-react';
+import { Edit, Trash2, Eye,AppWindow } from 'lucide-react';
 import { DoctorDetailResponse } from '@/types/doctor';
 
 interface DoctorTableProps {
@@ -8,9 +8,10 @@ interface DoctorTableProps {
     onView: (doctor: DoctorDetailResponse) => void;
     onEdit: (doctor: DoctorDetailResponse) => void;
     onDelete: (id: number) => void;
+    onSchedule: (doctor: DoctorDetailResponse) => void;
 }
 
-export const DoctorTable = ({ doctors, onView, onEdit, onDelete }: DoctorTableProps) => {
+export const DoctorTable = ({ doctors, onView, onEdit, onDelete,onSchedule }: DoctorTableProps) => {
     const getStatusColor = (isAvailable: boolean) => {
         return isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
     };
@@ -90,6 +91,12 @@ export const DoctorTable = ({ doctors, onView, onEdit, onDelete }: DoctorTablePr
                                             className="text-red-600 hover:text-red-900"
                                         >
                                             <Trash2 className="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            onClick={() => onSchedule(doctor)}
+                                            className="text-green-600 hover:text-green-900"
+                                        >
+                                            <AppWindow className="w-4 h-4" />
                                         </button>
                                     </div>
                                 </td>

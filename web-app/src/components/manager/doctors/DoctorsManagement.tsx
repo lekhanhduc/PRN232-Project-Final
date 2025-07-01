@@ -2,11 +2,12 @@
 
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { DoctorDetailResponse, DoctorCreationRequest, DoctorUpdateRequest } from '@/types/doctor';
+import { DoctorDetailResponse, DoctorCreationRequest, DoctorUpdateRequest,WorkScheduleDto } from '@/types/doctor';
 import { SpecialtyDetailResponse } from '@/types/specialty';
 import { DoctorFilters } from './DoctorFilters';
 import { DoctorTable } from './DoctorTable';
 import { DoctorModal } from './DoctorModal';
+import { ScheduleModal } from './ScheduleModal';
 import { createDoctor, updateDoctor, deleteDoctor } from '@/services/doctorService';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
@@ -20,6 +21,7 @@ export const DoctorsManagement = ({ doctors, specialties }: DoctorsManagementPro
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedDepartment, setSelectedDepartment] = useState('all');
     const [showModal, setShowModal] = useState(false);
+    const [showScheduleModal, setScheduleModal] = useState(false);
     const [selectedDoctor, setSelectedDoctor] = useState<DoctorDetailResponse | null>(null);
 
     const departments = ['Tất cả', ...specialties.map(s => s.specialtyName)];
@@ -41,9 +43,15 @@ export const DoctorsManagement = ({ doctors, specialties }: DoctorsManagementPro
         setShowModal(true);
     };
 
+
     const handleEdit = (doctor: DoctorDetailResponse) => {
         setSelectedDoctor(doctor);
         setShowModal(true);
+    };
+
+     const handleSchedule = (doctor: DoctorDetailResponse) => {
+        setSelectedDoctor(doctor);
+        setScheduleModal(true);
     };
 
     const handleDelete = (id: number) => {
@@ -85,8 +93,15 @@ export const DoctorsManagement = ({ doctors, specialties }: DoctorsManagementPro
             }
     };
 
+  
+
     const handleModalClose = () => {
         setShowModal(false);
+        setSelectedDoctor(null);
+    };
+
+    const handleScheduleModalClose = () => {
+        setScheduleModal(false);
         setSelectedDoctor(null);
     };
 
@@ -119,6 +134,7 @@ export const DoctorsManagement = ({ doctors, specialties }: DoctorsManagementPro
                 onView={handleView}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
+                onSchedule={handleSchedule}
             />
 
             {/* Modal */}
@@ -128,6 +144,12 @@ export const DoctorsManagement = ({ doctors, specialties }: DoctorsManagementPro
                 specialties={specialties}
                 onClose={handleModalClose}
                 onSubmit={handleModalSubmit}
+            />
+
+            <ScheduleModal
+                isOpen={showScheduleModal}
+                doctor={selectedDoctor}            
+                onClose={handleScheduleModalClose}           
             />
         </div>
     );
