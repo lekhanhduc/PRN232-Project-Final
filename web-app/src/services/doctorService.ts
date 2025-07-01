@@ -107,3 +107,42 @@ export const deleteDoctor = async (id: number): Promise<ApiResponse<object>> => 
     const result: ApiResponse<object> = await response.json();
     return result;
 };
+
+        const data = await response.json();
+        console.log('🔍 Debug - Doctor Details Response Data:', data);
+        return data;
+    },
+
+    async getDoctorAppointmentSchedule(doctorId: number, fromDate?: string, toDate?: string) {
+        const params = new URLSearchParams();
+        if (fromDate) params.append('fromDate', fromDate);
+        if (toDate) params.append('toDate', toDate);
+        const url = `${API_URL}/api/v1/doctors/${doctorId}/schedule?${params.toString()}`;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    },
+
+    async getDoctorWorkingSchedule(doctorId: number, daysAhead: number = 14) {
+        const params = new URLSearchParams();
+        params.append('daysAhead', daysAhead.toString());
+        const url = `${API_URL}/api/v1/doctors/${doctorId}/working-schedule?${params.toString()}`;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    }
+}; 

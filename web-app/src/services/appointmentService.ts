@@ -89,6 +89,28 @@ class AppointmentService {
             throw error;
         }
     }
+
+    async createAppointment(payload: {
+        doctorId: number;
+        slotId: number;
+        appointmentDate: string;
+        reasonForVisit: string;
+        packageId: number;
+    }) {
+        const token = localStorage.getItem('accessToken');
+        const response = await fetch(`${API_URL}/api/v1/appointments/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    }
 }
 
 export const appointmentService = new AppointmentService(); 

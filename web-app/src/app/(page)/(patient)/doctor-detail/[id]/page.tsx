@@ -138,11 +138,11 @@ export default function DoctorDetail() {
                                 )}
 
                                 {activeTab === 'appointment' && (
-                                    <AppointmentTab />
+                                    <AppointmentTab doctorId={doctorId} />
                                 )}
 
                                 {activeTab === 'hours' && (
-                                    <WorkingHoursTab workingHours={transformedDoctorData.workingHours} />
+                                    <WorkingHoursTab doctorId={doctorId} />
                                 )}
                             </div>
                         </div>
