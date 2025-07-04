@@ -15,4 +15,11 @@ namespace medical_appointment_booking.Dtos.Response
         public bool CanCancel { get; set; }
         public bool CanReschedule { get; set; }
     }
+
+    public class AppointmentForReceptionistResponse
+    {
+        public long AppointmentId { get; set; }
+        public DateOnly AppointmentDate { get; set; }
+        public string Status { get; set; } = string.Empty;
+    }
 }
