@@ -35,12 +35,12 @@ namespace medical_appointment_booking.Services.Impl
                     RecentAppointments = p.Appointments?
                         .OrderByDescending(a => a.AppointmentDate)
                         .Take(3)
-                        .Select(a => new AppointmentResponse
+                        .Select(a => new AppointmentForReceptionistResponse
                         {
                             AppointmentId = a.Id,
                             AppointmentDate = a.AppointmentDate,
                             Status = a.Status
-                        }).ToList() ?? new List<AppointmentResponse>()
+                        }).ToList() ?? new List<AppointmentForReceptionistResponse>()
                 });
             }
             catch (Exception ex)
@@ -104,7 +104,7 @@ namespace medical_appointment_booking.Services.Impl
                     FullName = $"{a.Patient.LastName} {a.Patient.FirstName}",
                     Phone = a.Patient.Phone ?? a.Patient.User?.Phone ?? ""
                 },
-                Doctor = new DoctorInfoDto
+                Doctor = new DoctorViewInfoDto
                 {
                     FullName = $"{a.Doctor.Degree} {a.Doctor.LastName} {a.Doctor.FirstName}",
                     Specialty = a.Doctor.Specialty?.SpecialtyName ?? ""

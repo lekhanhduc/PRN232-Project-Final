@@ -61,5 +61,9 @@ namespace medical_appointment_booking.Models
 
         [Column("cancel_reason")]
         public string? CancelReason { get; set; }
+
+        [ForeignKey("ServicePackage")]
+        public int? ServicePackageId { get; set; }
+        public ServicePackage? ServicePackage { get; set; }
     }
 }

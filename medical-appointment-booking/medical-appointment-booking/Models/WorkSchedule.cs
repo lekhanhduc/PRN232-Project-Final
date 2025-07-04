@@ -31,5 +31,6 @@ namespace medical_appointment_booking.Models
         [Required]
         [Column("is_available")]
         public bool IsAvailable { get; set; } = true;
+        public ICollection<TimeSlot>? TimeSlots { get; set; }
     }
 }

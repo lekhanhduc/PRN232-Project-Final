@@ -12,7 +12,7 @@
 
         public PatientInfoDto Patient { get; set; }
 
-        public DoctorInfoDto Doctor { get; set; }
+        public DoctorViewInfoDto Doctor { get; set; }
     }
 
     public class PatientInfoDto
@@ -22,7 +22,7 @@
         public string Phone { get; set; }
     }
 
-    public class DoctorInfoDto
+    public class DoctorViewInfoDto
     {
         public string FullName { get; set; }
 

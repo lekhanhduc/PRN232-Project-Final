@@ -8,6 +8,6 @@
         public string Email { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
         public string Gender { get; set; } = string.Empty;
-        public List<AppointmentResponse> RecentAppointments { get; set; } = new();
+        public List<AppointmentForReceptionistResponse> RecentAppointments { get; set; } = new();
     }
 }

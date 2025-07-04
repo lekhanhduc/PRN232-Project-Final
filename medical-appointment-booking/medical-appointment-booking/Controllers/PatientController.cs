@@ -2,7 +2,6 @@
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace medical_appointment_booking.Controllers
@@ -34,13 +33,11 @@ namespace medical_appointment_booking.Controllers
         [Authorize]
         public async Task<ApiResponse<PatientDetailResponse>> UpdateProfile([FromBody] PatientDetailRequest request)
         {
-            return new ApiResponse<PatientDetailResponse> 
+            return new ApiResponse<PatientDetailResponse>
             {
                 code = 200,
                 result = await patientService.UpdateProfile(request)
             };
         }
-
-
     }
 }
