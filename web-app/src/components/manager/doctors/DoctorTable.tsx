@@ -3,6 +3,7 @@
 import { Edit, Trash2, Eye,AppWindow } from 'lucide-react';
 import { DoctorDetailResponse } from '@/types/doctor';
 
+
 interface DoctorTableProps {
     doctors: DoctorDetailResponse[];
     onView: (doctor: DoctorDetailResponse) => void;

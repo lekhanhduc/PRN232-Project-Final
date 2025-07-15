@@ -145,12 +145,12 @@ export const DoctorModal = ({ isOpen, doctor, specialties, onClose, onSubmit }: 
                             <label className="block text-sm font-medium text-gray-700">Giới tính</label>
                             <select
                                 name="gender"
-                                defaultValue={doctor?.gender?.toString() || 'Male'}
+                                defaultValue={doctor?.gender?.toString() || 'MALE'}
                                 className="input text-gray-700"
                             >
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
+                                <option value="MALE">Nam</option>
+                                <option value="FEMALE">Nữ</option>
+                                <option value="OTHER">Khác</option>
                             </select>
                         </div>
                         <div>

@@ -65,37 +65,7 @@ export const ScheduleModal = ({ isOpen, onClose, onSubmit }: ScheduleModalProps)
                 className="input text-gray-700"
                 required
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Số bệnh nhân tối đa</label>
-              <input
-                type="number"
-                value={maxPatients}
-                onChange={e => setMaxPatients(Number(e.target.value))}
-                className="input text-gray-700"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Giờ bắt đầu</label>
-              <input
-                type="time"
-                value={startTime}
-                onChange={e => setStartTime(e.target.value)}
-                className="input text-gray-700"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">Giờ kết thúc</label>
-              <input
-                type="time"
-                value={endTime}
-                onChange={e => setEndTime(e.target.value)}
-                className="input text-gray-700"
-                required
-              />
-            </div>
+            </div>          
           </div>
 
           <div>
