@@ -12,8 +12,8 @@ using medical_appointment_booking.Models;
 namespace medical_appointment_booking.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250618094921_Update User")]
-    partial class UpdateUser
+    [Migration("20250629093236_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -730,7 +730,7 @@ namespace medical_appointment_booking.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("medical_appointment_booking.Models.ServicePackage", null)
+                    b.HasOne("medical_appointment_booking.Models.ServicePackage", "ServicePackage")
                         .WithMany("Appointments")
                         .HasForeignKey("ServicePackageId");
 
@@ -747,6 +747,8 @@ namespace medical_appointment_booking.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
+
+                    b.Navigation("ServicePackage");
 
                     b.Navigation("TimeSlot");
                 });
@@ -821,7 +823,7 @@ namespace medical_appointment_booking.Migrations
             modelBuilder.Entity("medical_appointment_booking.Models.TimeSlot", b =>
                 {
                     b.HasOne("medical_appointment_booking.Models.WorkSchedule", "WorkSchedule")
-                        .WithMany()
+                        .WithMany("TimeSlots")
                         .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -864,6 +866,11 @@ namespace medical_appointment_booking.Migrations
             modelBuilder.Entity("medical_appointment_booking.Models.TimeSlot", b =>
                 {
                     b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("medical_appointment_booking.Models.WorkSchedule", b =>
+                {
+                    b.Navigation("TimeSlots");
                 });
 #pragma warning restore 612, 618
         }

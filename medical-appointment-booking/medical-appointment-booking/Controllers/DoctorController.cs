@@ -15,10 +15,12 @@ namespace medical_appointment_booking.Controllers
     {
 
         private readonly IDoctorService doctorService;
+        private readonly IExcelService excelService;
 
-        public DoctorController(IDoctorService doctorService)
+        public DoctorController(IDoctorService doctorService, IExcelService excelService)
         {
             this.doctorService = doctorService;
+            this.excelService = excelService;
         }
 
         [HttpPost]
@@ -35,14 +37,18 @@ namespace medical_appointment_booking.Controllers
         [HttpGet]
         //[Authorize(Roles = "ADMIN")]
         public async Task<ApiResponse<PageResponse<DoctorDetailResponse>>> GetAllWithSearch(
+           [FromQuery] string? specialtyName = null,
+           [FromQuery] Gender? gender = null,
+           [FromQuery] bool? isAvailable = null,
+           [FromQuery] string? orderBy = null,
            [FromQuery] int page = 1,
-           [FromQuery] int size = 10,
+           [FromQuery] int pageSize = 10,
            [FromQuery] string? keyword = "")
         {
             return new ApiResponse<PageResponse<DoctorDetailResponse>>
             {
                 code = 200,
-                result = await doctorService.GetAllWithSearch(page, size, keyword)
+                result = await doctorService.GetAllWithSearch(page, pageSize, keyword, specialtyName, gender, isAvailable, orderBy)
             };
         }
 
@@ -96,6 +102,20 @@ namespace medical_appointment_booking.Controllers
                 result = result
             };
         }
+
+        [HttpPost("import-excel")]
+        public async Task<ApiResponse<object>> ImportSchedules(IFormFile file)
+        {         
+            using var stream = file.OpenReadStream();
+            var result = await excelService.ImportSchedulesWithSlotsFromExcel(stream);
+
+            return new ApiResponse<object>
+            {
+                code = 200,
+                message = "Create Schedule Doctor Sucess"
+            };
+        }
+
 
     }
 }

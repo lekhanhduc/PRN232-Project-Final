@@ -68,6 +68,7 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
             builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+            builder.Services.AddScoped<IExcelService, ExcelService>();
             builder.Services.AddScoped<TwoFactorService>();
             builder.Services.AddSingleton<CloudinaryService>();
 

@@ -10,7 +10,8 @@ namespace medical_appointment_booking.Services
         Task<DoctorDetailResponse> GetDoctorByIdAsync(long id);
         Task<PageResponse<DoctorSearchResponse>> SearchDoctorsAsync(string? specialtyName,
             Gender? gender, bool? isAvailable, string? orderBy, int page, int pageSize);
-        Task<PageResponse<DoctorDetailResponse>> GetAllWithSearch(int page, int size, string? keyword = null);
+        Task<PageResponse<DoctorDetailResponse>> GetAllWithSearch(int page, int size, string? keyword, string? specialtyName,
+            Gender? gender, bool? isAvailable, string? orderBy);
         Task DeleteDoctor(long id);
         Task<DoctorDetailResponse> UpdateDoctor(DoctorUpdateRequest request);
     }

@@ -23,5 +23,11 @@ namespace medical_appointment_booking.Repositories
                 .ThenBy(ws => ws.StartTime)
                 .ToListAsync();
         }
+
+        public async Task CreateListScheduleAsync(List<WorkSchedule> schedules)
+        {
+            context.WorkSchedules.AddRange(schedules);
+            await context.SaveChangesAsync();
+        }
     }
 }

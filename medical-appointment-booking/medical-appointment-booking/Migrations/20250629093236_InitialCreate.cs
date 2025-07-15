@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace medical_appointment_booking.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateDoctor : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -79,6 +79,8 @@ namespace medical_appointment_booking.Migrations
                     phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     user_status = table.Column<string>(type: "nvarchar(20)", nullable: false),
+                    two_factor_secret = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    is_2fa_verified = table.Column<bool>(type: "bit", nullable: false),
                     role_id = table.Column<int>(type: "int", nullable: false),
                     created_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     updated_by = table.Column<string>(type: "nvarchar(max)", nullable: true),
