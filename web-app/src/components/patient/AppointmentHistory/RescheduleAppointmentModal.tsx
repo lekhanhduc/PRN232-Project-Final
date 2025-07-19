@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { AppointmentResponse } from '@/types/appointment';
 import { useAppointments } from '@/hooks/useAppointments';
 import { useToast } from '@/hooks/useToast';
+import { doctorService } from '@/services/doctorService';
 
 interface RescheduleAppointmentModalProps {
     appointment: AppointmentResponse;
@@ -17,49 +18,46 @@ const RescheduleAppointmentModal: React.FC<RescheduleAppointmentModalProps> = ({
     onSuccess
 }) => {
     const [newDate, setNewDate] = useState('');
-    const [newTime, setNewTime] = useState('');
+    const [newSlotId, setNewSlotId] = useState<number | null>(null);
     const [reason, setReason] = useState('');
     const [loading, setLoading] = useState(false);
+    const [schedule, setSchedule] = useState<any[]>([]);
     const { rescheduleAppointment } = useAppointments();
     const { showSuccess, showError } = useToast();
 
-    // Mock time slots - in real app, this would come from API
-    const timeSlots = [
-        '08:00', '08:30', '09:00', '09:30', '10:00', '10:30',
-        '11:00', '11:30', '14:00', '14:30', '15:00', '15:30',
-        '16:00', '16:30', '17:00', '17:30'
-    ];
+    // Fetch available schedule for the doctor
+    React.useEffect(() => {
+        const fetchSchedule = async () => {
+            try {
+                alert(appointment.doctor.doctorId);
+                const res = await doctorService.getDoctorAppointmentSchedule(appointment.doctor.doctorId);
+                setSchedule(res.result?.workSchedules || []);
+            } catch (err) {
+                setSchedule([]);
+            }
+        };
+        fetchSchedule();
+    }, [appointment.doctor.doctorId]);
+
+    // Lấy danh sách ngày có slot rảnh
+    const availableDays = schedule.filter((day) => day.availableSlots.some((slot: any) => slot.isAvailable));
+    // Lấy danh sách slot rảnh cho ngày đã chọn
+    const availableSlots = schedule.find((d) => d.workDate.split('T')[0] === newDate)?.availableSlots.filter((slot: any) => slot.isAvailable) || [];
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
-        if (!newDate || !newTime || !reason.trim()) {
+        if (!newDate || !newSlotId || !reason.trim()) {
             showError('Vui lòng điền đầy đủ thông tin');
             return;
         }
-
-        // Validate that new date is in the future
-        const selectedDateTime = new Date(`${newDate} ${newTime}`);
-        const now = new Date();
-        
-        if (selectedDateTime <= now) {
-            showError('Thời gian mới phải trong tương lai');
-            return;
-        }
-
         setLoading(true);
-
         try {
-            // Mock slot ID - in real app, this would be determined by the selected date/time
-            const newSlotId = Math.floor(Math.random() * 1000) + 1;
-            
             const result = await rescheduleAppointment(
                 appointment.appointmentId,
                 newSlotId,
                 newDate,
                 reason
             );
-            
             if (result.success) {
                 showSuccess('Đổi lịch hẹn thành công');
                 onSuccess();
@@ -113,32 +111,40 @@ const RescheduleAppointmentModal: React.FC<RescheduleAppointmentModalProps> = ({
                         <label htmlFor="newDate" className="block text-sm font-medium text-gray-700 mb-2">
                             Ngày mới <span className="text-red-500">*</span>
                         </label>
-                        <input
-                            type="date"
+                        <select
                             id="newDate"
                             value={newDate}
-                            onChange={(e) => setNewDate(e.target.value)}
-                            min={minDate}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            disabled={loading}
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="newTime" className="block text-sm font-medium text-gray-700 mb-2">
-                            Giờ mới <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                            id="newTime"
-                            value={newTime}
-                            onChange={(e) => setNewTime(e.target.value)}
+                            onChange={(e) => {
+                                setNewDate(e.target.value);
+                                setNewSlotId(null);
+                            }}
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             disabled={loading}
                         >
+                            <option value="">Chọn ngày</option>
+                            {availableDays.map((day: any) => (
+                                <option key={day.workDate} value={day.workDate.split('T')[0]}>
+                                    {new Date(day.workDate).toLocaleDateString()}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label htmlFor="newSlotId" className="block text-sm font-medium text-gray-700 mb-2">
+                            Giờ mới <span className="text-red-500">*</span>
+                        </label>
+                        <select
+                            id="newSlotId"
+                            value={newSlotId || ''}
+                            onChange={(e) => setNewSlotId(Number(e.target.value))}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            disabled={loading || !newDate}
+                        >
                             <option value="">Chọn giờ</option>
-                            {timeSlots.map((time) => (
-                                <option key={time} value={time}>
-                                    {time}
+                            {availableSlots.map((slot: any) => (
+                                <option key={slot.slotId} value={slot.slotId}>
+                                    {slot.slotTimeFormatted}
                                 </option>
                             ))}
                         </select>

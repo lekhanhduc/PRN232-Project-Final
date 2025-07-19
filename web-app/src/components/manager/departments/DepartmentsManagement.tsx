@@ -4,7 +4,7 @@ import { Plus, Search, Edit, Trash2, Users, Building2, Loader2 } from 'lucide-re
 import { SpecialtyCreationRequest, SpecialtyCreationResponse, SpecialtyDetailResponse } from '@/types/specialty';
 import { PageResponse } from '@/types/pageResponse';
 import { ApiResponse } from '@/types/apiResonse';
-import { API_URL } from '@/utils/BaseUrl';
+import { API_URL } from '@/utils/baseUrl';
 import toast from 'react-hot-toast';
 
 export const DepartmentsManagement = () => {

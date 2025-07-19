@@ -9,8 +9,7 @@ interface AppointmentTimeSlotResponse {
     slotId: number;
     slotTime: string;
     slotTimeFormatted: string;
-    isAvailable: boolean;
-    isBooked: boolean;
+    isAvailable: boolean; // true: slot có thể đặt, false: slot đã được đặt hoặc không khả dụng
 }
 
 interface AppointmentDayResponse {
@@ -37,19 +36,21 @@ export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
     const [error, setError] = useState<string | null>(null);
     const [booking, setBooking] = useState(false);
 
+    // Đưa fetchSchedule ra ngoài để có thể gọi lại sau khi booking
+    const fetchSchedule = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await doctorService.getDoctorAppointmentSchedule(doctorId);
+            setSchedule(res.result?.workSchedules || []);
+        } catch (err: any) {
+            setError('Failed to load schedule');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchSchedule = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const res = await doctorService.getDoctorAppointmentSchedule(doctorId);
-                setSchedule(res.result?.workSchedules || []);
-            } catch (err: any) {
-                setError('Failed to load schedule');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchSchedule();
     }, [doctorId]);
 
@@ -63,7 +64,7 @@ export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
                 slotId: selectedSlot.slotId,
                 appointmentDate: selectedDate,
                 reasonForVisit: reason,
-                packageId: packageId || 0,
+                packageId: packageId || 1,
             };
             const res = await appointmentService.createAppointment(payload);
             alert('Appointment booked successfully!\nAppointment Number: ' + res.result?.appointmentNumber);
@@ -71,6 +72,8 @@ export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
             setSelectedSlot(null);
             setReason('');
             setPackageId(undefined);
+            // Refetch lại schedule để disable slot vừa book
+            await fetchSchedule();
         } catch (err: any) {
             setError(err.message || 'Failed to book appointment');
         } finally {
@@ -116,12 +119,13 @@ export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
                                 disabled={!slot.isAvailable}
                                 className={`p-2 rounded-xl text-sm font-medium transition-all ${selectedSlot?.slotId === slot.slotId
                                     ? 'bg-green-600 text-white'
-                                    : slot.isAvailable
-                                        ? 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                                        : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                    : !slot.isAvailable
+                                        ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                     }`}
                             >
                                 {slot.slotTimeFormatted}
+                                {!slot.isAvailable && <span className="ml-2 text-xs text-red-500">(Đã đặt)</span>}
                             </button>
                         ))}
                     </div>
