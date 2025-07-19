@@ -24,7 +24,6 @@
         public TimeOnly SlotTime { get; set; }
         public string SlotTimeFormatted { get; set; } = string.Empty;
         public bool IsAvailable { get; set; }
-        public bool IsBooked { get; set; }
     }
 
 }

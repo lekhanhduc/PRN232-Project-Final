@@ -1,246 +1,230 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\",
+  "WorkspaceRootPath": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\createappointmentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\createappointmentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\receptionistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\receptionistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\signinrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\signinrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\rescheduleappointmentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\rescheduleappointmentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\specialtycreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\specialtycreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\usercreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\usercreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\appointmentcreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\appointmentcreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\cancelappointmentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\cancelappointmentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\createappointmentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\createappointmentrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\patientdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\patientdetailrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\doctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\doctorworkingscheduleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\doctorworkingscheduleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\idoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\idoctorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\request\\doctorcreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\request\\doctorcreationrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\rolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\rolerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\doctorsearchresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\doctorsearchresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\timeslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\timeslot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\ischeduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\ischeduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\scheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\scheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\middlewares\\appexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\middlewares\\appexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\iauthservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\filecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\filecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\specialtycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\specialtycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\schedulerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\schedulerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\usercreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\usercreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\specialtydetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\specialtydetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\specialtycreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\specialtycreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\signinresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\signinresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\patientdetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\patientdetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\rescheduleappointmentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\rescheduleappointmentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\appointmentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\appointmentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\appointmentresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\twofactorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\twofactorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\appointmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\appointmentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\appointmentrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\filecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\filecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\doctorappointmentscheduleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\doctorappointmentscheduleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\twofactorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\twofactorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\weatherforecastcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\patientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\patientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\servicepackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\servicepackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\servicepackage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\specialty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\specialty.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\doctordetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\doctordetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\patientdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\patientdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\notification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\notification.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\specialtyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\specialtyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\patient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\patient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\patientrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\appointments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\appointments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\ispecialtyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\ispecialtyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\appointmenthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\appointmenthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\twofactorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\twofactorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\specialtyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\specialtyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\specialtyservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\patientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\patientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\migrations\\appdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\migrations\\appdbcontextmodelsnapshot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\receptionistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\receptionistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\migrations\\20250618081036_update doctor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\migrations\\20250618081036_update doctor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\middlewares\\errorcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\middlewares\\errorcode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\receptionistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\receptionistresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\patientdetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\patientdetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\pageresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\pageresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\signinresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\signinresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\specialtycreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\specialtycreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\specialtydetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\specialtydetailresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\usercreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\usercreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\appointmenttodayresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\appointmenttodayresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\managerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\managerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\imanagerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\imanagerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\receptionistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\receptionistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\receptionistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\receptionistrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\ireceptionistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\ireceptionistservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\appointments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\appointments.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\patient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\patient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\middlewares\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\middlewares\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\appointmentcreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\appointmentcreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\configuration\\corsconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\configuration\\corsconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\managercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\managercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\httpclient\\googleuserinfoclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\httpclient\\googleuserinfoclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\doctorcreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\doctorcreationresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\httpclient\\facebookuserinfoclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\httpclient\\facebookuserinfoclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\managerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\managerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\httpclient\\facebookauthclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\httpclient\\facebookauthclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\configuration\\jwtconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\configuration\\jwtconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\migrations\\20250618094921_update user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\migrations\\20250618094921_update user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\httpclient\\googleauthclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\httpclient\\googleauthclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_university\\8_summer25\\prn232\\prn232-project-final-be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\models\\appointmenthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\models\\appointmenthistory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -258,725 +242,689 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "DoctorCreationRequest.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\DoctorCreationRequest.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\DoctorCreationRequest.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\DoctorCreationRequest.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\DoctorCreationRequest.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T15:20:14.334Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "RoleRepository.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\RoleRepository.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\RoleRepository.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\RoleRepository.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\RoleRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T14:31:56.78Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DoctorController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\DoctorController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\DoctorController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T14:14:23.578Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DoctorService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
-              "ViewState": "AQIAAFcCAAAAAAAAAADwv2oCAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T13:10:18.147Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\AuthController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\AuthController.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAB4AAAAWAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-19T09:03:07.046Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AppointmentController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\AppointmentController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\AppointmentController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\AppointmentController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\AppointmentController.cs",
-              "ViewState": "AQIAAHcAAAAAAAAAAAAYwBcAAAASAAAA",
+              "Title": "ReceptionistRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\ReceptionistRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\ReceptionistRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\ReceptionistRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\ReceptionistRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-28T16:14:47.805Z",
+              "WhenOpened": "2025-07-19T19:04:56.871Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "AppointmentService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
-              "ViewState": "AQIAAAQBAAAAAAAAAAA2wB4BAAAAAAAA",
+              "Title": "SignInRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\SignInRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\SignInRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\SignInRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\SignInRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-24T01:52:34.411Z"
+              "WhenOpened": "2025-07-19T19:04:56.182Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SpecialtyCreationRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\SpecialtyCreationRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\SpecialtyCreationRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\SpecialtyCreationRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\SpecialtyCreationRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T19:04:54.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserCreationRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\UserCreationRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\UserCreationRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\UserCreationRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\UserCreationRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T19:04:53.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "PatientDetailRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\PatientDetailRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\PatientDetailRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\PatientDetailRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\PatientDetailRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T19:04:47.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "RescheduleAppointmentRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\RescheduleAppointmentRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\RescheduleAppointmentRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\RescheduleAppointmentRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\RescheduleAppointmentRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T19:04:45.128Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CreateAppointmentRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\CreateAppointmentRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\CreateAppointmentRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\CreateAppointmentRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\CreateAppointmentRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T19:04:30.038Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\appsettings.json",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json",
-              "RelativeToolTip": "medical-appointment-booking\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAADAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-06-18T13:55:45.643Z",
+              "Title": "CreateAppointmentResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\CreateAppointmentResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\CreateAppointmentResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\CreateAppointmentResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\CreateAppointmentResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:37:52.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DoctorController.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\DoctorController.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\DoctorController.cs",
+              "ViewState": "AQIAAGEAAAAAAAAAAAAAAGoAAABQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T16:24:46.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AppointmentController.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\AppointmentController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\AppointmentController.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\AppointmentController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\AppointmentController.cs",
+              "ViewState": "AQIAAFwAAAAAAAAAAAA1wCoAAABLAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T16:24:40.6Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "DoctorService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
+              "ViewState": "AQIAACsCAAAAAAAAAAAjwLEBAAA9AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:40:07.567Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CancelAppointmentRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\CancelAppointmentRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\CancelAppointmentRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\CancelAppointmentRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\CancelAppointmentRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:03:16.373Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "DoctorWorkingScheduleResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorWorkingScheduleResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\DoctorWorkingScheduleResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorWorkingScheduleResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\DoctorWorkingScheduleResponse.cs",
+              "Title": "AppointmentCreationRequest.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\AppointmentCreationRequest.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Request\\AppointmentCreationRequest.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Request\\AppointmentCreationRequest.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Request\\AppointmentCreationRequest.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T15:24:20.102Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "DoctorSearchResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorSearchResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\DoctorSearchResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorSearchResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\DoctorSearchResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T13:46:07.425Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "TimeSlot.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\TimeSlot.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\TimeSlot.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\TimeSlot.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\TimeSlot.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAiwAwAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T13:46:34.921Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "IAuthService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IAuthService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\IAuthService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IAuthService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\IAuthService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T09:28:31.984Z"
+              "WhenOpened": "2025-06-28T01:33:03.304Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 17,
-              "Title": "FileController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\FileController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\FileController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\FileController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\FileController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwBQAAAAYAAAA",
+              "Title": "PatientController.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\PatientController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\PatientController.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\PatientController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\PatientController.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T15:28:12.508Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ErrorResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\ErrorResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\ErrorResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\ErrorResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\ErrorResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T00:49:55.843Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Program.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Program.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Program.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Program.cs",
-              "ViewState": "AQIAADQAAAAAAAAAAAAywEYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T09:45:21.784Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "ScheduleService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ScheduleService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\ScheduleService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ScheduleService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\ScheduleService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T09:47:09.72Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "IScheduleService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IScheduleService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\IScheduleService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IScheduleService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\IScheduleService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAYAAABKAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T09:47:25.773Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "AppException.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Middlewares\\AppException.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Middlewares\\AppException.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Middlewares\\AppException.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Middlewares\\AppException.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAQAAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T15:53:11.508Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "ScheduleRepository.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ScheduleRepository.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\ScheduleRepository.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ScheduleRepository.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\ScheduleRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T09:10:40.21Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "MailService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\MailService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\MailService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\MailService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\MailService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T09:10:19.217Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "SpecialtyController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\SpecialtyController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\SpecialtyController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\SpecialtyController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\SpecialtyController.cs",
-              "ViewState": "AQIAACQAAAAAAAAAAAAowAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-19T09:02:52.624Z"
+              "WhenOpened": "2025-07-19T16:40:45.951Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 18,
-              "Title": "PatientController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\PatientController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\PatientController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\PatientController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\PatientController.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAiwCEAAAAIAAAA",
+              "Title": "FileController.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\FileController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\FileController.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\FileController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\FileController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-19T09:01:39.057Z"
+              "WhenOpened": "2025-07-19T17:23:56.55Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "SpecialtyDetailResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SpecialtyDetailResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\SpecialtyDetailResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SpecialtyDetailResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\SpecialtyDetailResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 14,
+              "Title": "AppointmentResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\AppointmentResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\AppointmentResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T00:50:04.2Z"
+              "WhenOpened": "2025-06-28T01:31:20.695Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "SpecialtyCreationResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SpecialtyCreationResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\SpecialtyCreationResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SpecialtyCreationResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\SpecialtyCreationResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T00:50:02.119Z"
+              "DocumentIndex": 10,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\appsettings.json",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json",
+              "RelativeToolTip": "medical-appointment-booking\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-04T01:17:06.351Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "SignInResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SignInResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\SignInResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SignInResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\SignInResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 12,
+              "Title": "IDoctorService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IDoctorService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\IDoctorService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IDoctorService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\IDoctorService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAA8AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T00:50:00.946Z"
+              "WhenOpened": "2025-07-04T01:40:12.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "AppointmentService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
+              "ViewState": "AQIAABkBAAAAAAAAAIAywD0BAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T18:11:37.173Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "DoctorAppointmentScheduleResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorAppointmentScheduleResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\DoctorAppointmentScheduleResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorAppointmentScheduleResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\DoctorAppointmentScheduleResponse.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAowBkAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-19T17:42:07.296Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "DoctorDetailResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorDetailResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\DoctorDetailResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorDetailResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\DoctorDetailResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAQAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T01:35:26.408Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 22,
-              "Title": "UserCreationResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "PatientDto.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PatientDto.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\PatientDto.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PatientDto.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\PatientDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T00:50:05.663Z"
+              "WhenOpened": "2025-07-04T01:38:42.654Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "PatientDetailResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 20,
+              "Title": "ServicePackage.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\ServicePackage.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\ServicePackage.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\ServicePackage.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Models\\ServicePackage.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAABQAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T00:49:54.253Z"
+              "WhenOpened": "2025-06-28T01:49:25.699Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "AppointmentResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\AppointmentResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\AppointmentResponse.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAywAsAAAAeAAAA",
+              "DocumentIndex": 24,
+              "Title": "PatientRepository.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\PatientRepository.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\PatientRepository.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\PatientRepository.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Repositories\\PatientRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T13:05:03.918Z"
+              "WhenOpened": "2025-07-04T01:40:19.748Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "SpecialtyRepository.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\SpecialtyRepository.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\SpecialtyRepository.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\SpecialtyRepository.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Repositories\\SpecialtyRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:40:21.904Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "ISpecialtyService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\ISpecialtyService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\ISpecialtyService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\ISpecialtyService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\ISpecialtyService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:40:10.805Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 27,
-              "Title": "RescheduleAppointmentResponse.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\RescheduleAppointmentResponse.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\RescheduleAppointmentResponse.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\RescheduleAppointmentResponse.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\RescheduleAppointmentResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAABAAAA",
+              "Title": "UserService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\UserService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\UserService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\UserService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\UserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T13:31:50.847Z"
+              "WhenOpened": "2025-07-04T01:40:06.186Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "SpecialtyService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\SpecialtyService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\SpecialtyService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\SpecialtyService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\SpecialtyService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:40:04.823Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 29,
-              "Title": "TwoFactorService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\TwoFactorService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\TwoFactorService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\TwoFactorService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\TwoFactorService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "PatientService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\PatientService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\PatientService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\PatientService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\PatientService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T14:55:53.603Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\UserRepository.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\UserRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:25:26.672Z"
+              "WhenOpened": "2025-07-04T01:40:02.388Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 31,
-              "Title": "PatientRepository.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\PatientRepository.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\PatientRepository.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\PatientRepository.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\PatientRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "ErrorCode.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Middlewares\\ErrorCode.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Middlewares\\ErrorCode.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Middlewares\\ErrorCode.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Middlewares\\ErrorCode.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T12:22:42.101Z"
+              "WhenOpened": "2025-07-04T01:39:50.494Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "AppointmentRepository.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\AppointmentRepository.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\AppointmentRepository.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\AppointmentRepository.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\AppointmentRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 26,
+              "Title": "TwoFactorService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\TwoFactorService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\TwoFactorService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\TwoFactorService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\TwoFactorService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-29T12:22:30.578Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\UserController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\UserController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\UserController.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABcAAABmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-19T09:01:40.611Z"
+              "WhenOpened": "2025-07-04T01:19:50.281Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 33,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\UserService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\UserService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\UserService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\UserService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "PatientDetailResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T15:34:17.301Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "WeatherForecastController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\WeatherForecastController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\WeatherForecastController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\WeatherForecastController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\WeatherForecastController.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAywAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-19T09:02:26.356Z"
+              "WhenOpened": "2025-07-04T01:38:44.898Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 34,
-              "Title": ".gitignore",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\.gitignore",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\.gitignore",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\.gitignore",
-              "RelativeToolTip": "medical-appointment-booking\\.gitignore",
-              "ViewState": "AQIAACcAAAAAAAAAAAAAAAMAAAAEAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-06-21T11:48:40.814Z"
+              "Title": "PageResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PageResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\PageResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PageResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\PageResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:38:43.612Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "ReceptionistResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\ReceptionistResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\ReceptionistResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\ReceptionistResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\ReceptionistResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T08:51:41.031Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "ReceptionistService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ReceptionistService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\ReceptionistService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ReceptionistService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\ReceptionistService.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwCUAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T02:02:47.235Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "SignInResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SignInResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\SignInResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SignInResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\SignInResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:38:41.219Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 36,
-              "Title": "TwoFactorController.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\TwoFactorController.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\TwoFactorController.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\TwoFactorController.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Controllers\\TwoFactorController.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAIwAAAAAAAAAAA",
+              "Title": "SpecialtyCreationResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SpecialtyCreationResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\SpecialtyCreationResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SpecialtyCreationResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\SpecialtyCreationResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T13:47:12.485Z"
+              "WhenOpened": "2025-07-04T01:38:38.851Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "SpecialtyDetailResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SpecialtyDetailResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\SpecialtyDetailResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\SpecialtyDetailResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\SpecialtyDetailResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-04T01:38:39.825Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 38,
-              "Title": "PatientService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\PatientService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\PatientService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\PatientService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\PatientService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "UserCreationResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\UserCreationResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-28T14:32:06.562Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 45,
-              "Title": "AppointmentHistory.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\AppointmentHistory.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\AppointmentHistory.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\AppointmentHistory.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\AppointmentHistory.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T14:58:22.25Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 44,
-              "Title": "Appointments.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Appointments.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\Appointments.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Appointments.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\Appointments.cs",
-              "ViewState": "AQIAADYAAAAAAAAAAAA7wEEAAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-22T12:35:40.391Z"
+              "WhenOpened": "2025-07-04T01:38:37.949Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 39,
-              "Title": "ServicePackage.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\ServicePackage.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\ServicePackage.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\ServicePackage.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\ServicePackage.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAuwAAAAAAAAAAA",
+              "Title": "AppointmentTodayResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentTodayResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\AppointmentTodayResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentTodayResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\AppointmentTodayResponse.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAA3wAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T14:56:20.467Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "Specialty.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Specialty.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\Specialty.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Specialty.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\Specialty.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAiwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T14:56:24.706Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "Role.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Role.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\Role.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Role.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\Role.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T11:14:17.493Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 42,
-              "Title": "Notification.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Notification.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\Notification.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Notification.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\Notification.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAiwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T15:21:09.585Z"
+              "WhenOpened": "2025-07-04T01:37:52.92Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 43,
-              "Title": "Patient.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Patient.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\Patient.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Patient.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\Patient.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAYwAwAAAATAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T11:14:17.972Z"
+              "Title": ".gitignore",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\.gitignore",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\.gitignore",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\.gitignore",
+              "RelativeToolTip": "medical-appointment-booking\\.gitignore",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-07-04T01:19:48.868Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
-              "Title": "SpecialtyService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\SpecialtyService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\SpecialtyService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\SpecialtyService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\SpecialtyService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 42,
+              "Title": "IUserService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IUserService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\IUserService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IUserService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\IUserService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T15:21:55.93Z"
+              "WhenOpened": "2025-07-04T01:19:49.491Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
-              "Title": "AppDbContext.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\AppDbContext.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\AppDbContext.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\AppDbContext.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\AppDbContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 41,
+              "Title": "IManagerService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IManagerService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\IManagerService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IManagerService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\IManagerService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T16:13:30.157Z"
+              "WhenOpened": "2025-06-28T02:05:26.692Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
-              "Title": "20250618081036_Update Doctor.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Migrations\\20250618081036_Update Doctor.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Migrations\\20250618081036_Update Doctor.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Migrations\\20250618081036_Update Doctor.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Migrations\\20250618081036_Update Doctor.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 40,
+              "Title": "ManagerService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ManagerService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\ManagerService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ManagerService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\ManagerService.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAzwAcAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T14:57:02.803Z"
+              "WhenOpened": "2025-06-28T02:03:21.505Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
-              "Title": "User.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\User.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\User.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\User.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Models\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "DocumentIndex": 44,
+              "Title": "ReceptionistController.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\ReceptionistController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\ReceptionistController.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\ReceptionistController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\ReceptionistController.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAgwDsAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-23T14:55:45.508Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 51,
-              "Title": "ExceptionMiddleware.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Middlewares\\ExceptionMiddleware.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Middlewares\\ExceptionMiddleware.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Middlewares\\ExceptionMiddleware.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Middlewares\\ExceptionMiddleware.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAA4wAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T15:53:06.635Z"
+              "WhenOpened": "2025-06-28T02:29:11.555Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 48,
-              "Title": "AppDbContextModelSnapshot.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Migrations\\AppDbContextModelSnapshot.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Migrations\\AppDbContextModelSnapshot.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Migrations\\AppDbContextModelSnapshot.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Migrations\\AppDbContextModelSnapshot.cs",
-              "ViewState": "AQIAAMsCAAAAAAAAAIAywIkCAABIAAAA",
+              "Title": "Patient.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Patient.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\Patient.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Patient.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Models\\Patient.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAADwvwwAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:24:55.351Z"
+              "WhenOpened": "2025-06-30T12:39:03.709Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\AuthService.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\AuthService.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\AuthService.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\AuthService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFkAAAAwAAAA",
+              "DocumentIndex": 45,
+              "Title": "ReceptionistRepository.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ReceptionistRepository.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\ReceptionistRepository.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ReceptionistRepository.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Repositories\\ReceptionistRepository.cs",
+              "ViewState": "AgIAADMAAAAAAAAAAAAIwDwAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T15:34:06.645Z"
+              "WhenOpened": "2025-06-28T02:01:25.91Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "IReceptionistService.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IReceptionistService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\IReceptionistService.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IReceptionistService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\IReceptionistService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T02:05:29.902Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "Appointments.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Appointments.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\Appointments.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\Appointments.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Models\\Appointments.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAADwv0AAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T01:33:13.385Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "AppointmentCreationResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentCreationResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\AppointmentCreationResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentCreationResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\AppointmentCreationResponse.cs",
+              "ViewState": "AgIAAAUAAAAAAAAAAAAAwBgAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T01:32:56.083Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "User.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\User.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\User.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\User.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T09:02:20.553Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Program.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Program.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Program.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Program.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwEcAAABKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T03:31:16.435Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 52,
-              "Title": "CorsConfiguration.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Configuration\\CorsConfiguration.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Configuration\\CorsConfiguration.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Configuration\\CorsConfiguration.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Configuration\\CorsConfiguration.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "ManagerController.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\ManagerController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\ManagerController.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\ManagerController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\ManagerController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAjwBMAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:25:04.15Z"
+              "WhenOpened": "2025-06-28T03:29:48.251Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "DoctorCreationResponse.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorCreationResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\DoctorCreationResponse.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\DoctorCreationResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\DoctorCreationResponse.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T01:35:31.239Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 54,
-              "Title": "GoogleUserInfoClient.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\HttpClient\\GoogleUserInfoClient.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\HttpClient\\GoogleUserInfoClient.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\HttpClient\\GoogleUserInfoClient.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\HttpClient\\GoogleUserInfoClient.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "ManagerRepository.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ManagerRepository.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\ManagerRepository.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ManagerRepository.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Repositories\\ManagerRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:25:24.822Z"
+              "WhenOpened": "2025-06-28T02:01:58.859Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 55,
-              "Title": "FacebookUserInfoClient.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\HttpClient\\FacebookUserInfoClient.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\HttpClient\\FacebookUserInfoClient.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\HttpClient\\FacebookUserInfoClient.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\HttpClient\\FacebookUserInfoClient.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "AppointmentHistory.cs",
+              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\AppointmentHistory.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\AppointmentHistory.cs",
+              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final-BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\AppointmentHistory.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Models\\AppointmentHistory.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:25:23.478Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 56,
-              "Title": "FacebookAuthClient.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\HttpClient\\FacebookAuthClient.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\HttpClient\\FacebookAuthClient.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\HttpClient\\FacebookAuthClient.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\HttpClient\\FacebookAuthClient.cs",
-              "ViewState": "AQIAACIAAAAAAAAAAAAIwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:25:15.357Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 57,
-              "Title": "JwtConfiguration.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Configuration\\JwtConfiguration.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Configuration\\JwtConfiguration.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Configuration\\JwtConfiguration.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Configuration\\JwtConfiguration.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAywAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:25:08.51Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 58,
-              "Title": "20250618094921_Update User.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Migrations\\20250618094921_Update User.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Migrations\\20250618094921_Update User.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Migrations\\20250618094921_Update User.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Migrations\\20250618094921_Update User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-21T13:24:51.791Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 59,
-              "Title": "GoogleAuthClient.cs",
-              "DocumentMoniker": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\HttpClient\\GoogleAuthClient.cs",
-              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\HttpClient\\GoogleAuthClient.cs",
-              "ToolTip": "D:\\FPT_UNIVERSITY\\8_Summer25\\PRN232\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\HttpClient\\GoogleAuthClient.cs",
-              "RelativeToolTip": "medical-appointment-booking\\Repositories\\HttpClient\\GoogleAuthClient.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAiwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T14:00:15.752Z"
+              "WhenOpened": "2025-06-28T01:36:09.423Z"
             }
           ]
         }
