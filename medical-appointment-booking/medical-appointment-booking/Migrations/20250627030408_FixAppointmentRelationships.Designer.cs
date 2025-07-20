@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using medical_appointment_booking.Models;
 
@@ -11,9 +12,11 @@ using medical_appointment_booking.Models;
 namespace medical_appointment_booking.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250627030408_FixAppointmentRelationships")]
+    partial class FixAppointmentRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -736,7 +739,7 @@ namespace medical_appointment_booking.Migrations
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId1");
 
-                    b.HasOne("medical_appointment_booking.Models.ServicePackage", "ServicePackage")
+                    b.HasOne("medical_appointment_booking.Models.ServicePackage", null)
                         .WithMany("Appointments")
                         .HasForeignKey("ServicePackageId");
 
@@ -753,8 +756,6 @@ namespace medical_appointment_booking.Migrations
                     b.Navigation("Doctor");
 
                     b.Navigation("Patient");
-
-                    b.Navigation("ServicePackage");
 
                     b.Navigation("TimeSlot");
                 });
@@ -829,7 +830,7 @@ namespace medical_appointment_booking.Migrations
             modelBuilder.Entity("medical_appointment_booking.Models.TimeSlot", b =>
                 {
                     b.HasOne("medical_appointment_booking.Models.WorkSchedule", "WorkSchedule")
-                        .WithMany("TimeSlots")
+                        .WithMany()
                         .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -877,11 +878,6 @@ namespace medical_appointment_booking.Migrations
             modelBuilder.Entity("medical_appointment_booking.Models.TimeSlot", b =>
                 {
                     b.Navigation("Appointments");
-                });
-
-            modelBuilder.Entity("medical_appointment_booking.Models.WorkSchedule", b =>
-                {
-                    b.Navigation("TimeSlots");
                 });
 #pragma warning restore 612, 618
         }
