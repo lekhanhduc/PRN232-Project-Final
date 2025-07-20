@@ -13,6 +13,7 @@
 
     public class DoctorInfoDto
     {
+        public long DoctorId { get; set; }
         public string FullName { get; set; }
         public string Specialty { get; set; }
     }
