@@ -71,11 +71,11 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
             builder.Services.AddScoped<IReceptionistService, ReceptionistService>();
             builder.Services.AddScoped<IManagerService, ManagerService>();
-            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();          
             builder.Services.AddScoped<IScheduleService, ScheduleService>();
             builder.Services.AddScoped<TwoFactorService>();
             builder.Services.AddSingleton<CloudinaryService>();
-
+            builder.Services.AddScoped<IExcelService, ExcelService>();
 
             var app = builder.Build();
 

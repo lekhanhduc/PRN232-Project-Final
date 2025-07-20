@@ -1,4 +1,5 @@
 ﻿using medical_appointment_booking.Common;
+using System.Text.Json.Serialization;
 
 namespace medical_appointment_booking.Dtos.Response
 {
@@ -6,12 +7,16 @@ namespace medical_appointment_booking.Dtos.Response
     {
         public long DoctorId { get; set; }
         public string FullName { get; set; }
+        public string Email { get; set; } = string.Empty;
+
+        public string Phone { get; set; } = string.Empty;
         public SpecialtyDto Specialty { get; set; }
         public string LicenseNumber { get; set; }
         public string Degree { get; set; }
         public int YearsOfExperience { get; set; }
         public decimal ConsultationFee { get; set; }
         public string Bio { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public Gender? Gender { get; set; }
         public bool IsAvailable { get; set; }
     }

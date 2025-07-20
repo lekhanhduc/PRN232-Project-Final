@@ -44,10 +44,66 @@ namespace medical_appointment_booking.Services.Impl
             this.logger = logger;
         }
 
-        public async Task<PageResponse<DoctorDetailResponse>> GetAllWithSearch(int page, int size, string? keyword = null)
+        public async Task<PageResponse<DoctorDetailResponse>> GetAllWithSearch(int page, int size, string? keyword, string? specialtyName,
+            Gender? gender, bool? isAvailable, string? orderBy)
         {
-            var doctors = await doctorRepository.GetAll(page, size, keyword);
-            var totalElements = await doctorRepository.GetTotalCount(keyword);
+            //var doctors = await doctorRepository.GetAll(page, size, keyword);
+            //var totalElements = await doctorRepository.GetTotalCount(keyword);
+
+            var query = doctorRepository.GetDoctorsQueryable();
+
+            // Apply filters
+            if (!string.IsNullOrEmpty(specialtyName))
+            {
+                query = query.Where(d => d.Specialty.SpecialtyName.Contains(specialtyName));
+            }
+
+            if (gender.HasValue)
+            {
+                query = query.Where(d => d.Gender == gender.Value);
+            }
+
+            if (isAvailable.HasValue)
+            {
+                query = query.Where(d => d.IsAvailable == isAvailable.Value);
+            }
+
+            // Apply ordering
+            if (!string.IsNullOrEmpty(orderBy))
+            {
+                switch (orderBy.ToLower())
+                {
+                    case "experience":
+                        query = query.OrderBy(d => d.YearsOfExperience);
+                        break;
+                    case "experience_desc":
+                        query = query.OrderByDescending(d => d.YearsOfExperience);
+                        break;
+                    case "fee":
+                        query = query.OrderBy(d => d.ConsultationFee);
+                        break;
+                    case "fee_desc":
+                        query = query.OrderByDescending(d => d.ConsultationFee);
+                        break;
+                    default:
+                        query = query.OrderBy(d => d.FirstName);
+                        break;
+                }
+            }
+            else
+            {
+                query = query.OrderBy(d => d.FirstName);
+            }
+
+            // Get total count
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / size);
+
+            // Apply pagination
+            var doctors = await query
+                .Skip((page - 1) *size)
+                .Take(size)
+                .ToListAsync();
 
             var doctorResponses = new List<DoctorDetailResponse>();
 
@@ -57,6 +113,8 @@ namespace medical_appointment_booking.Services.Impl
                 {
                     DoctorId = doctor.Id,
                     FullName = doctor.FirstName + " " + doctor.LastName,
+                    Email = doctor.User.Email,
+                    Phone = doctor.User.Phone,
                     Specialty = new SpecialtyDto
                     {
                         SpecialtyId = doctor.Specialty.Id,
@@ -77,8 +135,8 @@ namespace medical_appointment_booking.Services.Impl
             {
                 CurrentPages = page,
                 PageSizes = size,
-                TotalPages = size > 0 ? (int)Math.Ceiling((decimal)totalElements / size) : 0,
-                TotalElements = totalElements,
+                TotalPages = size > 0 ? (int)Math.Ceiling((decimal)totalCount / size) : 0,
+                TotalElements = totalCount,
                 Items = doctorResponses
             };
         }
@@ -334,8 +392,20 @@ namespace medical_appointment_booking.Services.Impl
 
         public async Task DeleteDoctor(long Id)
         {
+            var existingDoctor = await doctorRepository.GetDoctorByIdAsync(Id);
+            if (existingDoctor == null)
+            {
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
+            var existingUser = await userRepository.FindUserById(existingDoctor.UserId);
+            if (existingUser == null)
+            {
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
             await doctorRepository.DeleteDoctorAsync(Id);
+            await userRepository.DeleteUserAsync(existingUser.Id);
         }
+
         public async Task<DoctorDetailResponse> UpdateDoctor(DoctorUpdateRequest request)
         {
             //var accountIdClaim = httpContextAccessor.HttpContext?.User.FindFirst("userId")?.Value;
@@ -416,6 +486,8 @@ namespace medical_appointment_booking.Services.Impl
             {
                 DoctorId = existingDoctor.Id,
                 FullName = existingDoctor.FirstName + " " + existingDoctor.LastName,
+                Email = existingDoctor.User.Email,
+                Phone = existingDoctor.User.Phone,
                 Specialty = new SpecialtyDto
                 {
                     SpecialtyId = existingDoctor.Specialty.Id,
@@ -478,6 +550,36 @@ namespace medical_appointment_booking.Services.Impl
             var workSchedules = workSchedulesTask;
             var leaveDates = leaveDatesTask.ToHashSet(); // Use HashSet for O(1) lookup
             var bookedSlots = bookedSlotsTask.ToHashSet(); // Use HashSet for O(1) lookup
+
+            return BuildWorkingScheduleResponse(doctor, workSchedules, leaveDates, bookedSlots);
+        }
+
+        public async Task<DoctorWorkingScheduleResponse> GetDoctorWorkingScheduleSpecialDayAsync(long doctorId, DateOnly workDate)
+        {
+            if (doctorId <= 0)
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+        
+            // Get doctor info
+            var doctor = await doctorRepository.GetDoctorByIdAsync(doctorId);
+            if (doctor == null)
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+          
+
+            var workSchedulesTask = await doctorRepository.GetWorkSchedulesAsync(doctorId, workDate, workDate);
+            var leaveDatesTask = await doctorRepository.GetDoctorLeaveDatesAsync(doctorId, workDate, workDate);
+            var bookedSlotsTask = await doctorRepository.GetBookedSlotsAsync(doctorId, workDate, workDate);
+
+
+            var response = new DoctorWorkingScheduleResponse
+            {
+                DoctorId = doctor.Id,
+                DoctorName = $"{doctor.FirstName} {doctor.LastName}",
+                AvailableDays = new List<WorkingDayResponse>()
+            };
+
+            var workSchedules = workSchedulesTask;
+            var leaveDates = leaveDatesTask.ToHashSet(); 
+            var bookedSlots = bookedSlotsTask.ToHashSet(); 
 
             return BuildWorkingScheduleResponse(doctor, workSchedules, leaveDates, bookedSlots);
         }
@@ -623,5 +725,47 @@ namespace medical_appointment_booking.Services.Impl
 
             return availableSlots;
         }
+        //public async Task<DoctorCreationResponse> CreateDoctorScheduleAsync(ScheduleCreateRequest request)
+        //{
+        //    var existingDoctor = await doctorRepository.GetDoctorByIdAsync(request.DoctorId);
+        //    if (existingDoctor == null)
+        //    {
+        //        throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        //    }
+
+
+        //    var newDoctorSchedule = new WorkSchedule
+        //    {
+        //        DoctorId = request.DoctorId,
+        //        WorkDate = request.WorkDate,
+        //        StartTime = request.StartTime,
+        //        EndTime = request.EndTime,
+        //        MaxPatients = request.MaxPatients,
+        //        IsAvailable = request.IsAvailable,     
+        //        TimeSlots = request.TimeSlots
+        //    };
+
+        //    await scheduleRepository.CreateScheduleAsync(newDoctorSchedule);
+
+         
+
+        //    return new DoctorCreationResponse
+        //    {
+        //        Id = newDoctor.Id,
+        //        UserId = newDoctor.UserId,
+        //        UserName = newDoctor.FirstName + " " + newDoctor.LastName,
+        //        UserEmail = newUser.Email,
+        //        SpecialtyId = specialty.Id,
+        //        SpecialtyName = specialty.SpecialtyName,
+        //        LicenseNumber = newDoctor.LicenseNumber,
+        //        Degree = newDoctor.Degree,
+        //        ConsultationFee = newDoctor.ConsultationFee,
+        //        IsAvailable = newDoctor.IsAvailable,
+        //        Gender = newDoctor.Gender,
+        //        YearsOfExperience = newDoctor.YearsOfExperience,
+        //        Bio = newDoctor.Bio,
+        //        CreatedAt = newDoctor.CreatedAt
+        //    };
+        //}
     }
 }
