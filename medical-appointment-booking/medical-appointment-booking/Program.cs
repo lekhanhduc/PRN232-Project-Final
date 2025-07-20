@@ -58,6 +58,8 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<PatientRepository>();
             builder.Services.AddScoped<DoctorRepository>();
             builder.Services.AddScoped<SpecialtyRepository>();
+            builder.Services.AddScoped<ReceptionistRepository>();
+            builder.Services.AddScoped<ManagerRepository>();
             builder.Services.AddScoped<ScheduleRepository>();
 
             builder.Services.AddScoped<IUserService, UserService>();
@@ -67,11 +69,13 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<ISpecialtyService, SpecialtyService>();
-            builder.Services.AddScoped<IAppointmentService, AppointmentService>();
-            builder.Services.AddScoped<IExcelService, ExcelService>();
+            builder.Services.AddScoped<IReceptionistService, ReceptionistService>();
+            builder.Services.AddScoped<IManagerService, ManagerService>();
+            builder.Services.AddScoped<IAppointmentService, AppointmentService>();          
+            builder.Services.AddScoped<IScheduleService, ScheduleService>();
             builder.Services.AddScoped<TwoFactorService>();
             builder.Services.AddSingleton<CloudinaryService>();
-
+            builder.Services.AddScoped<IExcelService, ExcelService>();
 
             var app = builder.Build();
 

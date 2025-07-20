@@ -24,7 +24,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ApiResponse<DoctorCreationResponse>> CreateDoctor([FromBody] DoctorCreationRequest request)
         {
             return new ApiResponse<DoctorCreationResponse>
@@ -35,7 +35,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ApiResponse<PageResponse<DoctorDetailResponse>>> GetAllWithSearch(
            [FromQuery] string? specialtyName = null,
            [FromQuery] Gender? gender = null,
@@ -53,7 +53,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<ApiResponse<object>> DeleteById(long id)
         {
             await doctorService.DeleteDoctor(id);
@@ -88,6 +88,7 @@ namespace medical_appointment_booking.Controllers
 
         [HttpGet("search")]
         public async Task<ApiResponse<PageResponse<DoctorSearchResponse>>> SearchDoctors(
+                           [FromQuery] string? doctorName = null,
                            [FromQuery] string? specialtyName = null,
                            [FromQuery] Gender? gender = null,
                            [FromQuery] bool? isAvailable = null,
@@ -95,7 +96,7 @@ namespace medical_appointment_booking.Controllers
                            [FromQuery] int page = 1,
                            [FromQuery] int pageSize = 10)
         {
-            var result = await doctorService.SearchDoctorsAsync(specialtyName, gender, isAvailable, orderBy, page, pageSize);
+            var result = await doctorService.SearchDoctorsAsync(doctorName, specialtyName, gender, isAvailable, orderBy, page, pageSize);
             return new ApiResponse<PageResponse<DoctorSearchResponse>>
             {
                 code = 200,
@@ -116,6 +117,45 @@ namespace medical_appointment_booking.Controllers
             };
         }
 
+        [HttpGet("{doctorId}/schedule")]
+        public async Task<ApiResponse<DoctorAppointmentScheduleResponse>> GetDoctorAppointmentSchedule(
+                        long doctorId,
+                        [FromQuery] DateOnly? fromDate = null,
+                        [FromQuery] DateOnly? toDate = null)
+        {
+            var schedule = await doctorService.GetDoctorAppointmentScheduleAsync(doctorId, fromDate, toDate);
+            return new ApiResponse<DoctorAppointmentScheduleResponse>
+            {
+                code = 200,
+                result = schedule
+            };
+        }
+
+        [HttpGet("{doctorId}/working-schedule")]
+        public async Task<ApiResponse<DoctorWorkingScheduleResponse>> GetDoctorSchedule(
+                        long doctorId,
+                        [FromQuery] int daysAhead = 14)
+        {
+            var schedule = await doctorService.GetDoctorWorkingScheduleAsync(doctorId, daysAhead);
+            return new ApiResponse<DoctorWorkingScheduleResponse>
+            {
+                code = 200,
+                result = schedule
+            };
+        }
+
+        [HttpGet("{doctorId}/slot-day")]
+        public async Task<ApiResponse<DoctorWorkingScheduleResponse>> GetDoctorScheduleSpecificDay(
+                       long doctorId,
+                       [FromQuery] DateOnly fromDate)
+        {
+            var schedule = await doctorService.GetDoctorWorkingScheduleSpecialDayAsync(doctorId, fromDate);
+            return new ApiResponse<DoctorWorkingScheduleResponse>
+            {
+                code = 200,
+                result = schedule
+            };
+        }
 
     }
 }

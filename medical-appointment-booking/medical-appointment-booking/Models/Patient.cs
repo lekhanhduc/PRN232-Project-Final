@@ -32,5 +32,8 @@ namespace medical_appointment_booking.Models
 
         [Column("address")]
         public string? Address { get; set; }
+
+        // Add Appointments
+        public virtual ICollection<Appointment>? Appointments { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using medical_appointment_booking.Common;
 using medical_appointment_booking.Models;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 
 namespace medical_appointment_booking.Repositories
 {
@@ -67,7 +68,40 @@ namespace medical_appointment_booking.Repositories
             return await context.Doctors
                 .Include(d => d.User)
                 .Include(d => d.Specialty)
-                .FirstOrDefaultAsync(d => d.Id == id);
+                .FirstOrDefaultAsync(d => d.Id == id && d.IsAvailable);
+        }
+
+        public async Task<List<WorkSchedule>> GetWorkSchedulesAsync(long doctorId, DateOnly startDate, DateOnly endDate)
+        {
+            return await context.WorkSchedules
+                .Where(ws => ws.DoctorId == doctorId &&
+                           ws.WorkDate >= startDate &&
+                           ws.WorkDate <= endDate &&
+                           ws.IsAvailable)
+                .Include(ws => ws.TimeSlots)
+                .OrderBy(ws => ws.WorkDate)
+                .ToListAsync();
+        }
+
+        public async Task<List<DateOnly>> GetDoctorLeaveDatesAsync(long doctorId, DateOnly startDate, DateOnly endDate)
+        {
+            return await context.DoctorLeaves
+                .Where(dl => dl.DoctorId == doctorId &&
+                           dl.LeaveDate >= startDate &&
+                           dl.LeaveDate <= endDate)
+                .Select(dl => dl.LeaveDate)
+                .ToListAsync();
+        }
+
+        public async Task<List<(DateOnly AppointmentDate, long SlotId)>> GetBookedSlotsAsync(long doctorId, DateOnly startDate, DateOnly endDate)
+        {
+            return await context.Appointments
+                .Where(a => a.DoctorId == doctorId &&
+                           a.AppointmentDate >= startDate &&
+                           a.AppointmentDate <= endDate &&
+                           a.Status != "CANCELLED")
+                .Select(a => new ValueTuple<DateOnly, long>(a.AppointmentDate, a.SlotId))
+                .ToListAsync();
         }
 
         public async Task<long> ToTalDoctorsBySpecialty(int specialty)

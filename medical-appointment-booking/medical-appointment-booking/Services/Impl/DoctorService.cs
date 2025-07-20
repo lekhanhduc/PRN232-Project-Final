@@ -1,14 +1,10 @@
-﻿using System.Numerics;
-using System.Text;
-using Azure.Core;
-using CloudinaryDotNet.Core;
+﻿using System.Text;
 using medical_appointment_booking.Common;
 using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +20,7 @@ namespace medical_appointment_booking.Services.Impl
         private readonly RoleRepository roleRepository;
         private readonly IMailService mailService;
         private readonly SpecialtyRepository specialtyRepository;
-        private readonly ScheduleRepository scheduleRepository;
+        private readonly IScheduleService scheduleService;
         private readonly ILogger<DoctorService> logger;
 
         public DoctorService(
@@ -34,7 +30,7 @@ namespace medical_appointment_booking.Services.Impl
             RoleRepository roleRepository,
             IMailService mailService,
             SpecialtyRepository specialtyRepository,
-            ScheduleRepository scheduleRepository,
+            IScheduleService scheduleService,
             ILogger<DoctorService> logger)
         {
             this.doctorRepository = doctorRepository;
@@ -44,7 +40,7 @@ namespace medical_appointment_booking.Services.Impl
             this.roleRepository = roleRepository;
             this.mailService = mailService;
             this.specialtyRepository = specialtyRepository;
-            this.scheduleRepository = scheduleRepository;
+            this.scheduleService = scheduleService;
             this.logger = logger;
         }
 
@@ -265,13 +261,22 @@ namespace medical_appointment_booking.Services.Impl
             };
         }
 
-        public async Task<PageResponse<DoctorSearchResponse>> SearchDoctorsAsync(string? specialtyName,
+        public async Task<PageResponse<DoctorSearchResponse>> SearchDoctorsAsync(string? doctorName, string? specialtyName,
             Gender? gender, bool? isAvailable, string? orderBy, int page, int pageSize)
         {
             try
             {
                 // Build the base query
                 var query = doctorRepository.GetDoctorsQueryable();
+
+                if (!string.IsNullOrEmpty(doctorName))
+                {
+                    var searchTerm = doctorName.Trim().ToLower();
+                    query = query.Where(d =>
+                        d.FirstName.ToLower().Contains(searchTerm) ||
+                        d.LastName.ToLower().Contains(searchTerm) ||
+                        (d.FirstName + " " + d.LastName).ToLower().Contains(searchTerm));
+                }
 
                 // Apply filters
                 if (!string.IsNullOrEmpty(specialtyName))
@@ -329,7 +334,7 @@ namespace medical_appointment_booking.Services.Impl
                 var result = new List<DoctorSearchResponse>();
                 foreach (var doctor in doctors)
                 {
-                    var workSchedules = await GetDoctorWorkSchedules(doctor.Id);
+                    var workSchedules = await scheduleService.GetDoctorWorkSchedules(doctor.Id);
                     result.Add(new DoctorSearchResponse
                     {
                         DoctorId = doctor.Id,
@@ -361,28 +366,6 @@ namespace medical_appointment_booking.Services.Impl
                 logger.LogError(ex, "Error searching doctors");
                 throw;
             }
-        }
-
-        private async Task<List<WorkScheduleDto>> GetDoctorWorkSchedules(long doctorId)
-        {
-            // This method should fetch work schedules from your schedule repository
-            // Replace with your actual implementation
-            var schedules = await scheduleRepository.GetDoctorSchedulesAsync(doctorId);
-
-
-            return schedules.Select(s => new WorkScheduleDto
-            {
-                ScheduleId = s.Id,
-                WorkDate = s.WorkDate.ToString("yyyy-MM-dd"),
-                StartTime = s.StartTime.ToString(@"hh\:mm"),
-                EndTime = s.EndTime.ToString(@"hh\:mm"),
-                TimeSlots = s.TimeSlots?.Select(ts => new TimeSlotDto
-                {
-                    SlotId = ts.Id,
-                    SlotTime = ts.SlotTime.ToString(@"hh\:mm"),
-                    IsAvailable = ts.IsAvailable
-                }).ToList() ?? new List<TimeSlotDto>()
-            }).ToList();
         }
 
         private string GenerateRandomPassword(int length = 12)
@@ -518,6 +501,230 @@ namespace medical_appointment_booking.Services.Impl
                 YearsOfExperience = existingDoctor.YearsOfExperience,
                 Bio = existingDoctor.Bio,
             };
+        }
+
+        public async Task<DoctorAppointmentScheduleResponse> GetDoctorAppointmentScheduleAsync(long doctorId, DateOnly? fromDate = null, DateOnly? toDate = null)
+        {
+            var doctor = await doctorRepository.GetDoctorByIdAsync(doctorId);
+            if (doctor == null)
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+
+            var startDate = fromDate ?? DateOnly.FromDateTime(DateTime.Today);
+            var endDate = toDate ?? DateOnly.FromDateTime(DateTime.Today).AddDays(14);
+
+            var workSchedules = await doctorRepository.GetWorkSchedulesAsync(doctorId, startDate, endDate);
+            var leaveDates = (await doctorRepository.GetDoctorLeaveDatesAsync(doctorId, startDate, endDate)).ToHashSet();
+            var bookedSlots = (await doctorRepository.GetBookedSlotsAsync(doctorId, startDate, endDate)).ToHashSet();
+
+            return BuildAppointmentScheduleResponse(doctor, workSchedules, leaveDates, bookedSlots);
+        }
+
+        public async Task<DoctorWorkingScheduleResponse> GetDoctorWorkingScheduleAsync(long doctorId, int daysAhead = 14)
+        {
+            if (doctorId <= 0)
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+
+            if (daysAhead <= 0 || daysAhead > 365)
+                throw new AppException(ErrorCode.INVALID_DAYS_AHEAD_RANGE);
+
+            // Get doctor info
+            var doctor = await doctorRepository.GetDoctorByIdAsync(doctorId);
+            if (doctor == null)
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+
+            var startDate = DateOnly.FromDateTime(DateTime.Today);
+            var endDate = startDate.AddDays(daysAhead);
+
+            var workSchedulesTask = await doctorRepository.GetWorkSchedulesAsync(doctorId, startDate, endDate);
+            var leaveDatesTask = await doctorRepository.GetDoctorLeaveDatesAsync(doctorId, startDate, endDate);
+            var bookedSlotsTask = await doctorRepository.GetBookedSlotsAsync(doctorId, startDate, endDate);
+
+
+            var response = new DoctorWorkingScheduleResponse
+            {
+                DoctorId = doctor.Id,
+                DoctorName = $"{doctor.FirstName} {doctor.LastName}",
+                AvailableDays = new List<WorkingDayResponse>()
+            };
+
+            var workSchedules = workSchedulesTask;
+            var leaveDates = leaveDatesTask.ToHashSet(); // Use HashSet for O(1) lookup
+            var bookedSlots = bookedSlotsTask.ToHashSet(); // Use HashSet for O(1) lookup
+
+            return BuildWorkingScheduleResponse(doctor, workSchedules, leaveDates, bookedSlots);
+        }
+
+        public async Task<DoctorWorkingScheduleResponse> GetDoctorWorkingScheduleSpecialDayAsync(long doctorId, DateOnly workDate)
+        {
+            if (doctorId <= 0)
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+        
+            // Get doctor info
+            var doctor = await doctorRepository.GetDoctorByIdAsync(doctorId);
+            if (doctor == null)
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+          
+
+            var workSchedulesTask = await doctorRepository.GetWorkSchedulesAsync(doctorId, workDate, workDate);
+            var leaveDatesTask = await doctorRepository.GetDoctorLeaveDatesAsync(doctorId, workDate, workDate);
+            var bookedSlotsTask = await doctorRepository.GetBookedSlotsAsync(doctorId, workDate, workDate);
+
+
+            var response = new DoctorWorkingScheduleResponse
+            {
+                DoctorId = doctor.Id,
+                DoctorName = $"{doctor.FirstName} {doctor.LastName}",
+                AvailableDays = new List<WorkingDayResponse>()
+            };
+
+            var workSchedules = workSchedulesTask;
+            var leaveDates = leaveDatesTask.ToHashSet(); 
+            var bookedSlots = bookedSlotsTask.ToHashSet(); 
+
+            return BuildWorkingScheduleResponse(doctor, workSchedules, leaveDates, bookedSlots);
+        }
+
+        private DoctorAppointmentScheduleResponse BuildAppointmentScheduleResponse(
+        Doctor doctor,
+        List<WorkSchedule> workSchedules,
+        HashSet<DateOnly> leaveDates,
+        HashSet<(DateOnly AppointmentDate, long SlotId)> bookedSlots)
+        {
+            var response = new DoctorAppointmentScheduleResponse
+            {
+                DoctorId = doctor.Id,
+                DoctorName = $"{doctor.FirstName} {doctor.LastName}",
+                WorkSchedules = new List<AppointmentDayResponse>()
+            };
+
+            foreach (var schedule in workSchedules)
+            {
+                var workDateOnly = schedule.WorkDate;
+                if (leaveDates.Contains(workDateOnly))
+                    continue;
+
+                var appointmentSlots = BuildAppointmentTimeSlots(schedule, workDateOnly, bookedSlots);
+
+                response.WorkSchedules.Add(new AppointmentDayResponse
+                {
+                    ScheduleId = schedule.Id,
+                    WorkDate = schedule.WorkDate.ToDateTime(TimeOnly.MinValue),
+                    StartTime = schedule.StartTime,
+                    EndTime = schedule.EndTime,
+                    MaxPatients = schedule.MaxPatients,
+                    IsAvailable = schedule.IsAvailable,
+                    AvailableSlots = appointmentSlots
+                });
+            }
+
+            return response;
+        }
+
+        private List<AppointmentTimeSlotResponse> BuildAppointmentTimeSlots(
+        WorkSchedule schedule,
+        DateOnly workDate,
+        HashSet<(DateOnly AppointmentDate, long SlotId)> bookedSlots)
+        {
+            var appointmentSlots = new List<AppointmentTimeSlotResponse>();
+
+            foreach (var slot in schedule.TimeSlots.Where(ts => ts.IsAvailable))
+            {
+                var isBooked = bookedSlots.Contains((workDate, slot.Id));
+
+                appointmentSlots.Add(new AppointmentTimeSlotResponse
+                {
+                    SlotId = slot.Id,
+                    SlotTime = slot.SlotTime,
+                    SlotTimeFormatted = slot.SlotTime.ToString(@"HH\:mm"),
+                    IsAvailable = !isBooked,
+                    IsBooked = isBooked
+                });
+            }
+
+            return appointmentSlots.OrderBy(s => s.SlotTime).ToList();
+        }
+
+        private List<WorkingTimeSlotResponse> BuildWorkingTimeSlots(
+        WorkSchedule schedule,
+        DateOnly workDate,
+        HashSet<(DateOnly AppointmentDate, long SlotId)> bookedSlots)
+        {
+            var availableSlots = new List<WorkingTimeSlotResponse>();
+
+            foreach (var slot in schedule.TimeSlots.Where(ts => ts.IsAvailable))
+            {
+                var isBooked = bookedSlots.Contains((workDate, slot.Id));
+
+                availableSlots.Add(new WorkingTimeSlotResponse
+                {
+                    SlotId = slot.Id,
+                    SlotTime = slot.SlotTime,
+                    SlotTimeFormatted = slot.SlotTime.ToString(@"HH\:mm"),
+                    IsAvailable = !isBooked
+                });
+            }
+
+            return availableSlots.OrderBy(s => s.SlotTime).ToList();
+        }
+
+        private DoctorWorkingScheduleResponse BuildWorkingScheduleResponse(
+                            Doctor doctor,
+                            List<WorkSchedule> workSchedules,
+                            HashSet<DateOnly> leaveDates,
+                            HashSet<(DateOnly AppointmentDate, long SlotId)> bookedSlots)
+        {
+            var response = new DoctorWorkingScheduleResponse
+            {
+                DoctorId = doctor.Id,
+                DoctorName = $"{doctor.FirstName} {doctor.LastName}",
+                AvailableDays = new List<WorkingDayResponse>()
+            };
+
+            foreach (var schedule in workSchedules)
+            {
+                // Skip if doctor is on leave
+                var workDateOnly = schedule.WorkDate;
+                if (leaveDates.Contains(workDateOnly))
+                    continue;
+
+                var availableSlots = BuildAvailableSlots(schedule, workDateOnly, bookedSlots);
+
+                // Only add days that have at least one available slot
+                if (availableSlots.Any(s => s.IsAvailable))
+                {
+                    response.AvailableDays.Add(new WorkingDayResponse
+                    {
+                        Date = workDateOnly,
+                        DayOfWeek = schedule.WorkDate.ToString("dddd"),
+                        AvailableSlots = availableSlots
+                    });
+                }
+            }
+
+            return response;
+        }
+
+        private List<WorkingTimeSlotResponse> BuildAvailableSlots(
+                            WorkSchedule schedule,
+                            DateOnly workDate,
+                            HashSet<(DateOnly AppointmentDate, long SlotId)> bookedSlots)
+        {
+            var availableSlots = new List<WorkingTimeSlotResponse>();
+
+            foreach (var slot in schedule.TimeSlots.Where(ts => ts.IsAvailable))
+            {
+                var isBooked = bookedSlots.Contains((workDate, slot.Id));
+
+                availableSlots.Add(new WorkingTimeSlotResponse
+                {
+                    SlotId = slot.Id,
+                    SlotTime = slot.SlotTime,
+                    SlotTimeFormatted = slot.SlotTime.ToString(@"HH\:mm"),
+                    IsAvailable = !isBooked
+                });
+            }
+
+            return availableSlots;
         }
         //public async Task<DoctorCreationResponse> CreateDoctorScheduleAsync(ScheduleCreateRequest request)
         //{

@@ -41,6 +41,7 @@ namespace medical_appointment_booking.Middlewares
         public static readonly ErrorCode APPOINTMENT_NOT_FOUND = new ErrorCode(404, "Appointment not found", HttpStatusCode.NotFound);
         public static readonly ErrorCode APPOINTMENT_CANNOT_BE_CANCELLED = new ErrorCode(400, "Appointment cannot be cancelled. Only scheduled appointments can be cancelled at least 24 hours in advance", HttpStatusCode.BadRequest);
         public static readonly ErrorCode APPOINTMENT_CANNOT_BE_RESCHEDULED = new ErrorCode(400, "Appointment cannot be rescheduled. Only scheduled appointments can be rescheduled at least 24 hours in advance", HttpStatusCode.BadRequest);
+        public static readonly ErrorCode INVALID_DAYS_AHEAD_RANGE = new ErrorCode(400, "Days ahead must be between 1 and 365", HttpStatusCode.BadRequest);
     }
 
 }

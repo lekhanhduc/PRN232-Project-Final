@@ -2,6 +2,7 @@
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace medical_appointment_booking.Controllers
@@ -20,6 +21,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpPost("create")]
+        [Authorize]
         public async Task<ApiResponse<CreateAppointmentResponse>> CreateAppointment([FromBody] CreateAppointmentRequest request)
         {
             var currentUserId = GetCurrentUserId();
@@ -31,6 +33,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<ApiResponse<IEnumerable<AppointmentResponse>>>> GetMyAppointments()
         {
             try
@@ -64,6 +67,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpPut("{appointmentId}/cancel")]
+        [Authorize]
         public async Task<ActionResult<ApiResponse<object>>> CancelAppointment(
                                        long appointmentId,
                                        [FromBody] CancelAppointmentRequest request)
@@ -98,6 +102,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpPut("{appointmentId}/reschedule")]
+        [Authorize]
         public async Task<ActionResult<ApiResponse<RescheduleAppointmentResponse>>> RescheduleAppointment(
             long appointmentId,
             [FromBody] RescheduleAppointmentRequest request)
