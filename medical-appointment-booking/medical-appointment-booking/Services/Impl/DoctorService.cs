@@ -627,7 +627,7 @@ namespace medical_appointment_booking.Services.Impl
         {
             var appointmentSlots = new List<AppointmentTimeSlotResponse>();
 
-            foreach (var slot in schedule.TimeSlots.Where(ts => ts.IsAvailable))
+            foreach (var slot in schedule.TimeSlots)
             {
                 var isBooked = bookedSlots.Contains((workDate, slot.Id));
 
@@ -636,8 +636,7 @@ namespace medical_appointment_booking.Services.Impl
                     SlotId = slot.Id,
                     SlotTime = slot.SlotTime,
                     SlotTimeFormatted = slot.SlotTime.ToString(@"HH\:mm"),
-                    IsAvailable = !isBooked,
-                    IsBooked = isBooked
+                    IsAvailable = !isBooked
                 });
             }
 
@@ -651,7 +650,7 @@ namespace medical_appointment_booking.Services.Impl
         {
             var availableSlots = new List<WorkingTimeSlotResponse>();
 
-            foreach (var slot in schedule.TimeSlots.Where(ts => ts.IsAvailable))
+            foreach (var slot in schedule.TimeSlots)
             {
                 var isBooked = bookedSlots.Contains((workDate, slot.Id));
 

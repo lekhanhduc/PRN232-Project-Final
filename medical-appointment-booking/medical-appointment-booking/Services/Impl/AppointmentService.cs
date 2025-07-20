@@ -315,6 +315,7 @@ namespace medical_appointment_booking.Services.Impl
                     AppointmentNumber = GenerateAppointmentNumber(a.AppointmentDate, a.Id),
                     Doctor = new DoctorInfoDto
                     {
+                        DoctorId = a.DoctorId,
                         FullName = $"Dr. {a.Doctor.FirstName} {a.Doctor.LastName}".Trim(),
                         Specialty = a.Doctor.Specialty != null ? a.Doctor.Specialty.SpecialtyName : "N/A"
                     },

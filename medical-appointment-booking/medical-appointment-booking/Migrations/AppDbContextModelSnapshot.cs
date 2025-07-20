@@ -736,7 +736,7 @@ namespace medical_appointment_booking.Migrations
                         .WithMany("Appointments")
                         .HasForeignKey("PatientId1");
 
-                    b.HasOne("medical_appointment_booking.Models.ServicePackage", null)
+                    b.HasOne("medical_appointment_booking.Models.ServicePackage", "ServicePackage")
                         .WithMany("Appointments")
                         .HasForeignKey("ServicePackageId");
 
