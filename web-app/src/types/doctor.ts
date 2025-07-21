@@ -142,3 +142,55 @@ export enum Gender {
     Female = 'Female',
     Other = 'Other'
 }
+
+export interface PatientInfoResponse {
+  patientId: number;
+  fullName: string;
+  phone?: string;
+  dateOfBirth: string; 
+  gender?: string;    
+}
+
+export interface DoctorAppointmentResponse {
+  appointmentId: number;
+  patient?: PatientInfoResponse | null;
+  patientName: string;
+  appointmentDate: string;     
+  appointmentTime: string;     
+  status: string;
+  reasonForVisit?: string;
+  consultationFee: number;
+  totalFee: number;
+}
+export interface PatientInfoResponse {
+  patientId: number;
+  fullName: string;
+  phone?: string;
+  dateOfBirth: string;
+  gender?: string;
+}
+
+export interface AppointmentSummaryResponse {
+  appointmentId: number;
+  patient: PatientInfoResponse;
+}
+
+export interface TimeSlotResponse {
+  slotId: number;
+  slotTime: string; 
+  isAvailable: boolean;
+  appointment?: AppointmentSummaryResponse | null;
+}
+
+export interface WorkScheduleResponse {
+  scheduleId: number;
+  workDate: string; 
+  startTime: string; 
+  endTime: string;
+  maxPatients: number;
+  timeSlots: TimeSlotResponse[];
+status: string;
+time: string;
+department: string;
+
+}

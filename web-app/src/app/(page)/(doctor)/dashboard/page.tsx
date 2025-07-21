@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import ScheduleManagement from '@/components/doctor/ScheduleManagement/ScheduleManagement';
 import AppointmentRequests from '@/components/doctor/AppointmentRequests/AppointmentRequests';
 import LeaveRequests from '@/components/doctor/LeaveRequests/LeaveRequests';
@@ -14,6 +14,8 @@ import {
   Clock, 
   User, 
 } from 'lucide-react'; // Removed unused 'Search' import
+import { doctorService } from '@/services/doctorService';
+
 
 type StatusType = 'confirmed' | 'pending' | 'completed' | 'approved' | 'rejected' | 'cancelled';
 
@@ -88,13 +90,36 @@ const DoctorDashboard = () => {
   const [filterStatus, setFilterStatus] = useState<StatusType | 'all'>('all');
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const scheduleData: ScheduleItem[] = [
-    { id: 1, patientName: 'Nguyễn Văn An', phone: '0901234567', time: '09:00', department: 'Nội khoa', symptoms: 'Đau đầu, chóng mặt, mệt mỏi', status: 'confirmed', duration: 30, patientAge: 45, priority: 'medium' },
-    { id: 2, patientName: 'Lê Thị Bình', phone: '0987654321', time: '10:30', department: 'Tim mạch', symptoms: 'Đau ngực, khó thở, tim đập nhanh', status: 'pending', duration: 45, patientAge: 58, priority: 'high' },
-    { id: 3, patientName: 'Hoàng Minh Tuấn', phone: '0912345678', time: '11:00', department: 'Ngoại khoa', symptoms: 'Đau bụng dưới bên phải, buồn nôn', status: 'confirmed', duration: 60, patientAge: 32, priority: 'high' },
-    { id: 4, patientName: 'Phạm Thị Lan', phone: '0945678901', time: '14:00', department: 'Nội khoa', symptoms: 'Ho khan, khó thở, đau ngực', status: 'completed', duration: 30, patientAge: 67, priority: 'medium' },
-    { id: 5, patientName: 'Võ Thanh Hùng', phone: '0934567890', time: '15:30', department: 'Tim mạch', symptoms: 'Kiểm tra định kỳ, cao huyết áp', status: 'confirmed', duration: 20, patientAge: 55, priority: 'low' },
-  ];
+  const [scheduleData, setScheduleData] = useState<ScheduleItem[]>([]);
+  const [loadingSchedule, setLoadingSchedule] = useState(true);
+
+  useEffect(() => {
+  const fetchSchedule = async () => {
+    try {
+      const doctorId = 1; // TODO: Replace with real logged-in doctor ID
+      const response = await doctorService.getDoctorSchedule(doctorId);
+      const mappedData: ScheduleItem[] = response.data.map(item => ({
+        id: item.id,
+        patientName: item.patientName,
+        phone: item.phone,
+        time: item.time,
+        department: item.department,
+        symptoms: item.symptoms,
+        status: item.status as StatusType,
+        duration: item.duration,
+        patientAge: item.patientAge,
+        priority: item.priority,
+      }));
+      setScheduleData(mappedData);
+    } catch (error) {
+      console.error('Lỗi khi lấy lịch làm việc:', error);
+    } finally {
+      setLoadingSchedule(false);
+    }
+  };
+
+  fetchSchedule();
+}, []);
 
   const appointmentRequests: AppointmentRequest[] = [
     { id: 1, patientName: 'Trần Văn Hòa', phone: '0938475629', requestedTime: '15:30', department: 'Tim mạch', symptoms: 'Đau tim, khó thở khi gắng sức', status: 'pending', requestDate: '2025-06-12', patientAge: 62, urgency: 'high' },
@@ -242,9 +267,15 @@ const DoctorDashboard = () => {
             onToggleNotifications={() => setShowNotifications(!showNotifications)}
           />
           <main className="p-6">
-            {activeTab === 'schedule' && <DashboardStatsComponent dashboardStats={dashboardStats} />}
-            {renderContent()}
-          </main>
+            {loadingSchedule ? (
+              <div className="text-center text-gray-500 py-8">Đang tải lịch làm việc...</div>
+            ) : (
+              <>
+                {activeTab === 'schedule' && <DashboardStatsComponent dashboardStats={dashboardStats} />}
+                {renderContent()}
+              </>
+            )}
+        </main>
         </div>
       </div>
     </div>

@@ -1,7 +1,14 @@
 import { ApiResponse } from '@/types/apiResonse';
-import { DoctorSearchResponse, DoctorDetailResponse, Gender } from '@/types/doctor';
+import {
+  DoctorSearchResponse,
+  DoctorDetailResponse,
+  Gender,
+  WorkScheduleResponse,
+  DoctorAppointmentResponse,
+} from '@/types/doctor';
 import { PageResponse } from '@/types/pageResponse';
-import { API_URL } from '@/utils/baseUrl';
+import { API_URL } from '@/utils/BaseUrl';
+
 
 export interface SearchDoctorsParams {
     doctorName?: string;
@@ -68,5 +75,55 @@ export const doctorService = {
         const data = await response.json();
         console.log('🔍 Debug - Doctor Details Response Data:', data);
         return data;
+    },
+
+    /**
+   * 📅 Lấy lịch làm việc của bác sĩ
+   */
+  async getDoctorSchedule(doctorId: number): Promise<ApiResponse<WorkScheduleResponse[]>> {
+    try {
+      const url = `${API_URL}/api/v1/doctors/schedule?id=${doctorId}`;
+      console.log('📅 Get Work Schedule URL:', url);
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: ApiResponse<WorkScheduleResponse[]> = await response.json();
+      return data;
+    } catch (error) {
+      console.error('❌ Error getting doctor schedule:', error);
+      throw error;
     }
-}; 
+  },
+
+  /**
+   * 📋 Lấy danh sách cuộc hẹn của bác sĩ
+   */
+  async getMyAppointments(doctorId: number): Promise<ApiResponse<DoctorAppointmentResponse[]>> {
+    try {
+      const url = `${API_URL}/api/v1/doctors/appointments?doctorId=${doctorId}`;
+      console.log('📋 Get Appointments URL:', url);
+
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data: ApiResponse<DoctorAppointmentResponse[]> = await response.json();
+      return data;
+    } catch (error) {
+      console.error('❌ Error getting doctor appointments:', error);
+      throw error;
+    }
+  },
+};

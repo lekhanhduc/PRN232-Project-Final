@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Link from 'next/link';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import SocialLoginButtons from '@/components/social/SocialLoginButtons';
-import { API_URL } from '@/utils/baseUrl';
+import { API_URL } from '@/utils/BaseUrl';
 import { ApiResponse } from '@/types/apiResonse';
 import { UserCreationResponse } from '@/types/user';
 

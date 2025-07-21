@@ -1,4 +1,4 @@
-import { API_URL } from './baseUrl';
+import { API_URL } from './BaseUrl';
 import { tokenStorage } from './tokenStorage';
 import { redirect } from 'next/navigation';
 
