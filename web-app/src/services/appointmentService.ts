@@ -1,10 +1,10 @@
 import { API_URL } from "@/utils/baseUrl";
 import { ApiResponse } from '@/types/apiResonse';
-import { 
-    AppointmentResponse, 
-    CancelAppointmentRequest, 
-    RescheduleAppointmentRequest, 
-    RescheduleAppointmentResponse 
+import {
+    AppointmentResponse,
+    CancelAppointmentRequest,
+    RescheduleAppointmentRequest,
+    RescheduleAppointmentResponse
 } from '@/types/appointment';
 
 class AppointmentService {
@@ -63,7 +63,7 @@ class AppointmentService {
 
     // Đổi lịch cuộc hẹn
     async rescheduleAppointment(
-        appointmentId: number, 
+        appointmentId: number,
         request: RescheduleAppointmentRequest
     ): Promise<ApiResponse<RescheduleAppointmentResponse>> {
         try {

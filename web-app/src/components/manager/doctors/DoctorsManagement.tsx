@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Plus, Upload } from 'lucide-react';
 import { DoctorCreationRequest, DoctorDetailResponse, DoctorUpdateRequest, Gender } from '@/types/doctor';
 import { SpecialtyDetailResponse } from '@/types/specialty';
 import { DoctorTable } from './DoctorTable';
 import { DoctorModal } from './DoctorModal';
-import { ScheduleModal } from './ScheduleModal';
-import { UploadScheduleModal } from './UploadScheduleModal';
 import { createDoctor, deleteDoctor, importDoctorSchedules, updateDoctor } from '@/services/doctorService';
 import toast from 'react-hot-toast';
 import { useManagerDoctors } from '@/hooks/useManagerDoctors';

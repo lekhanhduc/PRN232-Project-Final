@@ -59,8 +59,6 @@ class PatientService {
     // Kích hoạt xác thực 2 bước
     async enable2FA(phoneOrEmail: string): Promise<ApiResponse<string>> {
         try {
-            console.log('Making 2FA request to:', `${API_URL}/api/v1/2fa`);
-            console.log('Request body:', { phoneOrEmail });
 
             const response = await fetch(`${API_URL}/api/v1/2fa`, {
                 method: 'POST',
@@ -71,9 +69,6 @@ class PatientService {
                     phoneOrEmail: phoneOrEmail
                 }),
             });
-
-            console.log('Response status:', response.status);
-            console.log('Response ok:', response.ok);
 
             if (!response.ok) {
                 const errorText = await response.text();

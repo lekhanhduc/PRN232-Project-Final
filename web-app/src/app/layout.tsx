@@ -18,12 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <LayoutWrapper>
-          <StoreProvider>
+        <StoreProvider>
+          <LayoutWrapper>
             {children}
             <ToastProvider />
-          </StoreProvider>
-        </LayoutWrapper>
+          </LayoutWrapper>
+        </StoreProvider>
       </body>
     </html>
   );

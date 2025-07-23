@@ -1,8 +1,9 @@
-import { ApiResponse } from '@/types/apiResonse';
-import { DoctorSearchResponse, Gender,DoctorCreationRequest, DoctorDetailResponse, DoctorCreationResponse, DoctorUpdateRequest } from '@/types/doctor';
-import { PageResponse } from '@/types/pageResponse';
-import { API_URL } from '@/utils/baseUrl';
-import { fetchInterceptor } from "@/utils/Interceptor";
+
+import { ApiResponse } from "@/types/apiResonse";
+import { DoctorCreationRequest, DoctorCreationResponse, DoctorDetailResponse, DoctorSearchResponse, DoctorUpdateRequest, Gender } from "@/types/doctor";
+import { PageResponse } from "@/types/pageResponse";
+import { API_URL } from "@/utils/baseUrl";
+import { fetchInterceptor } from "@/utils/interceptor";
 
 export interface SearchDoctorsParams {
     doctorName?: string;
@@ -17,7 +18,7 @@ export interface SearchDoctorsParams {
 export const doctorService = {
     async searchDoctors(params: SearchDoctorsParams = {}): Promise<ApiResponse<PageResponse<DoctorSearchResponse>>> {
         const queryParams = new URLSearchParams();
-        
+
         if (params.doctorName) queryParams.append('doctorName', params.doctorName);
         if (params.specialtyName) queryParams.append('specialtyName', params.specialtyName);
         if (params.gender) queryParams.append('gender', params.gender);
@@ -27,18 +28,12 @@ export const doctorService = {
         if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
 
         const url = `${API_URL}/api/v1/doctors/search?${queryParams.toString()}`;
-        console.log('🔍 Debug - Search Doctors URL:', url);
-        console.log('🔍 Debug - Search Parameters:', params);
-
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-
-        console.log('🔍 Debug - Response Status:', response.status);
-        console.log('🔍 Debug - Response OK:', response.ok);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -51,7 +46,6 @@ export const doctorService = {
 
     async getDoctorDetails(doctorId: number): Promise<ApiResponse<DoctorDetailResponse>> {
         const url = `${API_URL}/api/v1/doctors/${doctorId}`;
-        console.log('🔍 Debug - Get Doctor Details URL:', url);
 
         const response = await fetch(url, {
             method: 'GET',
@@ -103,40 +97,40 @@ export const doctorService = {
         }
         return response.json();
     }
-}; 
+};
 
 export const getDoctors = async (params: SearchDoctorsParams = {}): Promise<ApiResponse<PageResponse<DoctorDetailResponse>>> => {
-   const queryParams = new URLSearchParams();
-        
-        if (params.doctorName) queryParams.append('doctorName', params.doctorName);
-        if (params.specialtyName) queryParams.append('specialtyName', params.specialtyName);
-        if (params.gender) queryParams.append('gender', params.gender);
-        if (params.isAvailable !== undefined) queryParams.append('isAvailable', params.isAvailable.toString());
-        if (params.orderBy) queryParams.append('orderBy', params.orderBy);
-        if (params.page) queryParams.append('page', params.page.toString());
-        if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
+    const queryParams = new URLSearchParams();
 
-        const url = `${API_URL}/api/v1/doctors?${queryParams.toString()}`;
-        console.log('🔍 Debug - Search Doctors URL:', url);
-        console.log('🔍 Debug - Search Parameters:', params);
+    if (params.doctorName) queryParams.append('doctorName', params.doctorName);
+    if (params.specialtyName) queryParams.append('specialtyName', params.specialtyName);
+    if (params.gender) queryParams.append('gender', params.gender);
+    if (params.isAvailable !== undefined) queryParams.append('isAvailable', params.isAvailable.toString());
+    if (params.orderBy) queryParams.append('orderBy', params.orderBy);
+    if (params.page) queryParams.append('page', params.page.toString());
+    if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+    const url = `${API_URL}/api/v1/doctors?${queryParams.toString()}`;
+    console.log('🔍 Debug - Search Doctors URL:', url);
+    console.log('🔍 Debug - Search Parameters:', params);
 
-        console.log('🔍 Debug - Response Status:', response.status);
-        console.log('🔍 Debug - Response OK:', response.ok);
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+    console.log('🔍 Debug - Response Status:', response.status);
+    console.log('🔍 Debug - Response OK:', response.ok);
 
-        const data = await response.json();
-        console.log('🔍 Debug - Response Data:', data);
-        return data;
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log('🔍 Debug - Response Data:', data);
+    return data;
 };
 
 
@@ -148,7 +142,7 @@ export const createDoctor = async (data: DoctorCreationRequest): Promise<ApiResp
 
     const result: ApiResponse<DoctorCreationResponse> = await response.json();
     return result;
-} 
+}
 
 export const updateDoctor = async (data: DoctorUpdateRequest): Promise<ApiResponse<DoctorDetailResponse>> => {
     const response = await fetchInterceptor(`${API_URL}/api/v1/doctors`, {
@@ -158,7 +152,7 @@ export const updateDoctor = async (data: DoctorUpdateRequest): Promise<ApiRespon
 
     const result: ApiResponse<DoctorDetailResponse> = await response.json();
     return result;
-} 
+}
 export const deleteDoctor = async (id: number): Promise<ApiResponse<object>> => {
     const response = await fetchInterceptor(`${API_URL}/api/v1/doctors/${id}`, {
         method: 'DELETE',

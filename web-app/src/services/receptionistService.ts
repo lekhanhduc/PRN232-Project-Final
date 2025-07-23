@@ -1,11 +1,11 @@
-import { API_URL } from '@/utils/baseUrl';
-import { 
-    Receptionist, 
-    CreateReceptionistRequest, 
+import {
+    Receptionist,
+    CreateReceptionistRequest,
     UpdateReceptionistRequest,
     ReceptionistResponse,
-    CreateReceptionistResponse 
+    CreateReceptionistResponse
 } from '@/types/receptionist';
+import { API_URL } from '@/utils/baseUrl';
 
 export const receptionistService = {
     // MAN010: Get All Receptionists
