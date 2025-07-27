@@ -9,11 +9,9 @@ export interface Receptionist {
 }
 
 export interface CreateReceptionistRequest {
-    username: string;
-    email: string;
-    password: string;
-    fullName: string;
+    email: string;  
     phone: string;
+    userStatus: number;
 }
 
 export interface UpdateReceptionistRequest {
@@ -32,3 +30,19 @@ export interface CreateReceptionistResponse {
     success: boolean;
     message: string;
 } 
+
+export interface ReceptionistManagerResponse {
+  id: number;
+  email: string;
+  phone: string;
+  userStatus: number;
+  createdAt: string;  
+}
+
+export interface ReceptionistResponse {
+  id: number;
+  email: string;
+  phone: string;
+  userStatus: boolean;
+  createdAt: string;  
+}

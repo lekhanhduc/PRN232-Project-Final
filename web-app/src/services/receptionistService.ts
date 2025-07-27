@@ -13,26 +13,30 @@ import { ApiResponse } from '@/types/apiResonse';
 
 export const receptionistService = {
     // MAN010: Get All Receptionists
-    getAllReceptionists: async (): Promise<Receptionist[]> => {
-        try {
-            const response = await fetch(`${API_URL}/api/manager/receptionists`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
+    getAllReceptionists: async (): Promise<ApiResponse<ReceptionistResponse>> => {
+        // const token = localStorage.getItem('accessToken');
+        const url = `${API_URL}/api/Manager/receptionists`;
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch receptionists');
-            }
+        console.log('🔍 Debug - Search Receptionists URL:', url);
 
-            const data: ReceptionistResponse = await response.json();
-            return data.data || [];
-        } catch (error) {
-            console.error('Error fetching receptionists:', error);
-            throw error;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // ...(token && { Authorization: `Bearer ${token}` }),
+            },
+        });
+
+        console.log('🔍 Debug - Response Status:', response.status);
+        console.log('🔍 Debug - Response OK:', response.ok);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        const data = await response.json();
+        console.log('🔍 Debug - Response Data:', data);
+        return data;
     },
 
    getAllPatients: async (params?: string): Promise<ApiResponse<PatientDTOResponse>> => {
@@ -90,13 +94,13 @@ export const receptionistService = {
 
 
     // MAN007: Create Receptionist Account
-    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<CreateReceptionistResponse> => {
+    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
-            const response = await fetch(`${API_URL}/api/manager/receptionists`, {
+            const response = await fetch(`${API_URL}/api/Manager/receptionists`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    //'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify(receptionistData)
             });
@@ -113,13 +117,13 @@ export const receptionistService = {
     },
 
     // MAN008: Update Receptionist Information
-    updateReceptionist: async (userId: number, updateData: UpdateReceptionistRequest): Promise<CreateReceptionistResponse> => {
+    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
-            const response = await fetch(`${API_URL}/api/manager/receptionists/${userId}`, {
+            const response = await fetch(`${API_URL}/api/Manager/receptionists/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    //'Authorization': `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify(updateData)
             });
@@ -136,13 +140,13 @@ export const receptionistService = {
     },
 
     // MAN009: Delete Receptionist Account
-    deleteReceptionist: async (userId: number): Promise<CreateReceptionistResponse> => {
+    deleteReceptionist: async (userId: number): Promise<ApiResponse<object>> => {
         try {
-            const response = await fetch(`${API_URL}/api/manager/receptionists/${userId}`, {
+            const response = await fetch(`${API_URL}/api/Manager/receptionists/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    //'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             });
 
