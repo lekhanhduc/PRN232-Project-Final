@@ -5,7 +5,6 @@ using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
 using medical_appointment_booking.Services;
 using medical_appointment_booking.Services.Impl;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace medical_appointment_booking
@@ -67,7 +66,6 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<DoctorLeaveRepository>();
             builder.Services.AddScoped<DoctorScheduleRepository>();
             builder.Services.AddScoped<ServicePackageRepository>();
-
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IJwtService, JwtService>();
