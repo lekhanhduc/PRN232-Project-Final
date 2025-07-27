@@ -22,6 +22,14 @@ namespace medical_appointment_booking.Dtos.Response
         public DateOnly AppointmentDate { get; set; }      
         public string Status { get; set; }
      
+        [JsonPropertyName("appointmentId")]
+        public long Id { get; set; }
+        public PatientInfoResponse? Patient { get; set; }
+        public string PatientName { get; set; }
+        public string AppointmentTime { get; set; } = default!;
+        public string? ReasonForVisit { get; set; }
+        public decimal ConsultationFee { get; set; }
+        public decimal TotalFee { get; set; }
     }
 
 }

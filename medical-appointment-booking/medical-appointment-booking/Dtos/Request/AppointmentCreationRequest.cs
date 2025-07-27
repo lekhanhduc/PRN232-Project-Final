@@ -1,8 +1,4 @@
-﻿using medical_appointment_booking.Models;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace medical_appointment_booking.Dtos.Request
+﻿namespace medical_appointment_booking.Dtos.Request
 {
     public class AppointmentCreationRequest
     {
