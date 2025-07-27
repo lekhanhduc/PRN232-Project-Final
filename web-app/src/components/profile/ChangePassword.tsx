@@ -21,8 +21,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onShowToast }) => {
             onShowToast('Mật khẩu mới và xác nhận không khớp!', 'error');
             return;
         }
-        if (newPassword.length < 8) {
-            onShowToast('Mật khẩu mới phải có ít nhất 8 ký tự!', 'error');
+        if (newPassword.length < 6) {
+            onShowToast('Mật khẩu mới phải có ít nhất 6 ký tự!', 'error');
             return;
         }
 
@@ -78,8 +78,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onShowToast }) => {
                         placeholder="Nhập mật khẩu mới"
                         disabled={loading}
                     />
-                    {newPassword && newPassword.length < 8 && (
-                        <p className="text-sm text-red-600 mt-1">Mật khẩu phải có ít nhất 8 ký tự</p>
+                    {newPassword && newPassword.length < 6 && (
+                        <p className="text-sm text-red-600 mt-1">Mật khẩu phải có ít nhất 6 ký tự</p>
                     )}
                 </div>
 
@@ -118,7 +118,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onShowToast }) => {
                 <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                     <h4 className="font-medium text-blue-900 mb-2">Lưu ý bảo mật:</h4>
                     <ul className="text-sm text-blue-800 space-y-1">
-                        <li>• Mật khẩu nên có ít nhất 8 ký tự</li>
+                        <li>• Mật khẩu nên có ít nhất 6 ký tự</li>
                         <li>• Bao gồm chữ hoa, chữ thường và số</li>
                         <li>• Không sử dụng thông tin cá nhân dễ đoán</li>
                         <li>• Thay đổi mật khẩu định kỳ</li>
