@@ -61,6 +61,9 @@ namespace medical_appointment_booking
             builder.Services.AddScoped<ReceptionistRepository>();
             builder.Services.AddScoped<ManagerRepository>();
             builder.Services.AddScoped<ScheduleRepository>();
+            builder.Services.AddScoped<WorkScheduleRepository>();
+            builder.Services.AddScoped<AppointmentRepository>();
+            builder.Services.AddScoped<DoctorLeaveRepository>();
 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAuthService, AuthService>();

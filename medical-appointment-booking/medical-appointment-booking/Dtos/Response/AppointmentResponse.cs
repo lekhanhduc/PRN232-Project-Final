@@ -1,4 +1,4 @@
-﻿using static medical_appointment_booking.Dtos.Response.CreateAppointmentResponse;
+﻿using System.Text.Json.Serialization;
 
 namespace medical_appointment_booking.Dtos.Response
 {
@@ -19,7 +19,17 @@ namespace medical_appointment_booking.Dtos.Response
     public class AppointmentForReceptionistResponse
     {
         public long AppointmentId { get; set; }
+
+        [JsonPropertyName("appointmentId")]
+        public long Id { get; set; }
+        public PatientInfoResponse? Patient { get; set; }
+        public string PatientName { get; set; }
         public DateOnly AppointmentDate { get; set; }
-        public string Status { get; set; } = string.Empty;
+        public string AppointmentTime { get; set; } = default!;
+        public string Status { get; set; }
+        public string? ReasonForVisit { get; set; }
+        public decimal ConsultationFee { get; set; }
+        public decimal TotalFee { get; set; }
     }
+
 }

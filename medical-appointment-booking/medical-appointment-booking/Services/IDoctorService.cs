@@ -17,5 +17,11 @@ namespace medical_appointment_booking.Services
         Task<DoctorAppointmentScheduleResponse> GetDoctorAppointmentScheduleAsync(long doctorId, DateOnly? fromDate = null, DateOnly? toDate = null);
         Task<DoctorWorkingScheduleResponse> GetDoctorWorkingScheduleAsync(long doctorId, int daysAhead = 14);
         Task<DoctorWorkingScheduleResponse> GetDoctorWorkingScheduleSpecialDayAsync(long doctorId, DateOnly workDate);
+
+        Task<List<WorkScheduleResponse>> GetMyWorkScheduleAsync(long doctorId);
+        Task<List<AppointmentResponse>> GetMyAppointmentsAsync(long doctorId);
+        Task<bool> MarkPatientArrivedAsync(long appointmentId, long doctorId);
+        Task<bool> CompleteAppointmentAsync(long appointmentId, long doctorId);
+        Task<LeaveResponse> RequestLeaveAsync(long doctorId, LeaveRequest request);
     }
 }
