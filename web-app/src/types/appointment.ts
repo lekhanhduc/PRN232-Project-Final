@@ -65,17 +65,17 @@ export interface Appointment {
     notes?: string;
 }
 
-export interface AppointmentToday {
-  appointmentId: number;
-  appointmentTime: string;
-  status: string;
-  totalFee: number;
-  patient: {
-    fullName: string;
-    phone: string;
-  };
-  doctor: {
-    fullName: string;
-    specialty: string;
-  };
+export interface AppointmentListDto {
+    appointmentId: number;
+    appointmentTime: string;
+    status: string;
+    totalFee: number;
+    patient: {
+        fullName: string;
+        phone: string;
+    };
+    doctor: {
+        fullName: string;
+        specialty: string;
+    };
 }

@@ -1,12 +1,12 @@
 'use client';
 import React, { useState } from 'react';
 import { Edit, Trash2, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
-import { AppointmentToday } from '@/types/appointment';
+import { AppointmentListDto } from '@/types/appointment';
 import { receptionistService } from '@/services/receptionistService';
 
 interface AppointmentTableProps {
-    appointments: AppointmentToday[];
-    onUpdateStatus: (id: number, status: AppointmentToday['status']) => void;
+    appointments: AppointmentListDto[];
+    onUpdateStatus: (id: number, status: AppointmentListDto['status']) => void;
 }
 
 interface CancelModalProps {

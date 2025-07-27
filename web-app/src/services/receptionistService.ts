@@ -5,7 +5,7 @@ import {
     ReceptionistResponse,
     CreateReceptionistResponse
 } from '@/types/receptionist';
-import { AppointmentToday} from "@/types/appointment";
+import { AppointmentListDto} from "@/types/appointment";
 import { PageResponse } from "@/types/pageResponse";
 import { API_URL } from '@/utils/baseUrl';
 import { ApiResponse } from '@/types/apiResonse';
@@ -54,7 +54,7 @@ export const receptionistService = {
         return data;
     },
 
-    getAppointmentsByDateAndQueryAsync: async (date?: string, query?: string): Promise<ApiResponse<AppointmentToday[]>> => {
+    getAppointmentsByDateAndQueryAsync: async (date?: string, query?: string): Promise<ApiResponse<AppointmentListDto[]>> => {
         const params = new URLSearchParams();
         if (date) params.append('date', date);
         if (query) params.append('query', query);

@@ -7,7 +7,17 @@ import { receptionistService } from '@/services/receptionistService';
 import { usePatients } from '@/hooks/usePatients';
 
 export const PatientList = () => {
-    const { patients, loading, setSearchTerm } = usePatients();
+    const {
+        patients,
+        loading,
+        setSearchTerm,
+        page,
+        setPage,
+        pageSize,
+        setPageSize,
+        totalPages,
+        totalElements
+    } = usePatients();
     const [showNewPatient, setShowNewPatient] = useState(false);
 
     return (
@@ -38,7 +48,45 @@ export const PatientList = () => {
             {loading ? (
                 <p className="text-center text-gray-500">Đang tải dữ liệu...</p>
             ) : (
-                <PatientTable patients={patients} />
+                <>
+                    <PatientTable patients={patients} />
+                    {/* Pagination controls */}
+                    <div className="flex items-center justify-between mt-4">
+                        <div>
+                            <button
+                                className="px-3 py-1 border rounded mr-2 disabled:opacity-50"
+                                onClick={() => setPage(page - 1)}
+                                disabled={page <= 1}
+                            >
+                                Trang trước
+                            </button>
+                            <span>Trang {page} / {totalPages}</span>
+                            <button
+                                className="px-3 py-1 border rounded ml-2 disabled:opacity-50"
+                                onClick={() => setPage(page + 1)}
+                                disabled={page >= totalPages}
+                            >
+                                Trang sau
+                            </button>
+                        </div>
+                        <div>
+                            <span className="mr-2">Kích thước trang:</span>
+                            <select
+                                value={pageSize}
+                                onChange={e => { setPageSize(Number(e.target.value)); setPage(1); }}
+                                className="border rounded px-2 py-1"
+                            >
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={50}>50</option>
+                            </select>
+                        </div>
+                        <div className="ml-4 text-gray-500 text-sm">
+                            Tổng số: {totalElements}
+                        </div>
+                    </div>
+                </>
             )}
         </div>
     );

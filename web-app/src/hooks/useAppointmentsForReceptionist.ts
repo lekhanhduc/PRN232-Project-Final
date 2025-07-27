@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { receptionistService } from '@/services/receptionistService';
-import { AppointmentToday } from '@/types/appointment';
+import { AppointmentListDto } from '@/types/appointment';
 
 export const useAppointmentsForReceptionist = (date?: string, query?: string) => {
-    const [appointments, setAppointments] = useState<AppointmentToday[]>([]);
+    const [appointments, setAppointments] = useState<AppointmentListDto[]>([]);
     
     const fetchAppointments = async () => {
         try {
