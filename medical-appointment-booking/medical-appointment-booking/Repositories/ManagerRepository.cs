@@ -1,5 +1,7 @@
-﻿using medical_appointment_booking.Models;
+﻿using medical_appointment_booking.Common;
+using medical_appointment_booking.Models;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 
 namespace medical_appointment_booking.Repositories
 {
@@ -14,17 +16,22 @@ namespace medical_appointment_booking.Repositories
         // manager receptionists 
         public async Task<IEnumerable<User>> GetAllReceptionist()
         {
+            var role = await context.Roles.FirstOrDefaultAsync(x => x.Name == DefinitionRole.RECEPTIONIST);
+
+           
+
             return await context.Users
                 .Include(u => u.Role)
-                .Where(r => r.RoleId == 4)
+                .Where(r => r.RoleId == role.Id)
                 .ToListAsync();
         }
 
         public async Task<User?> GetReceptionistById(long id)
         {
+            var role = await context.Roles.FirstOrDefaultAsync(x => x.Name == DefinitionRole.RECEPTIONIST);
             return await context.Users
                 .Include(u => u.Role)
-                .FirstOrDefaultAsync(u => u.Id == id && u.RoleId == 4);
+                .FirstOrDefaultAsync(u => u.Id == id && u.RoleId == role.Id);
         }
 
         public async Task<User> AddReceptionist(User receptionist)
@@ -33,7 +40,7 @@ namespace medical_appointment_booking.Repositories
             await context.SaveChangesAsync();
             return await context.Users
                 .Include(u => u.Role)
-                .FirstOrDefaultAsync(u => u.Id == create.Entity.Id && u.RoleId == 4);
+                .FirstOrDefaultAsync(u => u.Id == create.Entity.Id);
         }
 
         public async Task<User> UpdateReceptionist(User receptionist)
@@ -42,7 +49,7 @@ namespace medical_appointment_booking.Repositories
             await context.SaveChangesAsync();
             return await context.Users
                 .Include(u => u.Role)
-                .FirstOrDefaultAsync(u => u.Id == receptionist.Id && u.RoleId == 4);
+                .FirstOrDefaultAsync(u => u.Id == receptionist.Id);
         }
         public async Task DeleteReceptionist(long id)
         {

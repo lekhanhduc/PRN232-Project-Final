@@ -148,7 +148,7 @@
               "RelativeDocumentMoniker": "medical-appointment-booking\\appsettings.json",
               "ToolTip": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json",
               "RelativeToolTip": "medical-appointment-booking\\appsettings.json",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAcwBgAAAADAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-07-27T03:39:39.324Z",
               "EditorCaption": ""
@@ -163,8 +163,7 @@
               "RelativeToolTip": "medical-appointment-booking\\Controllers\\DoctorController.cs",
               "ViewState": "AgIAAEsAAAAAAAAAAAAowFcAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T07:56:05.396Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-27T07:56:05.396Z"
             },
             {
               "$type": "Document",

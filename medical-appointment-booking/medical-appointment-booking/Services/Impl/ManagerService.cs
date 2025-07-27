@@ -1,4 +1,5 @@
-﻿using medical_appointment_booking.Dtos.Request;
+﻿using medical_appointment_booking.Common;
+using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
@@ -9,12 +10,14 @@ namespace medical_appointment_booking.Services.Impl
     {
         private readonly ManagerRepository managerRepository;
         private readonly ILogger<ReceptionistService> logger;
+        private readonly RoleRepository roleRepository;
 
 
-        public ManagerService(ManagerRepository managerRepository, ILogger<ReceptionistService> logger)
+        public ManagerService(ManagerRepository managerRepository, ILogger<ReceptionistService> logger, RoleRepository roleRepository)
         {
             this.managerRepository = managerRepository;
             this.logger = logger;
+            this.roleRepository = roleRepository;
         }
 
         public async Task<IEnumerable<ReceptionistResponse>> GetAllReceptionist()
@@ -72,9 +75,17 @@ namespace medical_appointment_booking.Services.Impl
                 {
                     Phone = request.Phone,
                     Email = request.Email,
-                    UserStatus = request.UserStatus,
-                    RoleId = 4
+                    UserStatus = request.UserStatus                 
                 };
+
+                var role = await roleRepository.FindByRoleName(DefinitionRole.RECEPTIONIST);
+                if (role == null)
+                {
+                    role = new Role();
+                    role.Name = DefinitionRole.RECEPTIONIST;
+                    await roleRepository.CreateRole(role);
+                }
+                receptionist.Role = role;
                 var created = await managerRepository.AddReceptionist(receptionist);
                 return new ReceptionistResponse
                 {
