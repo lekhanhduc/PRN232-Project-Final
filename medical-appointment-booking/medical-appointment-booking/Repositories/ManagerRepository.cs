@@ -16,7 +16,7 @@ namespace medical_appointment_booking.Repositories
         // manager receptionists 
         public async Task<IEnumerable<User>> GetAllReceptionist()
         {
-            var role = await context.Roles.FirstOrDefaultAsync(x => x.Name == DefinitionRole.RECEPTIONIST);
+            var role = await context.Roles.FirstOrDefaultAsync(x => x.Name.ToLower().Equals(DefinitionRole.RECEPTIONIST.ToLower()));
 
            
 

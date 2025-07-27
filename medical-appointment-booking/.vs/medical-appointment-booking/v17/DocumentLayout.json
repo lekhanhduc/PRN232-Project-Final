@@ -3,8 +3,20 @@
   "WorkspaceRootPath": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_uni\\prn232\\finalproject\\be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\managerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\managerservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_uni\\prn232\\finalproject\\be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\managerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\managerrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_uni\\prn232\\finalproject\\be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_uni\\prn232\\finalproject\\be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\managercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\managercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\fpt_uni\\prn232\\finalproject\\be\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -78,7 +90,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -94,7 +106,45 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
+              "Title": "ManagerRepository.cs",
+              "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ManagerRepository.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\ManagerRepository.cs",
+              "ToolTip": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ManagerRepository.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Repositories\\ManagerRepository.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAQwBIAAABQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T11:42:54.165Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ManagerService.cs",
+              "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ManagerService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\ManagerService.cs",
+              "ToolTip": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ManagerService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\ManagerService.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwBoAAABRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T11:42:09.859Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ManagerController.cs",
+              "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\ManagerController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\ManagerController.cs",
+              "ToolTip": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\ManagerController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\ManagerController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-27T11:33:26.883Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "AppointmentService.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\AppointmentService.cs",
@@ -106,7 +156,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Program.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Program.cs",
@@ -118,7 +168,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "AppointmentController.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\AppointmentController.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\AppointmentController.cs",
@@ -130,7 +180,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "ReceptionistController.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\ReceptionistController.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\ReceptionistController.cs",
@@ -142,20 +192,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json",
               "RelativeDocumentMoniker": "medical-appointment-booking\\appsettings.json",
               "ToolTip": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\appsettings.json",
               "RelativeToolTip": "medical-appointment-booking\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAADAAAAAAAAAA==",
+              "ViewState": "AgIAABIAAAAAAAAAAAAQwDIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-07-27T03:39:39.324Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "DoctorController.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorController.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\DoctorController.cs",
@@ -167,7 +217,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "ReceptionistService.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ReceptionistService.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\ReceptionistService.cs",
@@ -179,7 +229,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "AppointmentListDto.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\AppointmentListDto.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\AppointmentListDto.cs",
@@ -191,7 +241,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "PatientController.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\PatientController.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\PatientController.cs",
@@ -203,7 +253,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "ReceptionistResponse.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\ReceptionistResponse.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\ReceptionistResponse.cs",
@@ -215,7 +265,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "ReceptionistRepository.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\ReceptionistRepository.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\ReceptionistRepository.cs",
@@ -227,7 +277,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "DoctorService.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\DoctorService.cs",
@@ -239,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "PageResponse.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PageResponse.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\PageResponse.cs",
@@ -251,7 +301,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "PatientDetailResponse.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\PatientDetailResponse.cs",
@@ -263,7 +313,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "AppDbContext.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Models\\AppDbContext.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Models\\AppDbContext.cs",
@@ -275,7 +325,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "ServicePackageService.cs",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\ServicePackageService.cs",
               "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\ServicePackageService.cs",
@@ -287,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "docker-compose.yaml",
               "DocumentMoniker": "D:\\FPT_UNI\\PRN232\\FinalProject\\BE\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\docker-compose.yaml",
               "RelativeDocumentMoniker": "medical-appointment-booking\\docker-compose.yaml",
