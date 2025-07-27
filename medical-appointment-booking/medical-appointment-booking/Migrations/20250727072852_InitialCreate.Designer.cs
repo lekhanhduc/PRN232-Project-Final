@@ -12,7 +12,7 @@ using medical_appointment_booking.Models;
 namespace medical_appointment_booking.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250727033819_InitialCreate")]
+    [Migration("20250727072852_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

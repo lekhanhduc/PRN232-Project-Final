@@ -1,37 +1,45 @@
 ﻿using Azure.Core;
 using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
+using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 
 namespace medical_appointment_booking.Services.Impl
 {
     public class ReceptionistService : IReceptionistService
     {
+        private readonly AppDbContext context;
         private readonly ReceptionistRepository receptionistRepository;
         private readonly ILogger<ReceptionistService> logger;
 
 
-        public ReceptionistService(ReceptionistRepository receptionistRepository, ILogger<ReceptionistService> logger)
+        public ReceptionistService(AppDbContext context, ReceptionistRepository receptionistRepository, ILogger<ReceptionistService> logger)
         {
+            this.context = context;
             this.receptionistRepository = receptionistRepository;
             this.logger = logger;
         }
 
-        public async Task<IEnumerable<PatientDto>> SearchPatientsAsync(string? keyword)
+        public async Task<PageResponse<PatientDto>> SearchPatientsAsync(string? keyword, int page, int pageSize)
         {
             try
             {
-                var patients = await receptionistRepository.SearchPatientsAsync(keyword);
 
-                return patients.Select(p => new PatientDto
+                var (patients, totalCount) = await receptionistRepository.SearchPatientsAsync(keyword, page, pageSize);
+
+                var patientDtos = patients.Select(p => new PatientDto
                 {
                     Id = p.Id,
-                    FirstName = p.FirstName,
-                    Phone = p.Phone,
-                    Email = p.User?.Email,
+                    FirstName = p.FirstName ?? "",
+                    LastName = p.LastName ?? "",
+                    Phone = p.Phone ?? "",
+                    Email = p.User?.Email ?? "",
+                    DateOfBirth = p.Dob,
+                    Gender = p.Gender.ToString() ?? "",
                     RecentAppointments = p.Appointments?
                         .OrderByDescending(a => a.AppointmentDate)
                         .Take(3)
@@ -41,11 +49,21 @@ namespace medical_appointment_booking.Services.Impl
                             AppointmentDate = a.AppointmentDate,
                             Status = a.Status
                         }).ToList() ?? new List<AppointmentForReceptionistResponse>()
-                });
+                }).ToList();
+
+                var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+                return new PageResponse<PatientDto>
+                {
+                    CurrentPages = page,
+                    PageSizes = pageSize,
+                    TotalPages = totalPages,
+                    TotalElements = totalCount,
+                    Items = patientDtos
+                };
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error searching patients");
                 throw;
             }
         }
@@ -54,6 +72,45 @@ namespace medical_appointment_booking.Services.Impl
         {
             try
             {
+                var patient = await context.Patients
+                    .FirstOrDefaultAsync(p => p.Id == appointmentRequest.PatientId);
+
+                if (patient == null)
+                {
+                    throw new AppException(ErrorCode.PATIENT_NOT_FOUND);
+                }
+
+
+                // 3. Get doctor information with specialty
+                var doctor = await context.Doctors
+                    .Include(d => d.User)
+                    .Include(d => d.Specialty)
+                    .FirstOrDefaultAsync(d => d.Id == appointmentRequest.DoctorId);
+
+                if (doctor == null || !doctor.IsAvailable)
+                {
+                    throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+                }
+
+                // 4. Get time slot information with schedule
+                var timeSlot = await context.TimeSlots
+                    .Include(ts => ts.WorkSchedule)
+                    .FirstOrDefaultAsync(ts => ts.Id == appointmentRequest.SlotId);
+
+                if (timeSlot == null || !timeSlot.IsAvailable)
+                {
+                    throw new AppException(ErrorCode.TIMESLOT_NOT_AVAILABLE);
+                }
+
+                // 5. Get service package for fee calculation
+                var servicePackage = await context.ServicePackages
+                    .FirstOrDefaultAsync(sp => sp.Id == appointmentRequest.PackageId);
+
+                if (servicePackage == null || !servicePackage.IsActive)
+                {
+                    throw new AppException(ErrorCode.SERVICE_PACKAGE_NOT_FOUND);
+                }
+
                 var appointment = new Appointment
                 {
                     PatientId = appointmentRequest.PatientId,
@@ -61,7 +118,7 @@ namespace medical_appointment_booking.Services.Impl
                     SlotId = appointmentRequest.SlotId,
                     AppointmentDate = appointmentRequest.AppointmentDate,
                     AppointmentTime = appointmentRequest.AppointmentTime,
-                 //   PackageId = appointmentRequest.PackageId,
+                    ServicePackageId = appointmentRequest.PackageId
                 };
                 await receptionistRepository.AddAppointmentAsync(appointment);
 
@@ -89,11 +146,11 @@ namespace medical_appointment_booking.Services.Impl
             }
         }
 
-        public async  Task<IEnumerable<AppointmentTodayResponse>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
+        public async  Task<IEnumerable<AppointmentListDto>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
         {
             var appointments = await receptionistRepository.GetAppointmentsByDateAndQueryAsync(date,query);
 
-            return appointments.Select(a => new AppointmentTodayResponse
+            return appointments.Select(a => new AppointmentListDto
             {
                 AppointmentId = a.Id,
                 AppointmentTime = a.AppointmentTime.ToString(@"hh\:mm"),

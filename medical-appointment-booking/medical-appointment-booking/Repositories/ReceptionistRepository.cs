@@ -1,5 +1,6 @@
 ﻿using medical_appointment_booking.Models;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 
 namespace medical_appointment_booking.Repositories
 {
@@ -10,9 +11,38 @@ namespace medical_appointment_booking.Repositories
         {
             this.context = context;
         }
-      
+
 
         // receptionists 
+
+        public async Task<(IEnumerable<Patient> patients, long totalCount)> SearchPatientsAsync(string? keyword, int page, int pageSize)
+        {
+            var query = context.Patients
+                .Include(p => p.User)
+                .Include(p => p.Appointments.OrderByDescending(a => a.AppointmentDate).Take(3))
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                keyword = keyword.ToLower();
+                query = query.Where(p =>
+                    EF.Functions.Like(p.FirstName.ToLower(), $"%{keyword}%") ||
+                    EF.Functions.Like(p.LastName.ToLower(), $"%{keyword}%") ||
+                    EF.Functions.Like(p.Phone, $"%{keyword}%") ||
+                    (p.User != null && EF.Functions.Like(p.User.Email.ToLower(), $"%{keyword}%")));
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var patients = await query
+                .OrderBy(p => p.LastName)
+                .ThenBy(p => p.FirstName)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return (patients, totalCount);
+        }
 
         public async Task<IEnumerable<Patient>> SearchPatientsAsync(string? keyword)
         {
