@@ -8,7 +8,7 @@ namespace medical_appointment_booking.Services
     {
 
         Task<PageResponse<PatientDto>> SearchPatientsAsync(string? keyword, int page, int pageSize);
-        Task<AppointmentCreationResponse> AddAppointmentAsync(AppointmentCreationRequest appointmentRequest);
+        Task<CreateAppointmentResponse> AddAppointmentAsync(AppointmentCreationRequest appointmentRequest, int currentUserId);
         Task<IEnumerable<AppointmentListDto>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query);
         Task<bool> CancelAppointmentAsync(long appointmentId, string cancelReason, long? cancelledByUserId = null);
         Task<Patient?> GetPatientByPatientIdAsync(long id);

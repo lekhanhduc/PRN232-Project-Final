@@ -14,11 +14,14 @@ namespace medical_appointment_booking.Controllers
     {
         private readonly IReceptionistService _receptionistService;
         private readonly IAppointmentService _appointmentService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ReceptionistController(IAppointmentService appointmentService, IReceptionistService receptionistService)
+        public ReceptionistController(IAppointmentService appointmentService, 
+            IReceptionistService receptionistService, IHttpContextAccessor httpContextAccessor)
         {
             _appointmentService = appointmentService;
             _receptionistService = receptionistService;
+            _httpContextAccessor=httpContextAccessor;
         }
 
         [HttpGet("patients/search")]
@@ -54,10 +57,12 @@ namespace medical_appointment_booking.Controllers
 
         [HttpPost]
         [Route("appointments")]
-        public async Task<ApiResponse<AppointmentCreationResponse>> AddAppointment([FromBody] AppointmentCreationRequest appointmentRequest)
+        [Authorize]
+        public async Task<ApiResponse<CreateAppointmentResponse>> AddAppointment([FromBody] AppointmentCreationRequest appointmentRequest)
         {
-            var response = await _receptionistService.AddAppointmentAsync(appointmentRequest);
-            return new ApiResponse<AppointmentCreationResponse>
+            int currentUserId = GetCurrentUserId();
+            var response = await _receptionistService.AddAppointmentAsync(appointmentRequest, currentUserId);
+            return new ApiResponse<CreateAppointmentResponse>
             {
                 code = 200,
                 result = response
@@ -115,6 +120,19 @@ namespace medical_appointment_booking.Controllers
                     message = "An error occurred while canceling appointment"
                 });
             }
+        }
+
+        private int GetCurrentUserId()
+        {
+            var userIdClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "userId");
+
+            if (userIdClaim == null)
+            {
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
+
+            return int.Parse(userIdClaim.Value);
         }
 
 

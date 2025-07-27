@@ -20,18 +20,13 @@ namespace medical_appointment_booking.Services.Impl
 
         public async Task<CreateAppointmentResponse> CreateAppointmentAsync(CreateAppointmentRequest request, int currentUserId)
         {
-            _logger.LogInformation("Starting appointment creation process for user {UserId} with doctor {DoctorId} on {AppointmentDate}",
-                currentUserId, request.DoctorId, request.AppointmentDate);
 
             using var transaction = await _context.Database.BeginTransactionAsync();
-            _logger.LogDebug("Database transaction started for appointment creation");
 
             try
             {
                 // 1. Validate input
-                _logger.LogDebug("Validating appointment request for user {UserId}", currentUserId);
                 await ValidateAppointmentRequest(request, currentUserId);
-                _logger.LogDebug("Appointment request validation completed successfully");
 
                 // 2. Get patient from current user
                 var patient = await _context.Patients
@@ -39,11 +34,9 @@ namespace medical_appointment_booking.Services.Impl
 
                 if (patient == null)
                 {
-                    _logger.LogWarning("Patient not found for user {UserId}", currentUserId);
                     throw new AppException(ErrorCode.PATIENT_NOT_FOUND);
                 }
 
-                _logger.LogDebug("Found patient {PatientId} for user {UserId}", patient.Id, currentUserId);
 
                 // 3. Get doctor information with specialty
                 var doctor = await _context.Doctors
@@ -53,12 +46,8 @@ namespace medical_appointment_booking.Services.Impl
 
                 if (doctor == null || !doctor.IsAvailable)
                 {
-                    _logger.LogWarning("Doctor {DoctorId} not found or not available", request.DoctorId);
                     throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
-                }
-
-                _logger.LogDebug("Found available doctor {DoctorId}: Dr. {DoctorName}, Specialty: {Specialty}",
-                    doctor.Id, $"{doctor.FirstName} {doctor.LastName}", doctor.Specialty?.SpecialtyName);
+                }  
 
                 // 4. Get time slot information with schedule
                 var timeSlot = await _context.TimeSlots
@@ -67,29 +56,20 @@ namespace medical_appointment_booking.Services.Impl
 
                 if (timeSlot == null || !timeSlot.IsAvailable)
                 {
-                    _logger.LogWarning("TimeSlot {SlotId} not found or not available", request.SlotId);
                     throw new AppException(ErrorCode.TIMESLOT_NOT_AVAILABLE);
                 }
-
-                _logger.LogDebug("Found available time slot {SlotId} at {SlotTime}", request.SlotId, timeSlot.SlotTime);
-
                 // 5. Get service package for fee calculation
                 var servicePackage = await _context.ServicePackages
                     .FirstOrDefaultAsync(sp => sp.Id == request.PackageId);
 
                 if (servicePackage == null || !servicePackage.IsActive)
                 {
-                    _logger.LogWarning("Service package {PackageId} not found or inactive", request.PackageId);
                     throw new AppException(ErrorCode.SERVICE_PACKAGE_NOT_FOUND);
                 }
-
-                _logger.LogDebug("Found service package {PackageId} with fee {PackageFee}",
-                    servicePackage.Id, servicePackage.Fee);
 
                 // 6. Parse appointment date
                 if (!DateOnly.TryParse(request.AppointmentDate, out var appointmentDate))
                 {
-                    _logger.LogWarning("Invalid appointment date format: {AppointmentDate}", request.AppointmentDate);
                     throw new AppException(ErrorCode.INVALID_APPOINTMENT_DATE);
                 }
 
@@ -97,10 +77,6 @@ namespace medical_appointment_booking.Services.Impl
                 if (timeSlot.WorkSchedule.DoctorId != request.DoctorId ||
                     timeSlot.WorkSchedule.WorkDate != appointmentDate)
                 {
-                    _logger.LogWarning("TimeSlot {SlotId} does not belong to doctor {DoctorId} or date {AppointmentDate}. " +
-                        "Actual: Doctor {ActualDoctorId}, Date {ActualDate}",
-                        request.SlotId, request.DoctorId, appointmentDate,
-                        timeSlot.WorkSchedule.DoctorId, timeSlot.WorkSchedule.WorkDate);
                     throw new AppException(ErrorCode.TIMESLOT_DOCTOR_MISMATCH);
                 }
 
@@ -134,22 +110,16 @@ namespace medical_appointment_booking.Services.Impl
                 _context.Appointments.Add(appointment);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Appointment {AppointmentId} created successfully for patient {PatientId}",
-                    appointment.Id, patient.Id);
 
                 // 11. Update time slot availability
                 timeSlot.IsAvailable = false;
                 await _context.SaveChangesAsync();
 
-                _logger.LogDebug("TimeSlot {SlotId} marked as unavailable", request.SlotId);
-
                 // 12. Generate appointment number
                 var appointmentNumber = GenerateAppointmentNumber(appointmentDate, appointment.Id);
-                _logger.LogDebug("Generated appointment number: {AppointmentNumber}", appointmentNumber);
 
                 // 13. Commit transaction
                 await transaction.CommitAsync();
-                _logger.LogInformation("Transaction committed successfully for appointment {AppointmentId}", appointment.Id);
 
                 // 14. Create response
                 var response = new CreateAppointmentResponse
@@ -167,22 +137,15 @@ namespace medical_appointment_booking.Services.Impl
                     Status = "scheduled"
                 };
 
-                _logger.LogInformation("Appointment creation completed successfully. AppointmentId: {AppointmentId}, Number: {AppointmentNumber}",
-                    appointment.Id, appointmentNumber);
-
                 return response;
             }
             catch (AppException ex)
             {
-                _logger.LogWarning("Business logic error during appointment creation for user {UserId}: {ErrorCode} - {ErrorMessage}",
-                    currentUserId, ex.ErrorCode.Code, ex.ErrorCode.Message);
                 await transaction.RollbackAsync();
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during appointment creation for user {UserId} with doctor {DoctorId}",
-                    currentUserId, request.DoctorId);
                 await transaction.RollbackAsync();
                 throw;
             }
@@ -190,19 +153,15 @@ namespace medical_appointment_booking.Services.Impl
 
         private async Task ValidateAppointmentRequest(CreateAppointmentRequest request, int currentUserId)
         {
-            _logger.LogDebug("Starting validation for appointment request - User: {UserId}, Doctor: {DoctorId}, Date: {AppointmentDate}",
-                currentUserId, request.DoctorId, request.AppointmentDate);
 
             // Validate appointment date
             if (!DateOnly.TryParse(request.AppointmentDate, out var appointmentDate))
             {
-                _logger.LogWarning("Invalid appointment date format: {AppointmentDate}", request.AppointmentDate);
                 throw new AppException(ErrorCode.INVALID_APPOINTMENT_DATE);
             }
 
             if (appointmentDate < DateOnly.FromDateTime(DateTime.Now))
             {
-                _logger.LogWarning("Attempt to create appointment in the past: {AppointmentDate}", appointmentDate);
                 throw new AppException(ErrorCode.PAST_APPOINTMENT_DATE);
             }
 
@@ -212,8 +171,6 @@ namespace medical_appointment_booking.Services.Impl
 
             if (doctor == null || !doctor.IsAvailable)
             {
-                _logger.LogWarning("Doctor validation failed - DoctorId: {DoctorId}, Found: {Found}, Available: {Available}",
-                    request.DoctorId, doctor != null, doctor?.IsAvailable);
                 throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
             }
 
@@ -224,8 +181,6 @@ namespace medical_appointment_booking.Services.Impl
 
             if (timeSlot == null || !timeSlot.IsAvailable)
             {
-                _logger.LogWarning("TimeSlot validation failed - SlotId: {SlotId}, Found: {Found}, Available: {Available}",
-                    request.SlotId, timeSlot != null, timeSlot?.IsAvailable);
                 throw new AppException(ErrorCode.TIMESLOT_NOT_AVAILABLE);
             }
 
@@ -233,10 +188,6 @@ namespace medical_appointment_booking.Services.Impl
             if (timeSlot.WorkSchedule.DoctorId != request.DoctorId ||
                 timeSlot.WorkSchedule.WorkDate != appointmentDate)
             {
-                _logger.LogWarning("TimeSlot-Doctor mismatch - Expected: Doctor {ExpectedDoctorId}, Date {ExpectedDate}; " +
-                    "Actual: Doctor {ActualDoctorId}, Date {ActualDate}",
-                    request.DoctorId, appointmentDate,
-                    timeSlot.WorkSchedule.DoctorId, timeSlot.WorkSchedule.WorkDate);
                 throw new AppException(ErrorCode.TIMESLOT_DOCTOR_MISMATCH);
             }
 
@@ -246,8 +197,6 @@ namespace medical_appointment_booking.Services.Impl
 
             if (servicePackage == null || !servicePackage.IsActive)
             {
-                _logger.LogWarning("Service package validation failed - PackageId: {PackageId}, Found: {Found}, Active: {Active}",
-                    request.PackageId, servicePackage != null, servicePackage?.IsActive);
                 throw new AppException(ErrorCode.SERVICE_PACKAGE_NOT_FOUND);
             }
 
@@ -257,7 +206,6 @@ namespace medical_appointment_booking.Services.Impl
 
             if (patient == null)
             {
-                _logger.LogWarning("Patient not found for user {UserId} during validation", currentUserId);
                 throw new AppException(ErrorCode.PATIENT_NOT_FOUND);
             }
 
@@ -270,13 +218,8 @@ namespace medical_appointment_booking.Services.Impl
 
             if (existingAppointment != null)
             {
-                _logger.LogWarning("Appointment conflict detected for patient {PatientId} on {AppointmentDate} at {AppointmentTime}. " +
-                    "Existing appointment: {ExistingAppointmentId}",
-                    patient.Id, appointmentDate, timeSlot.SlotTime, existingAppointment.Id);
                 throw new AppException(ErrorCode.APPOINTMENT_CONFLICT);
             }
-
-            _logger.LogDebug("Appointment request validation completed successfully");
         }
 
         private static string GenerateAppointmentNumber(DateOnly appointmentDate, long appointmentId)
@@ -287,19 +230,14 @@ namespace medical_appointment_booking.Services.Impl
 
         public async Task<IQueryable<AppointmentResponse>> GetMyAppointmentsAsync(int currentUserId)
         {
-            _logger.LogInformation("Retrieving appointments for user {UserId}", currentUserId);
-
             // Get patient from current user
             var patient = await _context.Patients
                 .FirstOrDefaultAsync(p => p.UserId == currentUserId);
 
             if (patient == null)
             {
-                _logger.LogWarning("Patient not found for user {UserId} when retrieving appointments", currentUserId);
                 throw new AppException(ErrorCode.PATIENT_NOT_FOUND);
             }
-
-            _logger.LogDebug("Found patient {PatientId} for user {UserId}", patient.Id, currentUserId);
 
             // Build queryable appointments for the patient
             var appointmentsQuery = _context.Appointments
@@ -328,17 +266,13 @@ namespace medical_appointment_booking.Services.Impl
                     CanReschedule = CanRescheduleAppointment(a.AppointmentDate, a.Status)
                 });
 
-            _logger.LogDebug("Appointments query built for patient {PatientId}", patient.Id);
             return appointmentsQuery;
         }
 
         public async Task CancelAppointmentAsync(long appointmentId, CancelAppointmentRequest request, int currentUserId)
         {
-            _logger.LogInformation("Starting appointment cancellation - AppointmentId: {AppointmentId}, User: {UserId}, Reason: {CancelReason}",
-                appointmentId, currentUserId, request?.CancelReason);
 
             using var transaction = await _context.Database.BeginTransactionAsync();
-            _logger.LogDebug("Database transaction started for appointment cancellation");
 
             try
             {
@@ -348,7 +282,6 @@ namespace medical_appointment_booking.Services.Impl
 
                 if (patient == null)
                 {
-                    _logger.LogWarning("Patient not found for user {UserId} during cancellation", currentUserId);
                     throw new AppException(ErrorCode.PATIENT_NOT_FOUND);
                 }
 
@@ -359,19 +292,14 @@ namespace medical_appointment_booking.Services.Impl
 
                 if (appointment == null)
                 {
-                    _logger.LogWarning("Appointment {AppointmentId} not found for patient {PatientId}",
-                        appointmentId, patient.Id);
+
                     throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
                 }
 
-                _logger.LogDebug("Found appointment {AppointmentId} for patient {PatientId} - Status: {Status}, Date: {AppointmentDate}",
-                    appointmentId, patient.Id, appointment.Status, appointment.AppointmentDate);
 
                 // 3. Validate if appointment can be cancelled
                 if (!CanCancelAppointment(appointment.AppointmentDate, appointment.Status))
                 {
-                    _logger.LogWarning("Appointment {AppointmentId} cannot be cancelled - Status: {Status}, Date: {AppointmentDate}",
-                        appointmentId, appointment.Status, appointment.AppointmentDate);
                     throw new AppException(ErrorCode.APPOINTMENT_CANNOT_BE_CANCELLED);
                 }
 
@@ -389,8 +317,6 @@ namespace medical_appointment_booking.Services.Impl
                     timeSlot.IsAvailable = true;
                     timeSlot.UpdatedBy = currentUserId.ToString();
                     timeSlot.UpdatedAt = DateTime.Now;
-
-                    _logger.LogDebug("TimeSlot {SlotId} marked as available again", timeSlot.Id);
                 }
 
                 // 6. Create appointment history record
@@ -406,27 +332,18 @@ namespace medical_appointment_booking.Services.Impl
                 };
 
                 _context.AppointmentHistories.Add(history);
-                _logger.LogDebug("Appointment history record created for cancellation");
-
                 // 7. Save changes
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                _logger.LogInformation("Appointment {AppointmentId} cancelled successfully by user {UserId}",
-                    appointmentId, currentUserId);
             }
             catch (AppException ex)
             {
-                _logger.LogWarning("Business logic error during appointment cancellation - AppointmentId: {AppointmentId}, " +
-                    "User: {UserId}, Error: {ErrorCode} - {ErrorMessage}",
-                    appointmentId, currentUserId, ex.ErrorCode.Code, ex.ErrorCode.Message);
                 await transaction.RollbackAsync();
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during appointment cancellation - AppointmentId: {AppointmentId}, User: {UserId}",
-                    appointmentId, currentUserId);
                 await transaction.RollbackAsync();
                 throw;
             }
@@ -453,12 +370,7 @@ namespace medical_appointment_booking.Services.Impl
 
         public async Task<RescheduleAppointmentResponse> RescheduleAppointmentAsync(long appointmentId, RescheduleAppointmentRequest request, int currentUserId)
         {
-            _logger.LogInformation("Starting appointment rescheduling - AppointmentId: {AppointmentId}, User: {UserId}, " +
-                "NewDate: {NewDate}, NewSlot: {NewSlotId}",
-                appointmentId, currentUserId, request.NewAppointmentDate, request.NewSlotId);
-
             using var transaction = await _context.Database.BeginTransactionAsync();
-            _logger.LogDebug("Database transaction started for appointment rescheduling");
 
             try
             {
@@ -468,7 +380,6 @@ namespace medical_appointment_booking.Services.Impl
 
                 if (patient == null)
                 {
-                    _logger.LogWarning("Patient not found for user {UserId} during rescheduling", currentUserId);
                     throw new AppException(ErrorCode.PATIENT_NOT_FOUND);
                 }
 
@@ -478,33 +389,25 @@ namespace medical_appointment_booking.Services.Impl
                     .FirstOrDefaultAsync(a => a.Id == appointmentId && a.PatientId == patient.Id);
 
                 if (appointment == null)
-                {
-                    _logger.LogWarning("Appointment {AppointmentId} not found for patient {PatientId}",
-                        appointmentId, patient.Id);
+                {                   
                     throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
                 }
 
-                _logger.LogDebug("Found appointment {AppointmentId} - Current date: {CurrentDate}, Current time: {CurrentTime}",
-                    appointmentId, appointment.AppointmentDate, appointment.AppointmentTime);
 
                 // 3. Validate if appointment can be rescheduled
                 if (!CanRescheduleAppointment(appointment.AppointmentDate, appointment.Status))
                 {
-                    _logger.LogWarning("Appointment {AppointmentId} cannot be rescheduled - Status: {Status}, Date: {AppointmentDate}",
-                        appointmentId, appointment.Status, appointment.AppointmentDate);
                     throw new AppException(ErrorCode.APPOINTMENT_CANNOT_BE_RESCHEDULED);
                 }
 
                 // 4. Parse new appointment date
                 if (!DateOnly.TryParse(request.NewAppointmentDate, out var newAppointmentDate))
                 {
-                    _logger.LogWarning("Invalid new appointment date format: {NewAppointmentDate}", request.NewAppointmentDate);
                     throw new AppException(ErrorCode.INVALID_APPOINTMENT_DATE);
                 }
 
                 if (newAppointmentDate < DateOnly.FromDateTime(DateTime.Now))
                 {
-                    _logger.LogWarning("Attempt to reschedule appointment to past date: {NewAppointmentDate}", newAppointmentDate);
                     throw new AppException(ErrorCode.PAST_APPOINTMENT_DATE);
                 }
 
@@ -515,20 +418,15 @@ namespace medical_appointment_booking.Services.Impl
 
                 if (newTimeSlot == null || !newTimeSlot.IsAvailable)
                 {
-                    _logger.LogWarning("New TimeSlot {NewSlotId} not found or not available", request.NewSlotId);
                     throw new AppException(ErrorCode.TIMESLOT_NOT_AVAILABLE);
                 }
 
-                _logger.LogDebug("Found new time slot {NewSlotId} at {NewSlotTime}", request.NewSlotId, newTimeSlot.SlotTime);
 
                 // 6. Validate that the new slot belongs to the same doctor and correct date
                 if (newTimeSlot.WorkSchedule.DoctorId != appointment.DoctorId ||
                     newTimeSlot.WorkSchedule.WorkDate != newAppointmentDate)
                 {
-                    _logger.LogWarning("New TimeSlot {NewSlotId} validation failed - Expected: Doctor {ExpectedDoctorId}, Date {ExpectedDate}; " +
-                        "Actual: Doctor {ActualDoctorId}, Date {ActualDate}",
-                        request.NewSlotId, appointment.DoctorId, newAppointmentDate,
-                        newTimeSlot.WorkSchedule.DoctorId, newTimeSlot.WorkSchedule.WorkDate);
+ 
                     throw new AppException(ErrorCode.TIMESLOT_DOCTOR_MISMATCH);
                 }
 
@@ -543,9 +441,7 @@ namespace medical_appointment_booking.Services.Impl
 
                 if (existingAppointment != null)
                 {
-                    _logger.LogWarning("Appointment conflict detected during rescheduling - Patient {PatientId} already has " +
-                        "appointment {ExistingAppointmentId} on {NewDate} at {NewTime}",
-                        patient.Id, existingAppointment.Id, newAppointmentDate, newTimeSlot.SlotTime);
+                    
                     throw new AppException(ErrorCode.APPOINTMENT_CONFLICT);
                 }
 
@@ -554,8 +450,7 @@ namespace medical_appointment_booking.Services.Impl
                 var oldAppointmentDate = appointment.AppointmentDate;
                 var oldAppointmentTime = appointment.AppointmentTime;
 
-                _logger.LogDebug("Storing old values - SlotId: {OldSlotId}, Date: {OldDate}, Time: {OldTime}",
-                    oldSlotId, oldAppointmentDate, oldAppointmentTime);
+              
 
                 // 9. Update appointment
                 appointment.SlotId = request.NewSlotId;
@@ -572,7 +467,6 @@ namespace medical_appointment_booking.Services.Impl
                     oldTimeSlot.UpdatedBy = currentUserId.ToString();
                     oldTimeSlot.UpdatedAt = DateTime.Now;
 
-                    _logger.LogDebug("Old TimeSlot {OldSlotId} marked as available", oldTimeSlot.Id);
                 }
 
                 // 11. Make new time slot unavailable
@@ -580,7 +474,6 @@ namespace medical_appointment_booking.Services.Impl
                 newTimeSlot.UpdatedBy = currentUserId.ToString();
                 newTimeSlot.UpdatedAt = DateTime.Now;
 
-                _logger.LogDebug("New TimeSlot {NewSlotId} marked as unavailable", request.NewSlotId);
 
                 // 12. Create appointment history record
                 var history = new AppointmentHistory
@@ -598,14 +491,11 @@ namespace medical_appointment_booking.Services.Impl
                 };
 
                 _context.AppointmentHistories.Add(history);
-                _logger.LogDebug("Appointment history record created for rescheduling");
 
                 // 13. Save changes
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                _logger.LogInformation("Appointment {AppointmentId} rescheduled successfully - From: {OldDate} {OldTime} to {NewDate} {NewTime}",
-                    appointmentId, oldAppointmentDate, oldAppointmentTime, newAppointmentDate, newTimeSlot.SlotTime);
 
                 // 14. Create response
                 var response = new RescheduleAppointmentResponse
@@ -619,16 +509,11 @@ namespace medical_appointment_booking.Services.Impl
             }
             catch (AppException ex)
             {
-                _logger.LogWarning("Business logic error during appointment rescheduling - AppointmentId: {AppointmentId}, " +
-                    "User: {UserId}, Error: {ErrorCode} - {ErrorMessage}",
-                    appointmentId, currentUserId, ex.ErrorCode.Code, ex.ErrorCode.Message);
                 await transaction.RollbackAsync();
                 throw;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Unexpected error during appointment rescheduling - AppointmentId: {AppointmentId}, User: {UserId}",
-                    appointmentId, currentUserId);
                 await transaction.RollbackAsync();
                 throw;
             }
