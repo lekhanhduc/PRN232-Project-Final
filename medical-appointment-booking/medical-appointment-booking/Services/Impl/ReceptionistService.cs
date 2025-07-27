@@ -117,6 +117,9 @@ namespace medical_appointment_booking.Services.Impl
             return await receptionistRepository.CancelAppointmentAsync(appointmentId, cancelReason, cancelledByUserId);
         }
 
-
+        public async Task<Patient?> GetPatientByPatientIdAsync(long id)
+        {
+            return await receptionistRepository.GetPatientByPatientIdAsync(id);
+        }
     }
 }
