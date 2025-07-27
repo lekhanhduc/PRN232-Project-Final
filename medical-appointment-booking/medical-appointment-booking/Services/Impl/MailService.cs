@@ -93,6 +93,41 @@ namespace medical_appointment_booking.Services.Impl
                 _logger.LogError("Failed to send doctor welcome email to {Email}. Status: {StatusCode}", to, response.StatusCode);
             }
         }
+
+        public async Task SendReceptionistWelcomeEmail(string to, string email, string temporaryPassword,DateTime registrationDate)
+        {
+            var client = new SendGridClient(_sendGridApiKey);
+            var from = new EmailAddress(_emailFrom, "Medical Appointment System");
+            var toEmail = new EmailAddress(to);
+
+            var msg = new SendGridMessage
+            {
+                TemplateId = _doctorWelcomeTemplateId,
+                From = from,
+                Subject = "Welcome to Medical Appointment - Receptionist Account Created"
+            };
+
+            msg.AddTo(toEmail);
+            msg.SetTemplateData(new
+            {           
+                email = email,
+                temporary_password = temporaryPassword,             
+                registration_date = registrationDate.ToString("dd/MM/yyyy HH:mm"),
+                login_url = "https://your-medical-app.com/doctor/login",
+                support_email = _emailFrom,
+                current_year = DateTime.Now.Year
+            });
+
+            var response = await client.SendEmailAsync(msg);
+            if (response.StatusCode == System.Net.HttpStatusCode.Accepted)
+            {
+                _logger.LogInformation("Receptionist welcome email sent successfully to {Email}", to);
+            }
+            else
+            {
+                _logger.LogError("Failed to send receptionist welcome email to {Email}. Status: {StatusCode}", to, response.StatusCode);
+            }
+        }
     }
 
 }
