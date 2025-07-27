@@ -1,5 +1,6 @@
 ﻿using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
+using medical_appointment_booking.Models;
 
 namespace medical_appointment_booking.Services
 {
@@ -10,5 +11,6 @@ namespace medical_appointment_booking.Services
         Task<AppointmentCreationResponse> AddAppointmentAsync(AppointmentCreationRequest appointmentRequest);
         Task<IEnumerable<AppointmentTodayResponse>> GetTodayAppointmentsAsync();
         Task<bool> CancelAppointmentAsync(long appointmentId, string cancelReason, long? cancelledByUserId = null);
+        Task<Patient?> GetPatientByPatientIdAsync(long id);
     }
 }

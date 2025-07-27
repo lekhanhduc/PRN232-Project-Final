@@ -1,6 +1,8 @@
 ﻿using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
+using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace medical_appointment_booking.Controllers
@@ -9,17 +11,20 @@ namespace medical_appointment_booking.Controllers
     [ApiController]
     public class ReceptionistController : ControllerBase
     {
-        private readonly IReceptionistService _receptionistService; 
+        private readonly IReceptionistService _receptionistService;
+        private readonly IAppointmentService _appointmentService;
 
-        public ReceptionistController(IReceptionistService receptionistService)
+        public ReceptionistController(IAppointmentService appointmentService, IReceptionistService receptionistService)
         {
+            _appointmentService = appointmentService;
             _receptionistService = receptionistService;
         }
 
         [HttpGet]
         [Route("patients/search")]
-        public async Task<ApiResponse<IEnumerable<PatientDto>>> SearchPatients([FromQuery] string query)
+        public async Task<ApiResponse<IEnumerable<PatientDto>>> SearchPatients([FromQuery] string? query)
         {
+           
             var patients = await _receptionistService.SearchPatientsAsync(query);
             return new ApiResponse<IEnumerable<PatientDto>>
             {
@@ -53,17 +58,54 @@ namespace medical_appointment_booking.Controllers
             };
         }
 
-        [HttpPut("appointments/{appointmentId}/cancel")]
-        public async Task<ApiResponse<bool>> CancelAppointment(long appointmentId, [FromBody] CancelAppointmentRequest request)
-        {
-            var success = await _receptionistService.CancelAppointmentAsync(appointmentId, request.CancelReason);
+        //[HttpPut("appointments/{appointmentId}/cancel")]
+        //public async Task<ApiResponse<bool>> CancelAppointment(long appointmentId, [FromBody] CancelAppointmentRequest request)
+        //{
+        //    var success = await _receptionistService.CancelAppointmentAsync(appointmentId, request.CancelReason);
 
-            return new ApiResponse<bool>
+        //    return new ApiResponse<bool>
+        //    {
+        //        code = success ? 200 : 404,
+        //        result = success
+        //    };
+        //}
+
+        [HttpPut("appointments/{appointmentId}/cancel")]
+        //[Authorize]
+        public async Task<ActionResult<ApiResponse<object>>> CancelAppointment(
+                                       long appointmentId,
+                                       long patientId,
+                                       [FromBody] CancelAppointmentRequest request)
+        {
+            try
             {
-                code = success ? 200 : 404,
-                result = success
-            };
+                var currentUser = await _receptionistService.GetPatientByPatientIdAsync(patientId);
+                await _appointmentService.CancelAppointmentAsync(appointmentId, request, (int) currentUser.UserId);
+
+                return Ok(new ApiResponse<object>
+                {
+                    code = 200,
+                    message = "Hủy lịch hẹn thành công"
+                });
+            }
+            catch (AppException ex)
+            {
+                return StatusCode((int)ex.ErrorCode.StatusCode, new ApiResponse<object>
+                {
+                    code = ex.ErrorCode.Code,
+                    message = ex.ErrorCode.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ApiResponse<object>
+                {
+                    code = 500,
+                    message = "An error occurred while canceling appointment"
+                });
+            }
         }
+
 
     }
 }
