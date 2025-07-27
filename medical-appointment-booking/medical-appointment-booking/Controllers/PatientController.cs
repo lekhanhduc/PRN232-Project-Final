@@ -1,9 +1,7 @@
-
 ﻿using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace medical_appointment_booking.Controllers
@@ -76,3 +74,4 @@ namespace medical_appointment_booking.Controllers
 
     }
 }
+﻿

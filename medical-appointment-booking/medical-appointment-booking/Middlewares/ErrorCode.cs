@@ -42,6 +42,16 @@ namespace medical_appointment_booking.Middlewares
         public static readonly ErrorCode APPOINTMENT_CANNOT_BE_CANCELLED = new ErrorCode(400, "Appointment cannot be cancelled. Only scheduled appointments can be cancelled at least 24 hours in advance", HttpStatusCode.BadRequest);
         public static readonly ErrorCode APPOINTMENT_CANNOT_BE_RESCHEDULED = new ErrorCode(400, "Appointment cannot be rescheduled. Only scheduled appointments can be rescheduled at least 24 hours in advance", HttpStatusCode.BadRequest);
         public static readonly ErrorCode INVALID_DAYS_AHEAD_RANGE = new ErrorCode(400, "Days ahead must be between 1 and 365", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode INVALID_DATE_RANGE = new ErrorCode(400,"Start date cannot be greater than end date", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode FUTURE_APPOINTMENT_ARRIVAL = new ErrorCode(400,"Cannot mark patient as arrived for future appointments", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode INVALID_APPOINTMENT_STATUS_FOR_COMPLETION = new ErrorCode(400, "Appointment cannot be completed. Invalid status.", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode LEAVE_DATE_IN_PAST = new ErrorCode(400,"Leave date must be in the future", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode LEAVE_CONFLICT = new ErrorCode(400, "Leave request already exists for this date", HttpStatusCode.BadRequest);
     }
 
 }
