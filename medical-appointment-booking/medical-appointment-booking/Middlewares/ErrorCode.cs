@@ -29,7 +29,6 @@ namespace medical_appointment_booking.Middlewares
         public static readonly ErrorCode TWO_FACTOR_SECRET_NOT_SET = new ErrorCode(400,"Two-factor authentication is not configured for this account.",HttpStatusCode.BadRequest);
         public static readonly ErrorCode INVALID_2FA_CODE = new ErrorCode(401, "The verification code is invalid or has expired.", HttpStatusCode.Unauthorized);
 
-        // Appointment specific error codes
         public static readonly ErrorCode PATIENT_NOT_FOUND = new ErrorCode(404, "Patient not found", HttpStatusCode.NotFound);
         public static readonly ErrorCode DOCTOR_NOT_FOUND = new ErrorCode(404, "Doctor not found or not available", HttpStatusCode.NotFound);
         public static readonly ErrorCode TIMESLOT_NOT_AVAILABLE = new ErrorCode(400, "Time slot not available", HttpStatusCode.BadRequest);
@@ -45,3 +44,4 @@ namespace medical_appointment_booking.Middlewares
     }
 
 }
+
