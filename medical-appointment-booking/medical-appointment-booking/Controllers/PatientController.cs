@@ -1,3 +1,4 @@
+﻿
 ﻿using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Services;
@@ -39,5 +40,38 @@ namespace medical_appointment_booking.Controllers
                 result = await patientService.UpdateProfile(request)
             };
         }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<ApiResponse<object>> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            await patientService.ChangePassword(request);
+            return new ApiResponse<object>
+            {
+                code = 200,
+                message = "Change password successfully"
+            };
+        }
+
+        [HttpPost("upload-avatar")]
+        [Authorize]
+        public async Task<ApiResponse<string>> UploadAvatar(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return new ApiResponse<string>
+                {
+                    code = 400,
+                    message = "No file uploaded"
+                };
+            }
+            var result = await patientService.UploadAvatar(file);
+            return new ApiResponse<string>
+            {
+                code = 200,
+                result = result
+            };
+        }
+
     }
 }

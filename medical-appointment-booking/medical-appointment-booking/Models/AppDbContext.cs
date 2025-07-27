@@ -39,7 +39,7 @@ namespace medical_appointment_booking.Models
 
             modelBuilder.Entity<Appointment>()
                 .HasOne(a => a.Patient)
-                .WithMany()
+                .WithMany(p => p.Appointments)
                 .HasForeignKey(a => a.PatientId)
                 .OnDelete(DeleteBehavior.Restrict); 
 

@@ -8,9 +8,9 @@ namespace medical_appointment_booking.Services.Impl
 {
     public class DoctorScheduleService : IDoctorScheduleService
     {
-        private readonly IDoctorScheduleRepository _doctorScheduleRepository;
+        private readonly DoctorScheduleRepository _doctorScheduleRepository;
 
-        public DoctorScheduleService(IDoctorScheduleRepository doctorScheduleRepository)
+        public DoctorScheduleService(DoctorScheduleRepository doctorScheduleRepository)
         {
             _doctorScheduleRepository = doctorScheduleRepository;
         }
