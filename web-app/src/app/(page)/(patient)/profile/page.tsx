@@ -9,8 +9,6 @@ import TwoFactorAuth from '@/components/profile/TwoFactorAuth';
 import ChangePassword from '@/components/profile/ChangePassword';
 import { patientService } from '@/services/patientService';
 
-
-
 const PatientProfile: React.FC = () => {
     const { patient, loading, saving, updateProfile, refreshProfile } = usePatientProfile();
     const [activeTab, setActiveTab] = useState<'profile' | '2fa' | 'password'>('profile');
@@ -27,7 +25,6 @@ const PatientProfile: React.FC = () => {
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
-    // Toast state
     const [toast, setToast] = useState({ show: false, message: '', type: 'success' as 'success' | 'error' | 'info' });
 
     const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
@@ -35,7 +32,6 @@ const PatientProfile: React.FC = () => {
         setTimeout(() => setToast({ show: false, message: '', type: 'success' }), 3000);
     };
 
-    // Cập nhật editForm khi patient data thay đổi
     React.useEffect(() => {
         if (patient) {
             setEditForm({
@@ -50,7 +46,6 @@ const PatientProfile: React.FC = () => {
         }
     }, [patient]);
 
-    // Hàm định dạng ngày
     const formatDate = (dateString: string): string => {
         return new Date(dateString).toLocaleDateString('vi-VN', {
             day: '2-digit',
@@ -59,7 +54,6 @@ const PatientProfile: React.FC = () => {
         });
     };
 
-    // Hàm lấy văn bản giới tính
     const getGenderText = (gender?: Gender): string => {
         switch (gender) {
             case Gender.Male:
@@ -73,7 +67,6 @@ const PatientProfile: React.FC = () => {
         }
     };
 
-    // Xử lý chỉnh sửa hồ sơ
     const handleEditProfile = () => {
         if (patient) {
             setEditForm({
@@ -114,7 +107,6 @@ const PatientProfile: React.FC = () => {
         }
     };
 
-    // Xử lý thay đổi input
     const handleInputChange = (field: keyof PatientDetailRequest, value: string | Gender) => {
         setEditForm((prev) => ({
             ...prev,
@@ -122,30 +114,25 @@ const PatientProfile: React.FC = () => {
         }));
     };
 
-    // Xử lý upload avatar
     const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-            // Kiểm tra loại file
             if (!file.type.startsWith('image/')) {
                 showToast('Vui lòng chọn file ảnh!', 'error');
                 return;
             }
 
-            // Kiểm tra kích thước file (max 5MB)
             if (file.size > 5 * 1024 * 1024) {
                 showToast('Kích thước ảnh không được vượt quá 5MB!', 'error');
                 return;
             }
 
-            // Tạo preview
             const reader = new FileReader();
             reader.onload = (e) => {
                 setAvatarPreview(e.target?.result as string);
             };
             reader.readAsDataURL(file);
 
-            // Upload avatar (giả lập - bạn có thể thay thế bằng API thực tế)
             uploadAvatar(file);
         }
     };
@@ -154,14 +141,11 @@ const PatientProfile: React.FC = () => {
         try {
             setUploadingAvatar(true);
 
-            // Upload avatar qua API
             const response = await patientService.uploadAvatar(file);
 
             if (response.code === 200 && response.result) {
-                showToast('Cập nhật ảnh đại diện thành công!');
-                // Refresh profile để lấy avatar mới
                 await refreshProfile();
-                setAvatarPreview(null); // Clear preview sau khi upload thành công
+                setAvatarPreview(null);
             } else {
                 throw new Error(response.message || 'Upload failed');
             }
@@ -182,7 +166,6 @@ const PatientProfile: React.FC = () => {
         { id: 'password', label: 'Đổi mật khẩu', icon: Lock },
     ];
 
-    // Loading state
     if (loading) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -194,7 +177,6 @@ const PatientProfile: React.FC = () => {
         );
     }
 
-    // Error state
     if (!patient) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -358,7 +340,6 @@ const PatientProfile: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    {/* Form Fields */}
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         <div className="space-y-2">
                                             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -504,7 +485,6 @@ const PatientProfile: React.FC = () => {
                                 </div>
                             )}
 
-                            {/* 2FA Tab */}
                             {activeTab === '2fa' && (
                                 <TwoFactorAuth
                                     onShowToast={showToast}
@@ -513,7 +493,6 @@ const PatientProfile: React.FC = () => {
                                 />
                             )}
 
-                            {/* Password Tab */}
                             {activeTab === 'password' && (
                                 <ChangePassword onShowToast={showToast} />
                             )}

@@ -35,9 +35,9 @@ export const DoctorTabs: React.FC<DoctorTabsProps> = ({ doctor, activeTab, onTab
             case 'reviews':
                 return <ReviewsTab rating={doctor.rating} reviews={doctor.reviews} />;
             case 'appointment':
-                return <AppointmentTab />;
+                return <AppointmentTab doctorId={Number(doctor.id)} />;
             case 'hours':
-                return <WorkingHoursTab workingHours={doctor.workingHours} />;
+                return <WorkingHoursTab doctorId={Number(doctor.id)} />;
             default:
                 return <OverviewTab doctor={doctor} />;
         }

@@ -12,7 +12,6 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onShowToast }) => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Xử lý đổi mật khẩu
     const handleChangePassword = async () => {
         if (!currentPassword || !newPassword || !confirmPassword) {
             onShowToast('Vui lòng điền đầy đủ thông tin!', 'error');
@@ -34,7 +33,7 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onShowToast }) => {
                 setCurrentPassword('');
                 setNewPassword('');
                 setConfirmPassword('');
-                onShowToast('Đổi mật khẩu thành công!');
+                onShowToast('Đổi mật khẩu thành công!', 'success');
             } else {
                 onShowToast(response.message || 'Không thể đổi mật khẩu', 'error');
             }

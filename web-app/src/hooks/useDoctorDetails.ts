@@ -10,14 +10,10 @@ export const useDoctorDetails = (doctorId: number) => {
     const fetchDoctorDetails = async () => {
         setLoading(true);
         setError(null);
-        
-        console.log('🔍 Debug - Hook fetchDoctorDetails called with doctorId:', doctorId);
-        
+
         try {
             const response = await doctorService.getDoctorDetails(doctorId);
-            
-            console.log('🔍 Debug - Hook received doctor details response:', response);
-            
+
             if (response.code === 200 && response.result) {
                 setDoctor(response.result);
             } else {

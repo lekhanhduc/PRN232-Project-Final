@@ -109,6 +109,19 @@ export const useAppointments = () => {
         return appointments.filter(appointment => appointment.status === 'cancelled');
     };
 
+    // Cập nhật trạng thái cuộc hẹn (cho receptionist)
+    const updateAppointmentStatus = async (appointmentId: string, status: AppointmentResponse['status']) => {
+        // TODO: Implement API call to update appointment status
+        // For now, just update local state
+        setAppointments(prev =>
+            prev.map(apt =>
+                apt.appointmentId.toString() === appointmentId
+                    ? { ...apt, status }
+                    : apt
+            )
+        );
+    };
+
     useEffect(() => {
         fetchAppointments();
     }, []);
@@ -124,5 +137,6 @@ export const useAppointments = () => {
         getUpcomingAppointments,
         getCompletedAppointments,
         getCancelledAppointments,
+        updateAppointmentStatus,
     };
 };

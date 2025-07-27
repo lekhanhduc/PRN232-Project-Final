@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Calendar, CheckCircle, Clock, Users, TrendingUp, Activity, AlertCircle } from 'lucide-react';
-import { DashboardStats } from '@/hooks/doctor/types';
+import type { DashboardStats } from '@/hooks/doctor/types';
 
 interface DashboardStatsProps {
   dashboardStats: DashboardStats;

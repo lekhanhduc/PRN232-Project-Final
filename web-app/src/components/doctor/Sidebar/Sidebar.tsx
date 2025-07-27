@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { User } from 'lucide-react';
-import { MenuItem } from './types';
+import { MenuItem } from '@/hooks/doctor/types';
 
 interface SidebarProps {
   menuItems: MenuItem[];
@@ -33,11 +33,10 @@ const Sidebar = ({ menuItems, activeTab, onTabChange }: SidebarProps) => {
               <li key={item.id}>
                 <button
                   onClick={() => onTabChange(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors relative ${
-                    activeTab === item.id
+                  className={`w-full flex items-center gap-3 px-4 py-3 text-left rounded-lg transition-colors relative ${activeTab === item.id
                       ? 'bg-blue-100 text-blue-700 font-medium'
                       : 'text-gray-600 hover:bg-gray-100'
-                  }`}
+                    }`}
                 >
                   <Icon size={20} />
                   {item.label}

@@ -61,30 +61,29 @@ export default function DoctorDetail() {
         );
     }
 
-    // Transform API data to match component expectations
     const transformedDoctorData = {
         id: doctor.doctorId.toString(),
-        name: doctor.fullName,
-        title: doctor.degree,
-        specialty: doctor.specialty.specialtyName,
-        qualifications: doctor.licenseNumber,
-        experience: `${doctor.yearsOfExperience}+ years`,
-        rating: 4.8, // Default rating since API doesn't provide it
-        reviews: 150, // Default reviews count
-        totalPatients: 1000, // Default patient count
-        successRate: 95, // Default success rate
-        about: doctor.bio,
+        name: doctor.fullName || 'Unknown Doctor',
+        title: doctor.degree || 'Doctor',
+        specialty: doctor.specialty?.specialtyName || 'General Practice',
+        qualifications: doctor.licenseNumber || 'Licensed',
+        experience: `${doctor.yearsOfExperience || 0}+ years`,
+        rating: 4.8,
+        reviews: 150,
+        totalPatients: 1000,
+        successRate: 95,
+        about: doctor.bio || 'No biography available',
         education: [
-            { degree: doctor.degree, institution: 'Medical School', year: 'Graduated', honor: 'Licensed' },
+            { degree: doctor.degree || 'Medical Degree', institution: 'Medical School', year: 'Graduated', honor: 'Licensed' },
         ],
-        specializations: [doctor.specialty.specialtyName],
+        specializations: [doctor.specialty?.specialtyName || 'General Practice'],
         awards: [
             { title: 'Licensed Physician', organization: 'Medical Board', year: 'Current' },
         ],
         languages: ['Vietnamese', 'English'],
         services: [
             { name: 'Consultation', duration: '30 min', description: 'General consultation' },
-            { name: 'Specialty Consultation', duration: '60 min', description: doctor.specialty.description },
+            { name: 'Specialty Consultation', duration: '60 min', description: 'Specialty consultation' },
         ],
         workingHours: [
             { day: 'Monday', hours: '8:00 AM - 6:00 PM', available: doctor.isAvailable },
@@ -95,13 +94,13 @@ export default function DoctorDetail() {
             { day: 'Saturday', hours: '9:00 AM - 1:00 PM', available: false },
             { day: 'Sunday', hours: 'Emergency Only', available: false },
         ],
-        image: `https://ui-avatars.com/api/?name=${encodeURIComponent(doctor.fullName)}&size=200&background=3B82F6&color=fff`,
+        image: `https://ui-avatars.com/api/?name=${encodeURIComponent(doctor.fullName || 'Doctor')}&size=200&background=3B82F6&color=fff`,
         verified: true,
         featured: true,
         acceptsInsurance: true,
         telemedicine: true,
         emergencyAvailable: doctor.isAvailable,
-        consultationFee: doctor.consultationFee
+        consultationFee: doctor.consultationFee || 0
     };
 
     return (

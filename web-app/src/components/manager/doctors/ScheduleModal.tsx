@@ -1,12 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import toast from 'react-hot-toast';
-import { WorkScheduleDto,DoctorDetailResponse } from '@/types/doctor';
-interface TimeSlot {
-  slotTime: string;
-}
-
+import { DoctorDetailResponse } from '@/types/doctor';
 
 interface ScheduleModalProps {
   isOpen: boolean;
@@ -15,11 +10,8 @@ interface ScheduleModalProps {
   //onSubmit: (data: WorkScheduleDto) => void;
 }
 
-export const ScheduleModal = ({ isOpen, onClose, onSubmit }: ScheduleModalProps) => {
+export const ScheduleModal = ({ isOpen, onClose }: ScheduleModalProps) => {
   const [workDate, setWorkDate] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [maxPatients, setMaxPatients] = useState(20);
   const [timeSlots, setTimeSlots] = useState<string[]>(['']);
 
   if (!isOpen) return null;
@@ -38,23 +30,11 @@ export const ScheduleModal = ({ isOpen, onClose, onSubmit }: ScheduleModalProps)
     setTimeSlots(updated);
   };
 
-//   const handleSubmit = (e: React.FormEvent) => {
-//     e.preventDefault();
-//     const scheduleData: WorkScheduleDto = {
-//       workDate,
-//       startTime,
-//       endTime,
-//       maxPatients
-//       //timeSlots: timeSlots.filter(Boolean).map(slot => ({ slotTime: slot }))
-//     };
-//     onSubmit(scheduleData);
-//   };
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-xl overflow-y-auto max-h-[90vh]">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Tạo Lịch Làm Việc</h3>
-        <form  className="space-y-4">
+        <form className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">Ngày làm việc</label>
@@ -65,7 +45,7 @@ export const ScheduleModal = ({ isOpen, onClose, onSubmit }: ScheduleModalProps)
                 className="input text-gray-700"
                 required
               />
-            </div>          
+            </div>
           </div>
 
           <div>

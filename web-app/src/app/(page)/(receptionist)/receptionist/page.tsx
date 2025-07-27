@@ -15,9 +15,9 @@ export default function ReceptionistPage() {
     const { patients } = usePatients();
 
     const todayStats = {
-        total: appointments.filter(apt => apt.date === '2025-06-10').length,
-        confirmed: appointments.filter(apt => apt.date === '2025-06-10' && apt.status === 'confirmed').length,
-        pending: appointments.filter(apt => apt.date === '2025-06-10' && apt.status === 'pending').length,
+        total: appointments.filter(apt => apt.appointmentDate === '2025-06-10').length,
+        confirmed: appointments.filter(apt => apt.appointmentDate === '2025-06-10' && apt.status === 'confirmed').length,
+        pending: appointments.filter(apt => apt.appointmentDate === '2025-06-10' && apt.status === 'pending').length,
         totalPatients: patients.length
     };
 
