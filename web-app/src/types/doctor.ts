@@ -1,15 +1,68 @@
-export interface Doctor {
-    id: string;
-    name: string;
-    department: string;
-    schedule: {
-        weekdays: string;
-        saturday?: string;
-        sunday?: string;
-    };
-    status: 'available' | 'busy' | 'off';
+
+export interface DoctorDetailResponse {
+    doctorId: number;
+    fullName: string;
+    specialty: SpecialtyDto;
+    email: string;
+    phone?: string;
+    userAvatar?: string;
+    licenseNumber: string;
+    degree?: string;
+    consultationFee: number;
+    isAvailable: boolean;
+    gender?: Gender;
+    yearsOfExperience: number;
+    bio?: string;
+}
+
+export interface DoctorCreationRequest {
+    email: string;
+    phone: string;
+    firstName: string;
+    lastName: string;
+    specialtyId: number;
+    licenseNumber: string;
+    degree?: string;
+    consultationFee: number;
+    gender?: Gender;
+    yearsOfExperience: number;
+    bio?: string;
     avatar?: string;
 }
+
+export interface DoctorCreationResponse {
+    id: number;
+    userId: number;
+    userName: string;
+    userEmail: string;
+    specialtyId?: number;
+    specialtyName?: string;
+    licenseNumber: string;
+    degree?: string;
+    consultationFee: number;
+    isAvailable: boolean;
+    gender?: Gender;
+    yearsOfExperience: number;
+    bio?: string;
+    createdAt: string;
+}
+
+export interface DoctorUpdateRequest {
+    id: number;
+    email: string;
+    phone: string;
+    firstName: string;
+    lastName: string;
+    specialtyId?: number;
+    licenseNumber?: string;
+    degree?: string;
+    consultationFee?: number;
+    isAvailable?: boolean;
+    gender?: Gender;
+    yearsOfExperience?: number;
+    bio?: string;
+}
+
 
 export interface Education {
     degree: string;
@@ -69,6 +122,7 @@ export interface DoctorData {
     acceptsInsurance: boolean;
     telemedicine: boolean;
     emergencyAvailable: boolean;
+    consultationFee: number;
 }
 
 export interface DateInfo {
@@ -86,7 +140,6 @@ export interface TabItem {
 export type AppointmentType = 'in-person' | 'telehealth';
 export type ActiveTab = 'overview' | 'services' | 'reviews' | 'appointment' | 'hours';
 
-// API Backend Types
 export interface DoctorSearchResponse {
     doctorId: number;
     fullName: string;
@@ -99,22 +152,9 @@ export interface DoctorSearchResponse {
     workSchedules: WorkScheduleDto[];
 }
 
-export interface DoctorDetailResponse {
-    doctorId: number;
-    fullName: string;
-    specialty: SpecialtyDetailDto;
-    licenseNumber: string;
-    degree: string;
-    yearsOfExperience: number;
-    consultationFee: number;
-    bio: string;
-    gender?: Gender;
-    isAvailable: boolean;
-}
-
 export interface SpecialtyDto {
-    id: number;
-    name: string;
+    specialtyId: number;
+    specialtyName: string;
 }
 
 export interface SpecialtyDetailDto {

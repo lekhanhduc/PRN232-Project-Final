@@ -1,5 +1,6 @@
 'use client';
 import { Doctor, doctors, specialties } from '@/components/doctors/data/doctorData';
+import { DoctorSearchResponse } from '@/types/doctor';
 import DoctorSearchBar from '@/components/doctors/DoctorSearchBar';
 import DoctorsGrid from '@/components/doctors/DoctorsGrid';
 import PageHeader from '@/components/doctors/PageHeader';
@@ -10,16 +11,37 @@ import React, { useState } from 'react';
 
 const ITEMS_PER_PAGE = 6;
 
+// Transform mock Doctor data to DoctorSearchResponse format
+const transformDoctorData = (doctor: Doctor): DoctorSearchResponse => {
+    return {
+        doctorId: doctor.id,
+        fullName: doctor.name,
+        academicTitle: 'Dr.', // Default title since not available in mock data
+        specialty: {
+            specialtyId: 1, // Default ID since not available in mock data
+            specialtyName: doctor.specialty
+        },
+        gender: undefined, // Not available in mock data
+        yearsOfExperience: parseInt(doctor.experience.split(' ')[0]) || 0,
+        consultationFee: 500000, // Default fee since not available in mock data
+        bio: `Experienced ${doctor.specialty} with ${doctor.experience} of practice.`,
+        workSchedules: [] // Empty array since not available in mock data
+    };
+};
+
 const DoctorsList: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [selectedSpecialty, setSelectedSpecialty] = useState<string>('All');
     const [currentPage, setCurrentPage] = useState<number>(1);
 
-    const filteredDoctors: Doctor[] = doctors.filter((doctor: Doctor) => {
+    // Transform all doctors to DoctorSearchResponse format
+    const transformedDoctors: DoctorSearchResponse[] = doctors.map(transformDoctorData);
+
+    const filteredDoctors: DoctorSearchResponse[] = transformedDoctors.filter((doctor: DoctorSearchResponse) => {
         const matchesSearch =
-            doctor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            doctor.specialty.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesSpecialty = selectedSpecialty === 'All' || doctor.specialty === selectedSpecialty;
+            doctor.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            doctor.specialty.specialtyName.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSpecialty = selectedSpecialty === 'All' || doctor.specialty.specialtyName === selectedSpecialty;
         return matchesSearch && matchesSpecialty;
     });
 

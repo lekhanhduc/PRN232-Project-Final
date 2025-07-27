@@ -2,6 +2,7 @@
 import { useRef } from 'react'
 import { AppStore, makeStore } from './store'
 import { Provider } from 'react-redux'
+import AuthInitializer from '@/components/auth/AuthInitializer'
 
 export default function StoreProvider({
     children
@@ -13,5 +14,11 @@ export default function StoreProvider({
         storeRef.current = makeStore()
     }
 
-    return <Provider store={storeRef.current}>{children}</Provider>
+    return (
+        <Provider store={storeRef.current}>
+            <AuthInitializer>
+                {children}
+            </AuthInitializer>
+        </Provider>
+    )
 }

@@ -9,14 +9,23 @@ import { PatientsManagement } from '@/components/manager/patients/PatientsManage
 import { ReportsManagement } from '@/components/manager/reports/ReportsManagement';
 import { UsersManagement } from '@/components/manager/users/UsersManagement';
 import { ManagerStats } from '@/types/manager';
-import { Doctor } from '@/types/doctor';
-import { Appointment } from '@/types/appointment';
-import { Patient } from '@/types/appointment';
+
+export type Doctor = {
+    id: string;
+    name: string;
+    department: string;
+    schedule: {
+        weekdays: string;
+        saturday?: string;
+    };
+    status: string;
+    avatar: string;
+};
+
 
 export default function ManagerPage() {
     const [activeTab, setActiveTab] = useState('dashboard');
 
-    // Mock data - in real app, this would come from API
     const stats: ManagerStats = {
         totalDoctors: 25,
         totalPatients: 1250,
@@ -28,92 +37,18 @@ export default function ManagerPage() {
         pendingAppointments: 12
     };
 
-    const mockDoctors: Doctor[] = [
-        {
-            id: '1',
-            name: 'Bác sĩ Nguyễn Văn A',
-            department: 'Khoa Nội',
-            schedule: {
-                weekdays: '8:00 - 17:00',
-                saturday: '8:00 - 12:00'
-            },
-            status: 'available',
-            avatar: '/default-avatar.png'
-        },
-        {
-            id: '2',
-            name: 'Bác sĩ Trần Thị B',
-            department: 'Khoa Ngoại',
-            schedule: {
-                weekdays: '8:00 - 17:00'
-            },
-            status: 'busy',
-            avatar: '/default-avatar.png'
-        }
-    ];
-
-    const mockAppointments: Appointment[] = [
-        {
-            id: '1',
-            patientId: '1',
-            patientName: 'Nguyễn Thị D',
-            phone: '0123456789',
-            doctorName: 'Bác sĩ Phạm Văn E',
-            department: 'Khoa Nội',
-            date: '2025-01-15',
-            time: '09:00',
-            status: 'confirmed',
-            symptoms: 'Đau đầu, sốt'
-        },
-        {
-            id: '2',
-            patientId: '2',
-            patientName: 'Trần Văn F',
-            phone: '0987654321',
-            doctorName: 'Bác sĩ Lê Thị G',
-            department: 'Khoa Ngoại',
-            date: '2025-01-15',
-            time: '10:30',
-            status: 'pending',
-            symptoms: 'Đau bụng'
-        }
-    ];
-
-    const mockPatients: Patient[] = [
-        {
-            id: '1',
-            name: 'Nguyễn Thị D',
-            phone: '0123456789',
-            email: 'nguyenthi.d@email.com',
-            address: '123 Đường ABC, Quận 1, TP.HCM',
-            birthDate: '1990-05-15',
-            gender: 'female',
-            lastVisit: '2025-01-10'
-        },
-        {
-            id: '2',
-            name: 'Trần Văn F',
-            phone: '0987654321',
-            email: 'tranvan.f@email.com',
-            address: '456 Đường XYZ, Quận 2, TP.HCM',
-            birthDate: '1985-08-20',
-            gender: 'male',
-            lastVisit: '2025-01-12'
-        }
-    ];
-
     const renderContent = () => {
         switch (activeTab) {
             case 'dashboard':
                 return <Dashboard stats={stats} />;
             case 'doctors':
-                return <DoctorsManagement doctors={mockDoctors} />;
+                return <DoctorsManagement specialties={[]} />;
             case 'departments':
-                return <DepartmentsManagement departments={[]} />;
+                return <DepartmentsManagement />;
             case 'appointments':
-                return <AppointmentsManagement appointments={mockAppointments} />;
+                return <AppointmentsManagement appointments={[]} />;
             case 'patients':
-                return <PatientsManagement patients={mockPatients} />;
+                return <PatientsManagement patients={[]} />;
             case 'reports':
                 return <ReportsManagement stats={stats} />;
             case 'users':

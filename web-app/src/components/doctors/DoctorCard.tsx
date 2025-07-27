@@ -42,7 +42,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
                     <div className="flex-1">
                         <h2 className="text-2xl font-bold text-gray-900">{doctor.fullName}</h2>
                         <p className="text-blue-600 font-semibold text-lg mt-1">{doctor.academicTitle}</p>
-                        <p className="text-gray-600 text-sm mt-1">{doctor.specialty.name}</p>
+                        <p className="text-gray-600 text-sm mt-1">{doctor.specialty.specialtyName}</p>
                         <div className="mt-2 flex items-center">
                             <Star className="h-5 w-5 text-yellow-400 fill-current" />
                             <span className="ml-2 text-gray-800 font-medium">4.8</span>

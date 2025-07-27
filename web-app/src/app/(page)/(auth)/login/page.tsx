@@ -5,18 +5,18 @@ import { useRouter } from 'next/navigation';
 import toast, { Toaster } from 'react-hot-toast';
 import { SignInRequest, SignInResponse, TwoFASetupResponse } from '@/types/auth';
 import { loginUser } from '@/services/authService';
-import { login } from '@/redux/slice/authSlice';
 import Link from 'next/link';
-import { useAppDispatch } from '@/redux/hook';
+import { useAuth } from '@/hooks/useAuth';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import SocialLoginButtons from '@/components/social/SocialLoginButtons';
 import Modal from 'react-modal';
 import { ApiResponse } from '@/types/apiResonse';
 import { getRedirectPath } from '@/utils/Authorities';
-
+import { fetchInterceptor } from '@/utils/Interceptor';
+import { API_URL } from '@/utils/BaseUrl';
 
 const SignIn = () => {
-    const dispatch = useAppDispatch();
+    const { login: authLogin } = useAuth();
     const router = useRouter();
     const [emailOrPhone, setEmailOrPhone] = useState('');
     const [password, setPassword] = useState('');
@@ -61,11 +61,10 @@ const SignIn = () => {
 
         try {
             const data = await loginUser(request);
-            console.log(data);
             toast.dismiss(loadingToast);
 
             if (data.twoFaStep === 1) {
-                const response = await fetch('https://localhost:7166/api/v1/2fa', {
+                const response = await fetchInterceptor(`${API_URL}/api/v1/2fa`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phoneOrEmail: emailOrPhone }),
@@ -94,7 +93,7 @@ const SignIn = () => {
    
                 localStorage.setItem('accessToken', data.accessToken);
                 localStorage.setItem('refreshToken', data.refreshToken);
-                dispatch(login());
+                authLogin(data);
                 const redirectPath = getRedirectPath(data.userType);
                 setTimeout(() => router.push(redirectPath), 500);
             }
@@ -121,7 +120,7 @@ const SignIn = () => {
         const loadingToast = toast.loading('Đang xác minh OTP...', { position: 'top-right' });
 
         try {
-            const response = await fetch('https://localhost:7166/api/v1/2fa/verify', {
+            const response = await fetch(`${API_URL}/api/v1/2fa/verify`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ phoneOrEmail: emailOrPhone, code: otpCode }),
@@ -139,7 +138,7 @@ const SignIn = () => {
 
                 localStorage.setItem('accessToken', data.result.accessToken);
                 localStorage.setItem('refreshToken', data.result.refreshToken);
-                dispatch(login());
+                authLogin(data.result);
                 const redirectPath = getRedirectPath(data.result.userType);
                 setTimeout(() => router.push(redirectPath), 500);
                 setIsModalOpen(false);

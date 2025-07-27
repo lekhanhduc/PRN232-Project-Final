@@ -13,9 +13,12 @@ export const AppointmentList = () => {
     const [showNewAppointment, setShowNewAppointment] = useState(false);
 
     const filteredAppointments = appointments.filter(apt => {
-        const matchesSearch = apt.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            apt.phone.includes(searchTerm);
-        const matchesDate = apt.date === selectedDate;
+        // Since AppointmentResponse doesn't have patient info, we'll search by doctor name and appointment number
+        const matchesSearch = searchTerm === '' ||
+            apt.doctor.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            apt.appointmentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            apt.reasonForVisit.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesDate = apt.appointmentDate === selectedDate;
         const matchesStatus = statusFilter === 'all' || apt.status === statusFilter;
         return matchesSearch && matchesDate && matchesStatus;
     });

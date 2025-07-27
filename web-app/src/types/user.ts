@@ -37,7 +37,7 @@ export interface PatientDetailResponse {
     phone?: string;
     email?: string;
     avatar?: string;
-    dob: string; // ISO date string (DateOnly from backend)
+    dob: string;
     gender?: Gender;
     address?: string;
     enable2FA?: boolean;

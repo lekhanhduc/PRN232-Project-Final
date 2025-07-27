@@ -5,6 +5,7 @@ import { SignInWithGoogle } from '@/services/authService';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState, useCallback } from 'react';
 import toast from 'react-hot-toast';
+import { useAuth } from '@/hooks/useAuth';
 
 function CallbackGoogleContent() {
     const router = useRouter();
@@ -12,6 +13,7 @@ function CallbackGoogleContent() {
     const code = searchParams.get('code');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { login: authLogin } = useAuth();
 
     const handleSendCode = useCallback(async (code: string) => {
         try {
@@ -19,6 +21,7 @@ function CallbackGoogleContent() {
             if (data.result && data.result.accessToken) {
                 localStorage.setItem('accessToken', data.result.accessToken);
                 localStorage.setItem('refreshToken', data.result.refreshToken);
+                authLogin(data.result);
                 toast.success('Đăng nhập Google thành công! 🎉', {
                     duration: 3000,
                     position: 'top-right',

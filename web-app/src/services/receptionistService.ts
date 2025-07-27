@@ -1,10 +1,10 @@
 import { API_URL } from '@/utils/BaseUrl';
-import { 
-    Receptionist, 
-    CreateReceptionistRequest, 
+import {
+    Receptionist,
+    CreateReceptionistRequest,
     UpdateReceptionistRequest,
     ReceptionistResponse,
-    CreateReceptionistResponse 
+    CreateReceptionistResponse
 } from '@/types/receptionist';
 
 export const receptionistService = {

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react';
-import { Search, Filter, Calendar, Clock, User, Phone, Mail } from 'lucide-react';
+import { Search, Calendar, Clock, User } from 'lucide-react';
 import { Appointment } from '@/types/appointment';
 
 interface AppointmentsManagementProps {
@@ -28,18 +28,18 @@ export const AppointmentsManagement = ({ appointments }: AppointmentsManagementP
     ];
 
     const filteredAppointments = appointments.filter(appointment => {
-        const matchesSearch = 
+        const matchesSearch =
             appointment.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             appointment.doctorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             appointment.department.toLowerCase().includes(searchTerm.toLowerCase());
-        
+
         const matchesStatus = statusFilter === 'all' || appointment.status === statusFilter;
-        
+
         const matchesDate = (() => {
             if (dateFilter === 'all') return true;
             const appointmentDate = new Date(appointment.date);
             const today = new Date();
-            
+
             switch (dateFilter) {
                 case 'today':
                     return appointmentDate.toDateString() === today.toDateString();

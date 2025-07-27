@@ -1,118 +1,171 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Check } from 'lucide-react';
+import { doctorService } from '@/services/doctorService';
+import { appointmentService } from '@/services/appointmentService';
 
-export const AppointmentTab: React.FC = () => {
-    const [selectedDate, setSelectedDate] = useState('');
-    const [selectedTime, setSelectedTime] = useState('');
-    const [appointmentType, setAppointmentType] = useState('in-person');
+// Types matching backend response
+interface AppointmentTimeSlotResponse {
+    slotId: number;
+    slotTime: string;
+    slotTimeFormatted: string;
+    isAvailable: boolean; // true: slot có thể đặt, false: slot đã được đặt hoặc không khả dụng
+}
 
-    const today = new Date();
-    const nextDays = Array.from({ length: 14 }, (_, i) => {
-        const date = new Date(today);
-        date.setDate(today.getDate() + i + 1);
-        return date;
-    });
+interface AppointmentDayResponse {
+    scheduleId: number;
+    workDate: string;
+    startTime: string;
+    endTime: string;
+    maxPatients: number;
+    isAvailable: boolean;
+    availableSlots: AppointmentTimeSlotResponse[];
+}
 
-    const formatDate = (date: Date) => {
-        return {
-            day: date.toLocaleDateString('en-US', { weekday: 'short' }),
-            date: date.getDate(),
-            month: date.toLocaleDateString('en-US', { month: 'short' })
-        };
+interface AppointmentTabProps {
+    doctorId: number;
+}
+
+export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
+    const [schedule, setSchedule] = useState<AppointmentDayResponse[]>([]);
+    const [selectedDate, setSelectedDate] = useState<string>('');
+    const [selectedSlot, setSelectedSlot] = useState<AppointmentTimeSlotResponse | null>(null);
+    const [reason, setReason] = useState('');
+    const [packageId, setPackageId] = useState<number | undefined>(undefined);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [booking, setBooking] = useState(false);
+
+    // Đưa fetchSchedule ra ngoài để có thể gọi lại sau khi booking
+    const fetchSchedule = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await doctorService.getDoctorAppointmentSchedule(doctorId);
+            setSchedule(res.result?.workSchedules || []);
+        } catch (err: any) {
+            setError('Failed to load schedule');
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const availableTimes = ['9:00 AM', '10:00 AM', '11:00 AM', '1:00 PM', '2:00 PM', '3:00 PM', '4:00 PM'];
+    useEffect(() => {
+        fetchSchedule();
+    }, [doctorId]);
+
+    const handleBook = async () => {
+        if (!selectedDate || !selectedSlot) return;
+        setBooking(true);
+        setError(null);
+        try {
+            const payload = {
+                doctorId,
+                slotId: selectedSlot.slotId,
+                appointmentDate: selectedDate,
+                reasonForVisit: reason,
+                packageId: packageId || 1,
+            };
+            const res = await appointmentService.createAppointment(payload);
+            alert('Appointment booked successfully!\nAppointment Number: ' + res.result?.appointmentNumber);
+            setSelectedDate('');
+            setSelectedSlot(null);
+            setReason('');
+            setPackageId(undefined);
+            // Refetch lại schedule để disable slot vừa book
+            await fetchSchedule();
+        } catch (err: any) {
+            setError(err.message || 'Failed to book appointment');
+        } finally {
+            setBooking(false);
+        }
+    };
 
     return (
         <div className="space-y-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Book an Appointment</h2>
+            {loading && <div>Loading schedule...</div>}
+            {error && <div className="text-red-600">{error}</div>}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Appointment Type */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-6">
-                    <h3 className="font-bold text-slate-900 mb-4">Appointment Type</h3>
-                    <div className="space-y-3">
-                        <label className="flex items-center gap-3">
-                            <input
-                                type="radio"
-                                value="in-person"
-                                checked={appointmentType === 'in-person'}
-                                onChange={() => setAppointmentType('in-person')}
-                                className="w-5 h-5 text-blue-600 focus:ring-blue-500"
-                            />
-                            <span className="text-slate-700">In-Person</span>
-                        </label>
-                        <label className="flex items-center gap-3">
-                            <input
-                                type="radio"
-                                value="telehealth"
-                                checked={appointmentType === 'telehealth'}
-                                onChange={() => setAppointmentType('telehealth')}
-                                className="w-5 h-5 text-blue-600 focus:ring-blue-500"
-                            />
-                            <span className="text-slate-700">Telehealth</span>
-                        </label>
-                    </div>
-                </div>
-
                 {/* Date Selection */}
                 <div className="bg-white border border-slate-200 rounded-2xl p-6">
                     <h3 className="font-bold text-slate-900 mb-4">Select Date</h3>
-                    <div className="grid grid-cols-7 gap-2">
-                        {nextDays.map((date, index) => {
-                            const { day, date: dayNum, month } = formatDate(date);
-                            return (
-                                <button
-                                    key={index}
-                                    onClick={() => setSelectedDate(date.toISOString().split('T')[0])}
-                                    className={`p-2 rounded-xl text-center text-sm font-medium transition-all ${selectedDate === date.toISOString().split('T')[0]
-                                        ? 'bg-blue-600 text-white'
-                                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                                        }`}
-                                >
-                                    <div>{dayNum}</div>
-                                    <div className="text-xs">{month}</div>
-                                    <div className="text-xs">{day}</div>
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-
-                {/* Time Selection */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-6">
-                    <h3 className="font-bold text-slate-900 mb-4">Select Time</h3>
                     <div className="grid grid-cols-4 gap-2">
-                        {availableTimes.map((time) => (
+                        {schedule.map((day) => (
                             <button
-                                key={time}
-                                onClick={() => setSelectedTime(time)}
-                                className={`p-2 rounded-xl text-sm font-medium transition-all ${selectedTime === time
-                                    ? 'bg-green-600 text-white'
+                                key={day.workDate}
+                                onClick={() => {
+                                    setSelectedDate(day.workDate.split('T')[0]);
+                                    setSelectedSlot(null);
+                                }}
+                                className={`p-2 rounded-xl text-center text-sm font-medium transition-all ${selectedDate === day.workDate.split('T')[0]
+                                    ? 'bg-blue-600 text-white'
                                     : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                                     }`}
                             >
-                                {time}
+                                <div>{new Date(day.workDate).toLocaleDateString()}</div>
                             </button>
                         ))}
                     </div>
                 </div>
-
+                {/* Time Slot Selection */}
+                <div className="bg-white border border-slate-200 rounded-2xl p-6">
+                    <h3 className="font-bold text-slate-900 mb-4">Select Time Slot</h3>
+                    <div className="grid grid-cols-3 gap-2">
+                        {schedule.find((d) => d.workDate.split('T')[0] === selectedDate)?.availableSlots.map((slot) => (
+                            <button
+                                key={slot.slotId}
+                                onClick={() => setSelectedSlot(slot)}
+                                disabled={!slot.isAvailable}
+                                className={`p-2 rounded-xl text-sm font-medium transition-all ${selectedSlot?.slotId === slot.slotId
+                                    ? 'bg-green-600 text-white'
+                                    : !slot.isAvailable
+                                        ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                    }`}
+                            >
+                                {slot.slotTimeFormatted}
+                                {!slot.isAvailable && <span className="ml-2 text-xs text-red-500">(Đã đặt)</span>}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+                {/* Reason for Visit */}
+                <div className="bg-white border border-slate-200 rounded-2xl p-6">
+                    <h3 className="font-bold text-slate-900 mb-4">Reason for Visit</h3>
+                    <textarea
+                        className="w-full border rounded-xl p-2"
+                        value={reason}
+                        onChange={(e) => setReason(e.target.value)}
+                        placeholder="Describe your reason for visit..."
+                    />
+                </div>
+                {/* Package Selection (optional) */}
+                <div className="bg-white border border-slate-200 rounded-2xl p-6">
+                    <h3 className="font-bold text-slate-900 mb-4">Package (optional)</h3>
+                    <input
+                        type="number"
+                        className="w-full border rounded-xl p-2"
+                        value={packageId || ''}
+                        onChange={(e) => setPackageId(Number(e.target.value))}
+                        placeholder="Enter package ID if any"
+                    />
+                </div>
                 {/* Submit Button */}
                 <div className="bg-white border border-slate-200 rounded-2xl p-6 flex items-center">
                     <button
-                        disabled={!selectedDate || !selectedTime}
+                        disabled={!selectedDate || !selectedSlot || !reason || booking}
                         className="w-full px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-all disabled:bg-slate-300 disabled:cursor-not-allowed"
+                        onClick={handleBook}
                     >
-                        Confirm Appointment
+                        {booking ? 'Booking...' : 'Confirm Appointment'}
                     </button>
                 </div>
             </div>
-            {selectedDate && selectedTime && (
+            {selectedDate && selectedSlot && (
                 <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-green-800">
                     <div className="flex items-center gap-2">
-                        <Check className="w-6 h-6" />
-                        <span>Selected: {appointmentType === 'in-person' ? 'In-Person' : 'Telehealth'} on {new Date(selectedDate).toLocaleDateString()} at {selectedTime}</span>
+                        <span>Selected: {new Date(selectedDate).toLocaleDateString()} at {selectedSlot.slotTimeFormatted}</span>
                     </div>
                 </div>
             )}

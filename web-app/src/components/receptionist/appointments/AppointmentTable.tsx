@@ -1,11 +1,11 @@
 'use client'
 import React from 'react';
 import { Edit, Trash2, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
-import { Appointment } from '@/types/appointment';
+import { AppointmentResponse } from '@/types/appointment';
 
 interface AppointmentTableProps {
-    appointments: Appointment[];
-    onUpdateStatus: (id: string, status: Appointment['status']) => void;
+    appointments: AppointmentResponse[];
+    onUpdateStatus: (id: string, status: AppointmentResponse['status']) => void;
 }
 
 export const AppointmentTable = ({ appointments, onUpdateStatus }: AppointmentTableProps) => {
@@ -46,19 +46,22 @@ export const AppointmentTable = ({ appointments, onUpdateStatus }: AppointmentTa
                     <thead className="bg-gray-50 border-b">
                         <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Bệnh nhân
+                                Mã lịch hẹn
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Bác sĩ
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Khoa
+                                Chuyên khoa
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Thời gian
+                                Ngày & Giờ
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Triệu chứng
+                                Lý do khám
+                            </th>
+                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Phí khám
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Trạng thái
@@ -70,24 +73,28 @@ export const AppointmentTable = ({ appointments, onUpdateStatus }: AppointmentTa
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {appointments.map((appointment) => (
-                            <tr key={appointment.id} className="hover:bg-gray-50">
+                            <tr key={appointment.appointmentId} className="hover:bg-gray-50">
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div>
-                                        <div className="text-sm font-medium text-gray-900">{appointment.patientName}</div>
-                                        <div className="text-sm text-gray-500">{appointment.phone}</div>
+                                        <div className="text-sm font-medium text-gray-900">{appointment.appointmentNumber}</div>
+                                        <div className="text-sm text-gray-500">ID: {appointment.appointmentId}</div>
                                     </div>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {appointment.doctorName}
+                                    {appointment.doctor.fullName}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {appointment.department}
+                                    {appointment.doctor.specialty}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {appointment.time}
+                                    <div>{appointment.appointmentDate}</div>
+                                    <div className="text-xs text-gray-500">{appointment.appointmentTime}</div>
                                 </td>
                                 <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
-                                    {appointment.symptoms}
+                                    {appointment.reasonForVisit}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {appointment.totalFee.toLocaleString('vi-VN')} VNĐ
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(appointment.status)}`}>
@@ -99,7 +106,7 @@ export const AppointmentTable = ({ appointments, onUpdateStatus }: AppointmentTa
                                     <div className="flex space-x-2">
                                         {appointment.status === 'pending' && (
                                             <button
-                                                onClick={() => onUpdateStatus(appointment.id, 'confirmed')}
+                                                onClick={() => onUpdateStatus(appointment.appointmentId.toString(), 'confirmed')}
                                                 className="text-green-600 hover:text-green-900 text-xs px-2 py-1 bg-green-50 rounded"
                                             >
                                                 Xác nhận
@@ -107,7 +114,7 @@ export const AppointmentTable = ({ appointments, onUpdateStatus }: AppointmentTa
                                         )}
                                         {appointment.status === 'confirmed' && (
                                             <button
-                                                onClick={() => onUpdateStatus(appointment.id, 'completed')}
+                                                onClick={() => onUpdateStatus(appointment.appointmentId.toString(), 'completed')}
                                                 className="text-blue-600 hover:text-blue-900 text-xs px-2 py-1 bg-blue-50 rounded"
                                             >
                                                 Hoàn thành

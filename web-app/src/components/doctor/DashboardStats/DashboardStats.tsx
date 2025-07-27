@@ -3,7 +3,6 @@
 import React from 'react';
 import { Calendar, CheckCircle, Clock, Users, TrendingUp, Activity, AlertCircle } from 'lucide-react';
 import { DashboardStats } from '@/types/doctorSchedule';
-
 interface DashboardStatsProps {
   dashboardStats: DashboardStats;
 }

@@ -3,16 +3,12 @@ import React, { useState, useEffect } from "react";
 import { Heart, Search, ShoppingBag, UserCircle, LogIn, UserPlus, History, LogOut, User, Calendar, Settings, Bell } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useAuth } from '@/hooks/useAuth';
 
 const Header = () => {
-    const [token, setToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        setToken(localStorage.getItem('accessToken'));
-    }, []);
-
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const router = useRouter();
+    const { isLoggedIn, logout: authLogout } = useAuth();
 
     // Đóng dropdown khi click outside
     useEffect(() => {
@@ -33,9 +29,7 @@ const Header = () => {
     }, [isDropdownOpen]);
 
     const handleLogout = () => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        setToken(null);
+        authLogout();
         setIsDropdownOpen(false);
         router.push("/login");
     };
@@ -83,7 +77,7 @@ const Header = () => {
                                 {isDropdownOpen && (
                                     <div className="absolute right-0 mt-3 w-64 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-200">
                                         <div className="px-4 py-3 border-b border-gray-200">
-                                            {token ? (
+                                            {isLoggedIn ? (
                                                 <>
                                                     <p className="text-sm text-gray-500">Xin chào</p>
                                                     <p className="font-medium text-gray-900">Bệnh nhân</p>
@@ -96,7 +90,7 @@ const Header = () => {
                                             )}
                                         </div>
 
-                                        {!token &&
+                                        {!isLoggedIn &&
                                             <>
                                                 <Link href="/login" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
                                                     <LogIn className="w-5 h-5 mr-3 text-blue-600" />
@@ -111,7 +105,7 @@ const Header = () => {
                                         }
 
 
-                                        {token && (
+                                        {isLoggedIn && (
                                             <>
                                                 <Link href="/profile" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
                                                     <User className="w-5 h-5 mr-3 text-blue-600" />
@@ -144,7 +138,7 @@ const Header = () => {
 
 
                                         {
-                                            token &&
+                                            isLoggedIn &&
                                             <button
                                                 onClick={handleLogout}
                                                 className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-colors w-full text-left"

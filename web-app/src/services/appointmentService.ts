@@ -1,10 +1,10 @@
 import { API_URL } from '@/utils/BaseUrl';
 import { ApiResponse } from '@/types/apiResonse';
-import { 
-    AppointmentResponse, 
-    CancelAppointmentRequest, 
-    RescheduleAppointmentRequest, 
-    RescheduleAppointmentResponse 
+import {
+    AppointmentResponse,
+    CancelAppointmentRequest,
+    RescheduleAppointmentRequest,
+    RescheduleAppointmentResponse
 } from '@/types/appointment';
 
 class AppointmentService {
@@ -63,7 +63,7 @@ class AppointmentService {
 
     // Đổi lịch cuộc hẹn
     async rescheduleAppointment(
-        appointmentId: number, 
+        appointmentId: number,
         request: RescheduleAppointmentRequest
     ): Promise<ApiResponse<RescheduleAppointmentResponse>> {
         try {
@@ -88,6 +88,28 @@ class AppointmentService {
             console.error('Error rescheduling appointment:', error);
             throw error;
         }
+    }
+
+    async createAppointment(payload: {
+        doctorId: number;
+        slotId: number;
+        appointmentDate: string;
+        reasonForVisit: string;
+        packageId: number;
+    }) {
+        const token = localStorage.getItem('accessToken');
+        const response = await fetch(`${API_URL}/api/v1/appointments/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
     }
 }
 
