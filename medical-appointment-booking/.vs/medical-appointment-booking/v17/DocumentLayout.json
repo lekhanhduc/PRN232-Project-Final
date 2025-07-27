@@ -110,8 +110,7 @@
               "RelativeToolTip": "medical-appointment-booking\\Controllers\\AuthController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T03:52:10.557Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-27T03:52:10.557Z"
             },
             {
               "$type": "Document",
@@ -123,8 +122,7 @@
               "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\DoctorScheduleService.cs",
               "ViewState": "AQIAAIMAAAAAAAAAAAAgwJoAAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T03:46:02.96Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-27T03:46:02.96Z"
             },
             {
               "$type": "Document",
@@ -136,8 +134,7 @@
               "RelativeToolTip": "medical-appointment-booking\\Controllers\\PatientController.cs",
               "ViewState": "AQIAAE0AAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T03:42:07.07Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-27T03:42:07.07Z"
             },
             {
               "$type": "Document",
@@ -149,8 +146,7 @@
               "RelativeToolTip": "medical-appointment-booking\\Models\\AppDbContext.cs",
               "ViewState": "AQIAAA0AAAAAAAAAAAAkwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T03:38:17.231Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-27T03:38:17.231Z"
             },
             {
               "$type": "Document",
@@ -162,8 +158,7 @@
               "RelativeToolTip": "medical-appointment-booking\\Controllers\\DoctorScheduleController.cs",
               "ViewState": "AQIAAAMAAAAAAAAAAAAAAAsAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T03:05:29.633Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-27T03:05:29.633Z"
             },
             {
               "$type": "Document",
@@ -200,8 +195,7 @@
               "RelativeToolTip": "medical-appointment-booking\\Controllers\\AppointmentController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-27T03:05:31.186Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-27T03:05:31.186Z"
             },
             {
               "$type": "Document",
