@@ -5,6 +5,7 @@ using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
 using medical_appointment_booking.Services;
 using medical_appointment_booking.Services.Impl;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace medical_appointment_booking
