@@ -1,19 +1,40 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import { Plus, Search } from 'lucide-react';
-import { usePatients } from '@/hooks/usePatients';
 import { PatientTable } from './PatientTable';
+import { PatientDTOResponse } from "@/types/user";
+import { receptionistService } from '@/services/receptionistService';
 
 export const PatientList = () => {
-    const { patients } = usePatients();
+    const [patients, setPatients] = useState<PatientDTOResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [showNewPatient, setShowNewPatient] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const filteredPatients = patients.filter(patient =>
-        patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        patient.phone.includes(searchTerm) ||
-        patient.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const fetchPatients = async (term: string) => {
+        try {
+            setLoading(true);
+            const params = term ? `${encodeURIComponent(term)}` : '';
+            const response = await receptionistService.getAllPatients(params); 
+            if (Array.isArray(response?.result)) {
+                setPatients(response.result);
+            } else {
+                setPatients([]);
+            }
+        } catch (error) {
+            console.error('Lỗi khi tìm kiếm bệnh nhân:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchPatients(searchTerm); // gọi trực tiếp không debounce
+    }, [searchTerm]);
+
+    useEffect(() => {
+        fetchPatients(''); // fetch lần đầu
+    }, []);
 
     return (
         <div>
@@ -41,7 +62,11 @@ export const PatientList = () => {
                 </div>
             </div>
 
-            <PatientTable patients={filteredPatients} />
+            {loading ? (
+                <p className="text-center text-gray-500">Đang tải dữ liệu...</p>
+            ) : (
+                <PatientTable patients={patients} />
+            )}
         </div>
     );
 };

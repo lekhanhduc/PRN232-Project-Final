@@ -114,10 +114,13 @@ export const getDoctors = async (params: SearchDoctorsParams = {}): Promise<ApiR
     console.log('🔍 Debug - Search Doctors URL:', url);
     console.log('🔍 Debug - Search Parameters:', params);
 
+
+    const token = localStorage.getItem('accessToken');
     const response = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+             ...(token && { Authorization: `Bearer ${token}` }),
         },
     });
 
