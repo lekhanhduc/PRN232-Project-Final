@@ -7,6 +7,7 @@ namespace medical_appointment_booking.Services.Impl
         private readonly string _sendGridApiKey;
         private readonly string _welcomeTemplateId;
         private readonly string _doctorWelcomeTemplateId;
+        private readonly string _receptionistWelcomeTemplateId;
         private readonly string _emailFrom;
         private readonly ILogger<MailService> _logger;
 
@@ -18,6 +19,8 @@ namespace medical_appointment_booking.Services.Impl
                 ?? throw new ArgumentNullException("SendGrid:WelcomeTemplateId is required");
             _doctorWelcomeTemplateId = configuration["SendGrid:DoctorWelcomeTemplateId"]
                 ?? throw new ArgumentNullException("SendGrid:DoctorWelcomeTemplateId is required");
+            _receptionistWelcomeTemplateId = configuration["SendGrid:ReceptionistWelcomeTemplateId"]
+               ?? throw new ArgumentNullException("SendGrid:ReceptionistWelcomeTemplateId is required");
             _emailFrom = configuration["SendGrid:FromEmail"]
                 ?? throw new ArgumentNullException("SendGrid:FromEmail is required");
             _logger = logger;
@@ -94,7 +97,7 @@ namespace medical_appointment_booking.Services.Impl
             }
         }
 
-        public async Task SendReceptionistWelcomeEmail(string to, string email, string temporaryPassword,DateTime registrationDate)
+        public async Task SendReceptionistWelcomeEmail(string to, string email, string temporaryPassword, DateTime registrationDate)
         {
             var client = new SendGridClient(_sendGridApiKey);
             var from = new EmailAddress(_emailFrom, "Medical Appointment System");
@@ -102,7 +105,7 @@ namespace medical_appointment_booking.Services.Impl
 
             var msg = new SendGridMessage
             {
-                TemplateId = _doctorWelcomeTemplateId,
+                TemplateId = _receptionistWelcomeTemplateId,
                 From = from,
                 Subject = "Welcome to Medical Appointment - Receptionist Account Created"
             };
@@ -113,7 +116,7 @@ namespace medical_appointment_booking.Services.Impl
                 email = email,
                 temporary_password = temporaryPassword,             
                 registration_date = registrationDate.ToString("dd/MM/yyyy HH:mm"),
-                login_url = "https://your-medical-app.com/doctor/login",
+                login_url = "https://taycodejava.id.vn/login",
                 support_email = _emailFrom,
                 current_year = DateTime.Now.Year
             });

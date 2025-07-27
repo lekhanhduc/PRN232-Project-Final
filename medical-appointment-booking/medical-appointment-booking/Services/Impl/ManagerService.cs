@@ -94,7 +94,6 @@ namespace medical_appointment_booking.Services.Impl
                 receptionist.Role = role;
 
                 string password = GenerateRandomPassword();
-                logger.LogInformation("Mật khẩu {}", password);
 
                 receptionist.Password = passwordHasher.HashPassword(receptionist, password);
                 var created = await managerRepository.AddReceptionist(receptionist);
