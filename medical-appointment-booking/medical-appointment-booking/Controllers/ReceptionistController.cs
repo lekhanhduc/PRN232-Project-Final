@@ -47,9 +47,9 @@ namespace medical_appointment_booking.Controllers
 
         [HttpGet]
         [Route("appointments/today")]
-        public async Task<ApiResponse<IEnumerable<AppointmentTodayResponse>>> GetTodayAppointments()
+        public async Task<ApiResponse<IEnumerable<AppointmentTodayResponse>>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
         {
-            var appointments = await _receptionistService.GetTodayAppointmentsAsync();
+            var appointments = await _receptionistService.GetAppointmentsByDateAndQueryAsync(date, query);
 
             return new ApiResponse<IEnumerable<AppointmentTodayResponse>>
             {
