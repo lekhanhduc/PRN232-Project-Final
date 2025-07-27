@@ -2,15 +2,30 @@
 import React, { useState, useEffect } from "react";
 import { Heart, Search, ShoppingBag, UserCircle, LogIn, UserPlus, History, LogOut, User, Calendar, Settings, Bell } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from '@/hooks/useAuth';
 
 const Header = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const router = useRouter();
+    const pathname = usePathname();
     const { isLoggedIn, logout: authLogout } = useAuth();
 
-    // Đóng dropdown khi click outside
+    const isActive = (path: string) => {
+        if (path === '/') {
+            return pathname === '/';
+        }
+        return pathname.startsWith(path);
+    };
+
+    const getMenuItemClasses = (path: string) => {
+        const baseClasses = "font-medium hover:text-blue-700 transition-colors";
+        if (isActive(path)) {
+            return `${baseClasses} text-blue-600 border-b-2 border-blue-600 pb-1`;
+        }
+        return `${baseClasses} text-gray-600 hover:text-gray-900`;
+    };
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Element;
@@ -47,16 +62,15 @@ const Header = () => {
                         </div>
 
                         <nav className="hidden md:flex space-x-8">
-                            <Link href="/" className="text-blue-600 font-medium hover:text-blue-700 transition-colors">Home</Link>
-                            <Link href="/about" className="text-gray-600 hover:text-gray-900 transition-colors">About</Link>
-                            <Link href="/doctor" className="text-gray-600 hover:text-gray-900 transition-colors">Doctors</Link>
-                            <Link href="/services" className="text-gray-600 hover:text-gray-900 transition-colors">Services</Link>
-                            <Link href="/portfolio" className="text-gray-600 hover:text-gray-900 transition-colors">Portfolio</Link>
-                            <Link href="/blog" className="text-gray-600 hover:text-gray-900 transition-colors">Blog</Link>
-                            <Link href="/contact" className="text-gray-600 hover:text-gray-900 transition-colors">Contact</Link>
+                            <Link href="/" className={getMenuItemClasses('/')}>Trang chủ</Link>
+                            <Link href="/about" className={getMenuItemClasses('/about')}>Giới thiệu</Link>
+                            <Link href="/doctor" className={getMenuItemClasses('/doctor')}>Bác sĩ</Link>
+                            <Link href="/services" className={getMenuItemClasses('/services')}>Dịch vụ</Link>
+                            <Link href="/portfolio" className={getMenuItemClasses('/portfolio')}>Danh mục</Link>
+                            <Link href="/blog" className={getMenuItemClasses('/blog')}>Tin tức</Link>
+                            <Link href="/contact" className={getMenuItemClasses('/contact')}>Liên hệ</Link>
                         </nav>
 
-                        {/* Right side icons */}
                         <div className="flex items-center space-x-6">
                             <Search className="w-6 h-6 text-gray-600 hover:text-gray-900 cursor-pointer transition-colors" />
                             <div className="relative">
@@ -73,7 +87,6 @@ const Header = () => {
                                     <UserCircle className="w-7 h-7 text-blue-600" />
                                 </button>
 
-                                {/* Dropdown Menu */}
                                 {isDropdownOpen && (
                                     <div className="absolute right-0 mt-3 w-64 bg-white rounded-lg shadow-xl py-2 z-50 border border-gray-200">
                                         <div className="px-4 py-3 border-b border-gray-200">
@@ -84,7 +97,7 @@ const Header = () => {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <p className="text-sm text-gray-500">Welcome to</p>
+                                                    <p className="text-sm text-gray-500">Chào mừng đến với</p>
                                                     <p className="font-medium text-gray-900">Medically Healthcare</p>
                                                 </>
                                             )}
@@ -94,12 +107,12 @@ const Header = () => {
                                             <>
                                                 <Link href="/login" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
                                                     <LogIn className="w-5 h-5 mr-3 text-blue-600" />
-                                                    <span className="text-base">Login</span>
+                                                    <span className="text-base">Đăng nhập</span>
                                                 </Link>
 
                                                 <Link href="/registration" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
                                                     <UserPlus className="w-5 h-5 mr-3 text-blue-600" />
-                                                    <span className="text-base">Register</span>
+                                                    <span className="text-base">Đăng ký</span>
                                                 </Link>
                                             </>
                                         }
@@ -127,11 +140,6 @@ const Header = () => {
                                                     <span className="text-base">Cài đặt</span>
                                                 </Link>
 
-                                                <Link href="/appointments" className="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
-                                                    <History className="w-5 h-5 mr-3 text-blue-600" />
-                                                    <span className="text-base">Lịch sử đặt hẹn</span>
-                                                </Link>
-
                                                 <div className="border-t border-gray-200 my-2"></div>
                                             </>
                                         )}
@@ -144,7 +152,7 @@ const Header = () => {
                                                 className="flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-colors w-full text-left"
                                             >
                                                 <LogOut className="w-5 h-5 mr-3" />
-                                                <span className="text-base font-medium">Logout</span>
+                                                <span className="text-base font-medium">Đăng xuất</span>
                                             </button>
                                         }
                                     </div>

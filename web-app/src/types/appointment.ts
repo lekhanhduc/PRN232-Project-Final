@@ -64,3 +64,37 @@ export interface Appointment {
     symptoms: string;
     notes?: string;
 }
+
+export interface AppointmentListDto {
+    appointmentId: number;
+    appointmentTime: string;
+    status: string;
+    totalFee: number;
+    patient: {
+        fullName: string;
+        phone: string;
+    };
+    doctor: {
+        fullName: string;
+        specialty: string;
+    };
+}
+
+export interface AppointmentCreationRequest {
+    patientId: number;
+    doctorId: number;
+    slotId: number;
+    appointmentDate: string; // Format: "2024-06-10"
+    reasonForVisit?: string;
+    packageId: number;
+}
+
+export interface CreateAppointmentResponse {
+    appointmentId: number;
+    appointmentNumber: string;
+    doctor: DoctorInfoDto;
+    appointmentDate: string;
+    appointmentTime: string;
+    totalFee: number;
+    status: string;
+}

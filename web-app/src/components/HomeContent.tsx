@@ -4,6 +4,7 @@ import Head from 'next/head';
 import HeroSection from './sections/HeroSection';
 import ServicesPreview from './sections/SevicesPreview';
 import StartsSection from './sections/StartsSection';
+import FeaturedDoctorsSection from './sections/FeaturedDoctorsSection';
 
 const HomePage: React.FC = () => {
     return (
@@ -18,6 +19,7 @@ const HomePage: React.FC = () => {
             <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
                 <HeroSection />
                 <StartsSection />
+                <FeaturedDoctorsSection />
                 <ServicesPreview />
             </div>
         </>

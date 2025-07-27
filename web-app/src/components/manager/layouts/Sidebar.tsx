@@ -46,37 +46,38 @@ export const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
             label: 'Khoa/Phòng ban', 
             icon: Building2,
             path: '/manager/departments'
-        },
-        { 
-            id: 'appointments', 
-            label: 'Lịch hẹn', 
-            icon: Calendar,
-            path: '/manager/appointments'
-        },
-        { 
-            id: 'patients', 
-            label: 'Bệnh nhân', 
-            icon: Users,
-            path: '/manager/patients'
-        },
-        { 
-            id: 'reports', 
-            label: 'Báo cáo', 
-            icon: FileText,
-            path: '/manager/reports'
-        },
-        { 
-            id: 'users', 
-            label: 'Người dùng', 
-            icon: Shield,
-            path: '/manager/users'
-        },
-        { 
-            id: 'settings', 
-            label: 'Cài đặt', 
-            icon: Settings,
-            path: '/manager/settings'
         }
+        //,
+        // { 
+        //     id: 'appointments', 
+        //     label: 'Lịch hẹn', 
+        //     icon: Calendar,
+        //     path: '/manager/appointments'
+        // },
+        // { 
+        //     id: 'patients', 
+        //     label: 'Bệnh nhân', 
+        //     icon: Users,
+        //     path: '/manager/patients'
+        // },
+        // { 
+        //     id: 'reports', 
+        //     label: 'Báo cáo', 
+        //     icon: FileText,
+        //     path: '/manager/reports'
+        // },
+        // { 
+        //     id: 'users', 
+        //     label: 'Người dùng', 
+        //     icon: Shield,
+        //     path: '/manager/users'
+        // },
+        // { 
+        //     id: 'settings', 
+        //     label: 'Cài đặt', 
+        //     icon: Settings,
+        //     path: '/manager/settings'
+        // }
     ];
 
     const handleMenuClick = (item: typeof menuItems[0]) => {

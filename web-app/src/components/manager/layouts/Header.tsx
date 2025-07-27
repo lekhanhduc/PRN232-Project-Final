@@ -1,7 +1,20 @@
 'use client'
+import React, { useState} from "react";
 import { Bell, Settings, LogOut, Calendar, Activity, User } from 'lucide-react';
+import { useRouter } from "next/navigation";
+import { useAuth } from '@/hooks/useAuth';
 
 export const Header = () => {
+
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const router = useRouter();
+    const { isLoggedIn, logout: authLogout } = useAuth();
+    
+    const handleLogout = () => {
+        authLogout();
+        setIsDropdownOpen(false);
+        router.push("/login");
+    };
     return (
         <div className="bg-white shadow-sm border-b border-slate-200">
             <div className="px-6 py-4">
@@ -23,7 +36,10 @@ export const Header = () => {
                         </div>
                         <Bell className="w-5 h-5 text-slate-500 cursor-pointer hover:text-slate-700 transition-colors" />
                         <Settings className="w-5 h-5 text-slate-500 cursor-pointer hover:text-slate-700 transition-colors" />
-                        <LogOut className="w-5 h-5 text-slate-500 cursor-pointer hover:text-slate-700 transition-colors" />
+                         <LogOut
+                            className="w-5 h-5 text-slate-500 cursor-pointer hover:text-red-600 transition-colors"
+                            onClick={handleLogout}
+                        />
                     </div>
                 </div>
             </div>

@@ -102,8 +102,8 @@ export const Dashboard = ({ stats }: DashboardProps) => {
     return (
         <div className="space-y-6">
             <RecentActivities activities={recentActivities} />
-            <UpcomingAppointments appointments={upcomingAppointments} />
-            <QuickActions actions={quickActions} />
+            {/* <UpcomingAppointments appointments={upcomingAppointments} />
+            <QuickActions actions={quickActions} /> */}
         </div>
     );
 }; 

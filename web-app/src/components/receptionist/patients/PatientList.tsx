@@ -1,19 +1,24 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import { Plus, Search } from 'lucide-react';
-import { usePatients } from '@/hooks/usePatients';
 import { PatientTable } from './PatientTable';
+import { PatientDTOResponse } from "@/types/user";
+import { receptionistService } from '@/services/receptionistService';
+import { usePatients } from '@/hooks/usePatients';
 
 export const PatientList = () => {
-    const { patients } = usePatients();
-    const [searchTerm, setSearchTerm] = useState('');
+    const {
+        patients,
+        loading,
+        setSearchTerm,
+        page,
+        setPage,
+        pageSize,
+        setPageSize,
+        totalPages,
+        totalElements
+    } = usePatients();
     const [showNewPatient, setShowNewPatient] = useState(false);
-
-    const filteredPatients = patients.filter(patient =>
-        patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        patient.phone.includes(searchTerm) ||
-        patient.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return (
         <div>
@@ -34,14 +39,55 @@ export const PatientList = () => {
                     <input
                         type="text"
                         placeholder="Tìm bệnh nhân theo tên, số điện thoại hoặc email..."
-                        value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                 </div>
             </div>
 
-            <PatientTable patients={filteredPatients} />
+            {loading ? (
+                <p className="text-center text-gray-500">Đang tải dữ liệu...</p>
+            ) : (
+                <>
+                    <PatientTable patients={patients} />
+                    {/* Pagination controls */}
+                    <div className="flex items-center justify-between mt-4">
+                        <div>
+                            <button
+                                className="px-3 py-1 border rounded mr-2 disabled:opacity-50"
+                                onClick={() => setPage(page - 1)}
+                                disabled={page <= 1}
+                            >
+                                Trang trước
+                            </button>
+                            <span>Trang {page} / {totalPages}</span>
+                            <button
+                                className="px-3 py-1 border rounded ml-2 disabled:opacity-50"
+                                onClick={() => setPage(page + 1)}
+                                disabled={page >= totalPages}
+                            >
+                                Trang sau
+                            </button>
+                        </div>
+                        <div>
+                            <span className="mr-2">Kích thước trang:</span>
+                            <select
+                                value={pageSize}
+                                onChange={e => { setPageSize(Number(e.target.value)); setPage(1); }}
+                                className="border rounded px-2 py-1"
+                            >
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                                <option value={50}>50</option>
+                            </select>
+                        </div>
+                        <div className="ml-4 text-gray-500 text-sm">
+                            Tổng số: {totalElements}
+                        </div>
+                    </div>
+                </>
+            )}
         </div>
     );
 };

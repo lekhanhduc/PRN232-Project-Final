@@ -1,13 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { X, User, Mail, Phone, Lock, Eye, EyeOff } from 'lucide-react';
-import { Receptionist, CreateReceptionistRequest, UpdateReceptionistRequest } from '@/types/receptionist';
+import { ReceptionistManagerResponse, CreateReceptionistRequest, UpdateReceptionistRequest } from '@/types/receptionist';
 
 interface ReceptionistModalProps {
     isOpen: boolean;
-    receptionist: Receptionist | null;
+    receptionist: ReceptionistManagerResponse | null;
     onClose: () => void;
-    onSubmit: (data: CreateReceptionistRequest | UpdateReceptionistRequest) => void;
+    onSubmit: (data: CreateReceptionistRequest) => void;
 }
 
 export const ReceptionistModal = ({
@@ -16,12 +16,10 @@ export const ReceptionistModal = ({
     onClose,
     onSubmit
 }: ReceptionistModalProps) => {
-    const [formData, setFormData] = useState<CreateReceptionistRequest>({
-        username: '',
-        email: '',
-        password: '',
-        fullName: '',
-        phone: ''
+    const [formData, setFormData] = useState<CreateReceptionistRequest>({ 
+        email: '',  
+        phone: '',
+        userStatus: 0
     });
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
@@ -30,20 +28,16 @@ export const ReceptionistModal = ({
 
     useEffect(() => {
         if (receptionist) {
-            setFormData({
-                username: receptionist.username,
-                email: receptionist.email,
-                password: '',
-                fullName: receptionist.fullName,
-                phone: receptionist.phone
+            setFormData({           
+                email: receptionist.email,           
+                phone: receptionist.phone,
+                userStatus: receptionist.userStatus
             });
         } else {
-            setFormData({
-                username: '',
-                email: '',
-                password: '',
-                fullName: '',
-                phone: ''
+            setFormData({            
+                email: '',             
+                phone: '',
+                userStatus: 0
             });
         }
         setErrors({});
@@ -51,27 +45,13 @@ export const ReceptionistModal = ({
 
     const validateForm = () => {
         const newErrors: Record<string, string> = {};
-
-        if (!formData.username.trim()) {
-            newErrors.username = 'Tên đăng nhập là bắt buộc';
-        }
-
+    
         if (!formData.email.trim()) {
             newErrors.email = 'Email là bắt buộc';
         } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
             newErrors.email = 'Email không hợp lệ';
         }
-
-        if (!isEditing && !formData.password.trim()) {
-            newErrors.password = 'Mật khẩu là bắt buộc';
-        } else if (!isEditing && formData.password.length < 6) {
-            newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự';
-        }
-
-        if (!formData.fullName.trim()) {
-            newErrors.fullName = 'Họ tên là bắt buộc';
-        }
-
+     
         if (!formData.phone.trim()) {
             newErrors.phone = 'Số điện thoại là bắt buộc';
         } else if (!/^[0-9]{10,11}$/.test(formData.phone.replace(/\s/g, ''))) {
@@ -90,10 +70,10 @@ export const ReceptionistModal = ({
         }
 
         if (isEditing) {
-            const updateData: UpdateReceptionistRequest = {
-                fullName: formData.fullName,
+            const updateData: CreateReceptionistRequest = {
+                email: formData.email,
                 phone: formData.phone,
-                isActive: receptionist!.isActive
+                userStatus: formData.userStatus
             };
             onSubmit(updateData);
         } else {
@@ -101,12 +81,13 @@ export const ReceptionistModal = ({
         }
     };
 
-    const handleInputChange = (field: keyof CreateReceptionistRequest, value: string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
-        if (errors[field]) {
-            setErrors(prev => ({ ...prev, [field]: '' }));
-        }
-    };
+    const handleInputChange = (field: keyof CreateReceptionistRequest, value: string | number) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+        setErrors(prev => ({ ...prev, [field]: '' }));
+    }
+};
+
 
     if (!isOpen) return null;
 
@@ -128,29 +109,7 @@ export const ReceptionistModal = ({
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                    {/* Username */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Tên đăng nhập
-                        </label>
-                        <div className="relative">
-                            <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                            <input
-                                type="text"
-                                value={formData.username}
-                                onChange={(e) => handleInputChange('username', e.target.value)}
-                                disabled={isEditing}
-                                className={`w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                    errors.username ? 'border-red-500' : 'border-gray-300'
-                                } ${isEditing ? 'bg-gray-100' : ''}`}
-                                placeholder="Nhập tên đăng nhập"
-                            />
-                        </div>
-                        {errors.username && (
-                            <p className="mt-1 text-sm text-red-600">{errors.username}</p>
-                        )}
-                    </div>
-
+                    
                     {/* Email */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -173,57 +132,7 @@ export const ReceptionistModal = ({
                             <p className="mt-1 text-sm text-red-600">{errors.email}</p>
                         )}
                     </div>
-
-                    {/* Password - Only for new receptionists */}
-                    {!isEditing && (
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Mật khẩu
-                            </label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                <input
-                                    type={showPassword ? 'text' : 'password'}
-                                    value={formData.password}
-                                    onChange={(e) => handleInputChange('password', e.target.value)}
-                                    className={`w-full pl-10 pr-12 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                        errors.password ? 'border-red-500' : 'border-gray-300'
-                                    }`}
-                                    placeholder="Nhập mật khẩu"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                                >
-                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                                </button>
-                            </div>
-                            {errors.password && (
-                                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-                            )}
-                        </div>
-                    )}
-
-                    {/* Full Name */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Họ và tên
-                        </label>
-                        <input
-                            type="text"
-                            value={formData.fullName}
-                            onChange={(e) => handleInputChange('fullName', e.target.value)}
-                            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                                errors.fullName ? 'border-red-500' : 'border-gray-300'
-                            }`}
-                            placeholder="Nhập họ và tên"
-                        />
-                        {errors.fullName && (
-                            <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>
-                        )}
-                    </div>
-
+                 
                     {/* Phone */}
                     <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -244,6 +153,20 @@ export const ReceptionistModal = ({
                         {errors.phone && (
                             <p className="mt-1 text-sm text-red-600">{errors.phone}</p>
                         )}
+                    </div>
+                    {/* User Status */}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Trạng thái
+                        </label>
+                        <select
+                            value={formData.userStatus}
+                            onChange={(e) => handleInputChange('userStatus', parseInt(e.target.value))}
+                            className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                            <option value={0}>Hoạt động</option>
+                            <option value={1}>Không hoạt động</option>
+                        </select>
                     </div>
 
                     {/* Buttons */}

@@ -135,6 +135,14 @@ export const doctorService = {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
+    },
+
+    async getAllDoctors(page: number = 1, pageSize: number = 8): Promise<ApiResponse<PageResponse<DoctorDetailResponse>>> {
+        const params: SearchDoctorsParams = {
+            page,
+            pageSize
+        };
+        return getDoctors(params);
     }
 };
 
@@ -150,25 +158,21 @@ export const getDoctors = async (params: SearchDoctorsParams = {}): Promise<ApiR
     if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
 
     const url = `${API_URL}/api/v1/doctors?${queryParams.toString()}`;
-    console.log('🔍 Debug - Search Doctors URL:', url);
-    console.log('🔍 Debug - Search Parameters:', params);
 
+    const accessToken = localStorage.getItem("accessToken"); 
     const response = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+             ...(accessToken && { Authorization: `Bearer ${accessToken}` })
         },
     });
-
-    console.log('🔍 Debug - Response Status:', response.status);
-    console.log('🔍 Debug - Response OK:', response.ok);
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('🔍 Debug - Response Data:', data);
     return data;
 };
 

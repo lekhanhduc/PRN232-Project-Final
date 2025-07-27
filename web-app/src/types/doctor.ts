@@ -5,7 +5,7 @@ export interface DoctorDetailResponse {
     specialty: SpecialtyDto;
     email: string;
     phone?: string;
-    userAvatar?: string;
+    avatar?: string;
     licenseNumber: string;
     degree?: string;
     consultationFee: number;

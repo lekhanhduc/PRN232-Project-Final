@@ -1,18 +1,18 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
-import { Receptionist, CreateReceptionistRequest, UpdateReceptionistRequest } from '@/types/receptionist';
+import { ReceptionistManagerResponse, CreateReceptionistRequest, UpdateReceptionistRequest } from '@/types/receptionist';
 import { receptionistService } from '@/services/receptionistService';
 import { ReceptionistFilters } from './ReceptionistFilters';
 import { ReceptionistTable } from './ReceptionistTable';
 import { ReceptionistModal } from './ReceptionistModal';
 
 export const ReceptionistsManagement = () => {
-    const [receptionists, setReceptionists] = useState<Receptionist[]>([]);
+    const [receptionists, setReceptionists] = useState<ReceptionistManagerResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('Tất cả');
     const [showModal, setShowModal] = useState(false);
-    const [selectedReceptionist, setSelectedReceptionist] = useState<Receptionist | null>(null);
+    const [selectedReceptionist, setSelectedReceptionist] = useState<ReceptionistManagerResponse | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -23,7 +23,11 @@ export const ReceptionistsManagement = () => {
         try {
             setLoading(true);
             const data = await receptionistService.getAllReceptionists();
-            setReceptionists(data);
+             if (Array.isArray(data?.result)) {
+                setReceptionists(data.result);
+            } else {
+                setReceptionists([]);
+            }
         } catch (error) {
             console.error('Error fetching receptionists:', error);
         } finally {
@@ -33,47 +37,48 @@ export const ReceptionistsManagement = () => {
 
     const filteredReceptionists = receptionists.filter(receptionist => {
         const matchesSearch = 
-            receptionist.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            receptionist.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            receptionist.phone.includes(searchTerm) ||
-            receptionist.username.toLowerCase().includes(searchTerm.toLowerCase());
+            receptionist.email.toLowerCase().includes(searchTerm.toLowerCase()) ||         
+            receptionist.phone.includes(searchTerm)          
         
         const matchesStatus = 
             selectedStatus === 'Tất cả' ||
-            (selectedStatus === 'Hoạt động' && receptionist.isActive) ||
-            (selectedStatus === 'Không hoạt động' && !receptionist.isActive);
+            (selectedStatus === 'Hoạt động' && receptionist.userStatus) ||
+            (selectedStatus === 'Không hoạt động' && !receptionist.userStatus);
+
         
         return matchesSearch && matchesStatus;
     });
 
-    const handleView = (receptionist: Receptionist) => {
-        setSelectedReceptionist(receptionist);
-        setShowModal(true);
-    };
+    const handleView = (receptionist: ReceptionistManagerResponse) => {
+    setSelectedReceptionist(receptionist);
+    setShowModal(true);
+};
 
-    const handleEdit = (receptionist: Receptionist) => {
-        setSelectedReceptionist(receptionist);
-        setShowModal(true);
-    };
+const handleEdit = (receptionist: ReceptionistManagerResponse) => {
+    setSelectedReceptionist(receptionist);
+    setShowModal(true);
+};
 
-    const handleDelete = async (receptionist: Receptionist) => {
-        if (confirm(`Bạn có chắc chắn muốn xóa lễ tân "${receptionist.fullName}"?`)) {
-            try {
-                await receptionistService.deleteReceptionist(receptionist.userId);
-                await fetchReceptionists();
-                alert('Xóa lễ tân thành công');
-            } catch (error) {
-                console.error('Error deleting receptionist:', error);
-                alert('Có lỗi xảy ra khi xóa lễ tân');
-            }
+const handleDelete = async (receptionist: ReceptionistManagerResponse) => {
+    if (confirm(`Bạn có chắc chắn muốn xóa lễ tân với email "${receptionist.email}"?`)) {
+        try {
+            await receptionistService.deleteReceptionist(receptionist.id);
+            await fetchReceptionists();
+            alert('Xóa lễ tân thành công');
+        } catch (error) {
+            console.error('Error deleting receptionist:', error);
+            alert('Có lỗi xảy ra khi xóa lễ tân');
         }
-    };
+    }
+};
 
-    const handleModalSubmit = async (data: CreateReceptionistRequest | UpdateReceptionistRequest) => {
+
+    const handleModalSubmit = async (data: CreateReceptionistRequest) => {
         try {
             if (selectedReceptionist) {
                 // Update existing receptionist
-                await receptionistService.updateReceptionist(selectedReceptionist.userId, data as UpdateReceptionistRequest);
+                await receptionistService.updateReceptionist(selectedReceptionist.id, data as CreateReceptionistRequest);
+
                 alert('Cập nhật lễ tân thành công');
             } else {
                 // Create new receptionist
