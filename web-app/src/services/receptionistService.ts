@@ -1,20 +1,16 @@
 import {
-    Receptionist,
     CreateReceptionistRequest,
-    UpdateReceptionistRequest,
     ReceptionistResponse,
     CreateReceptionistResponse
 } from '@/types/receptionist';
-import { AppointmentListDto} from "@/types/appointment";
+import { AppointmentListDto } from "@/types/appointment";
 import { PageResponse } from "@/types/pageResponse";
 import { API_URL } from '@/utils/baseUrl';
 import { ApiResponse } from '@/types/apiResonse';
 import { PatientDTOResponse } from '@/types/user';
 
 export const receptionistService = {
-    // MAN010: Get All Receptionists
     getAllReceptionists: async (): Promise<ApiResponse<ReceptionistResponse>> => {
-        // const token = localStorage.getItem('accessToken');
         const url = `${API_URL}/api/Manager/receptionists`;
 
         console.log('🔍 Debug - Search Receptionists URL:', url);
@@ -23,7 +19,6 @@ export const receptionistService = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // ...(token && { Authorization: `Bearer ${token}` }),
             },
         });
 
@@ -40,7 +35,7 @@ export const receptionistService = {
     },
 
 
-   getAllPatients: async (searchTerm?: string, page: number = 1, pageSize: number = 10): Promise<ApiResponse<PageResponse<PatientDTOResponse>>> => {
+    getAllPatients: async (searchTerm?: string, page: number = 1, pageSize: number = 10): Promise<ApiResponse<PageResponse<PatientDTOResponse>>> => {
         const params = new URLSearchParams();
         if (searchTerm) params.append('query', searchTerm);
         params.append('page', page.toString());
@@ -117,7 +112,7 @@ export const receptionistService = {
 
 
     // MAN007: Create Receptionist Account
-     createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
+    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists`, {
                 method: 'POST',
@@ -141,7 +136,7 @@ export const receptionistService = {
 
 
     // MAN008: Update Receptionist Information
-     updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
+    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists/${userId}`, {
                 method: 'PUT',
