@@ -2,6 +2,7 @@
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,17 +21,35 @@ namespace medical_appointment_booking.Controllers
             _receptionistService = receptionistService;
         }
 
-        [HttpGet]
-        [Route("patients/search")]
-        public async Task<ApiResponse<IEnumerable<PatientDto>>> SearchPatients([FromQuery] string? query)
+        [HttpGet("patients/search")]
+        public async Task<ApiResponse<PageResponse<PatientDto>>> SearchPatients(
+        [FromQuery] string? query,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10)
         {
-           
-            var patients = await _receptionistService.SearchPatientsAsync(query);
-            return new ApiResponse<IEnumerable<PatientDto>>
+            try
             {
-                code = 200,
-                result = patients
-            };
+                // Validate pagination parameters
+                if (page < 1) page = 1;
+                if (pageSize < 1 || pageSize > 100) pageSize = 10;
+
+                var result = await _receptionistService.SearchPatientsAsync(query, page, pageSize);
+
+                return new ApiResponse<PageResponse<PatientDto>>
+                {
+                    code = 200,
+                    message = "Success",
+                    result = result
+                };
+            }
+            catch (Exception ex)
+            {
+                return new ApiResponse<PageResponse<PatientDto>>
+                {
+                    code = 500,
+                    message = "Internal server error"
+                };
+            }
         }
 
         [HttpPost]
@@ -46,29 +65,21 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpGet]
-        [Route("appointments/today")]
-        public async Task<ApiResponse<IEnumerable<AppointmentTodayResponse>>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
+        [Route("appointments")]
+        public async Task<ApiResponse<IEnumerable<AppointmentListDto>>> GetAppointmentsByDateAndQueryAsync(
+                                        [FromQuery] DateOnly? date,
+                                        [FromQuery] string? query)
         {
-            var appointments = await _receptionistService.GetAppointmentsByDateAndQueryAsync(date, query);
+            // Nếu không truyền date thì mặc định lấy ngày hôm nay
+            var targetDate = date ?? DateOnly.FromDateTime(DateTime.Now);
 
-            return new ApiResponse<IEnumerable<AppointmentTodayResponse>>
+            var appointments = await _receptionistService.GetAppointmentsByDateAndQueryAsync(targetDate, query);
+            return new ApiResponse<IEnumerable<AppointmentListDto>>
             {
                 code = 200,
                 result = appointments
             };
         }
-
-        //[HttpPut("appointments/{appointmentId}/cancel")]
-        //public async Task<ApiResponse<bool>> CancelAppointment(long appointmentId, [FromBody] CancelAppointmentRequest request)
-        //{
-        //    var success = await _receptionistService.CancelAppointmentAsync(appointmentId, request.CancelReason);
-
-        //    return new ApiResponse<bool>
-        //    {
-        //        code = success ? 200 : 404,
-        //        result = success
-        //    };
-        //}
 
         [HttpPut("appointments/{appointmentId}/cancel")]
         //[Authorize]
