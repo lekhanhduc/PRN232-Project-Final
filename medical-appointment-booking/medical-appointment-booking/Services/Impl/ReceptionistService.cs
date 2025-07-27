@@ -89,9 +89,9 @@ namespace medical_appointment_booking.Services.Impl
             }
         }
 
-        public async Task<IEnumerable<AppointmentTodayResponse>> GetTodayAppointmentsAsync()
+        public async  Task<IEnumerable<AppointmentTodayResponse>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
         {
-            var appointments = await receptionistRepository.GetTodayAppointmentsAsync();
+            var appointments = await receptionistRepository.GetAppointmentsByDateAndQueryAsync(date,query);
 
             return appointments.Select(a => new AppointmentTodayResponse
             {
