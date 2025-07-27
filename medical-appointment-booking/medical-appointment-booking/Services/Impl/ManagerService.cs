@@ -3,6 +3,8 @@ using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
+using Microsoft.AspNetCore.Identity;
+using System.Text;
 
 namespace medical_appointment_booking.Services.Impl
 {
@@ -11,13 +13,17 @@ namespace medical_appointment_booking.Services.Impl
         private readonly ManagerRepository managerRepository;
         private readonly ILogger<ReceptionistService> logger;
         private readonly RoleRepository roleRepository;
+        private readonly IMailService mailService;
+        private readonly PasswordHasher<User> passwordHasher;
 
 
-        public ManagerService(ManagerRepository managerRepository, ILogger<ReceptionistService> logger, RoleRepository roleRepository)
+        public ManagerService(ManagerRepository managerRepository, ILogger<ReceptionistService> logger, RoleRepository roleRepository, IMailService mailService)
         {
             this.managerRepository = managerRepository;
             this.logger = logger;
             this.roleRepository = roleRepository;
+            this.mailService = mailService;
+            passwordHasher = new PasswordHasher<User>();
         }
 
         public async Task<IEnumerable<ReceptionistResponse>> GetAllReceptionist()
@@ -86,7 +92,20 @@ namespace medical_appointment_booking.Services.Impl
                     await roleRepository.CreateRole(role);
                 }
                 receptionist.Role = role;
+
+                string password = GenerateRandomPassword();
+                logger.LogInformation("Mật khẩu {}", password);
+
+                receptionist.Password = passwordHasher.HashPassword(receptionist, password);
                 var created = await managerRepository.AddReceptionist(receptionist);
+
+                await mailService.SendReceptionistWelcomeEmail(
+                    to: receptionist.Email,                 
+                    email: receptionist.Email,
+                    temporaryPassword: password,                  
+                    registrationDate: receptionist.CreatedAt
+                );
+
                 return new ReceptionistResponse
                 {
                     Id = created.Id,
@@ -144,6 +163,28 @@ namespace medical_appointment_booking.Services.Impl
                 throw;
             }
 
+        }
+
+        private string GenerateRandomPassword(int length = 12)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+            var random = new Random();
+            var password = new StringBuilder();
+
+            // Đảm bảo có ít nhất 1 chữ hoa, 1 chữ thường, 1 số, 1 ký tự đặc biệt
+            password.Append(chars[random.Next(0, 26)]); // Chữ hoa
+            password.Append(chars[random.Next(26, 52)]); // Chữ thường  
+            password.Append(chars[random.Next(52, 62)]); // Số
+            password.Append(chars[random.Next(62, chars.Length)]); // Ký tự đặc biệt
+
+            // Điền các ký tự còn lại
+            for (int i = 4; i < length; i++)
+            {
+                password.Append(chars[random.Next(chars.Length)]);
+            }
+
+            // Shuffle để không có pattern cố định
+            return new string(password.ToString().ToCharArray().OrderBy(x => random.Next()).ToArray());
         }
     }
 }
