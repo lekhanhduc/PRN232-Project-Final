@@ -1,13 +1,9 @@
-﻿using Azure.Core;
-using medical_appointment_booking.Dtos.Request;
+﻿using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
 using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SendGrid.Helpers.Mail;
-using System.Numerics;
 
 namespace medical_appointment_booking.Services.Impl
 {
@@ -275,9 +271,9 @@ namespace medical_appointment_booking.Services.Impl
             return $"AP{appointmentDate:yyyyMMdd}{appointmentId:D4}";
         }
 
-        public async  Task<IEnumerable<AppointmentListDto>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
+        public async Task<IEnumerable<AppointmentListDto>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
         {
-            var appointments = await receptionistRepository.GetAppointmentsByDateAndQueryAsync(date,query);
+            var appointments = await receptionistRepository.GetAppointmentsByDateAndQueryAsync(date, query);
 
             return appointments.Select(a => new AppointmentListDto
             {
