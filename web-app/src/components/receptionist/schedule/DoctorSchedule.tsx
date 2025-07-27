@@ -1,119 +1,194 @@
 'use client'
-import React from 'react';
-import { DoctorCard } from './DoctorCard';
+import React, { useEffect, useState } from 'react';
+import { doctorService } from '@/services/doctorService';
+import { User } from 'lucide-react';
 
-interface Doctor {
-    id: string;
-    name: string;
-    department: string;
-    schedule: {
-        weekdays: string;
-        saturday?: string;
-        sunday?: string;
-    };
-    status: 'available' | 'busy' | 'off';
-    avatar?: string;
+function ScheduleModal({ open, onClose, doctor }: { open: boolean, onClose: () => void, doctor: any }) {
+    if (!open || !doctor) return null;
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+            <div className="bg-white rounded-lg shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-6 relative">
+                <button
+                    className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-xl"
+                    onClick={onClose}
+                    aria-label="Đóng"
+                >
+                    ×
+                </button>
+                <h3 className="text-lg font-semibold mb-2 text-blue-700">Lịch làm việc của {doctor.fullName}</h3>
+                {Array.isArray(doctor.workSchedules) && doctor.workSchedules.length > 0 ? (
+                    <ul className="divide-y divide-gray-100">
+                        {doctor.workSchedules.map((day: any) => (
+                            <li key={day.scheduleId || day.workDate || Math.random()} className="flex justify-between py-2 text-sm text-gray-800">
+                                <span>{day.workDate ? (day.workDate.split ? day.workDate.split('T')[0] : day.workDate) : 'N/A'}</span>
+                                <span>{day.startTime && day.endTime ? `${day.startTime} - ${day.endTime}` : 'N/A'}</span>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <div className="text-gray-400 text-xs">Không có lịch làm việc</div>
+                )}
+            </div>
+        </div>
+    );
 }
 
 export const DoctorSchedule = () => {
-    const doctors: Doctor[] = [
-        {
-            id: '1',
-            name: 'BS. Trần Thị Mai',
-            department: 'Nội khoa',
-            schedule: {
-                weekdays: '8:00 - 17:00',
-                saturday: '8:00 - 12:00'
-            },
-            status: 'available'
-        },
-        {
-            id: '2',
-            name: 'BS. Phạm Văn Đức',
-            department: 'Tim mạch',
-            schedule: {
-                weekdays: '9:00 - 16:00',
-                sunday: '9:00 - 13:00'
-            },
-            status: 'available'
-        },
-        {
-            id: '3',
-            name: 'BS. Nguyễn Thị Lan',
-            department: 'Ngoại khoa',
-            schedule: {
-                weekdays: '7:30 - 15:30',
-                sunday: '8:00 - 12:00'
-            },
-            status: 'off'
-        },
-        {
-            id: '4',
-            name: 'BS. Lê Minh Tuấn',
-            department: 'Da liễu',
-            schedule: {
-                weekdays: '8:30 - 16:30',
-                saturday: '9:00 - 13:00'
-            },
-            status: 'busy'
-        },
-        {
-            id: '5',
-            name: 'BS. Hoàng Thị Hoa',
-            department: 'Sản phụ khoa',
-            schedule: {
-                weekdays: '7:00 - 16:00',
-                saturday: '8:00 - 12:00',
-                sunday: '8:00 - 11:00'
-            },
-            status: 'available'
-        },
-        {
-            id: '6',
-            name: 'BS. Nguyễn Văn Hùng',
-            department: 'Chấn thương chỉnh hình',
-            schedule: {
-                weekdays: '9:00 - 17:00',
-                saturday: '9:00 - 14:00'
-            },
-            status: 'available'
-        }
-    ];
+    const [doctors, setDoctors] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(6);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalElements, setTotalElements] = useState(0);
+    const [modalDoctor, setModalDoctor] = useState<any | null>(null);
 
-    const availableDoctors = doctors.filter(doc => doc.status === 'available').length;
-    const busyDoctors = doctors.filter(doc => doc.status === 'busy').length;
-    const offDoctors = doctors.filter(doc => doc.status === 'off').length;
+    useEffect(() => {
+        const fetchDoctors = async () => {
+            setLoading(true);
+            setError(null);
+            try {
+                const res = await doctorService.searchDoctors({ doctorName: searchTerm, page, pageSize });
+                const items = res.result?.items || [];
+                setDoctors(items);
+                setTotalPages(res.result?.totalPages || 1);
+                setTotalElements(res.result?.totalElements || 0);
+            } catch (err: any) {
+                setError('Không thể tải danh sách bác sĩ. Vui lòng thử lại sau.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchDoctors();
+    }, [searchTerm, page, pageSize]);
 
     return (
         <div>
+            <ScheduleModal open={!!modalDoctor} onClose={() => setModalDoctor(null)} doctor={modalDoctor} />
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Lịch làm việc Bác sĩ</h2>
-
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-blue-600">{doctors.length}</div>
-                        <div className="text-sm text-blue-600">Tổng bác sĩ</div>
+                <input
+                    type="text"
+                    placeholder="Tìm kiếm bác sĩ theo tên..."
+                    value={searchTerm}
+                    onChange={e => { setSearchTerm(e.target.value); setPage(1); }}
+                    className="mb-4 w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+                />
+                {loading && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {[...Array(pageSize)].map((_, i) => (
+                            <div key={i} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm animate-pulse">
+                                <div className="h-6 w-1/2 bg-gray-200 rounded mb-2" />
+                                <div className="h-4 w-1/3 bg-gray-200 rounded mb-4" />
+                                <div className="h-4 w-2/3 bg-gray-200 rounded mb-2" />
+                                <div className="h-4 w-1/2 bg-gray-200 rounded mb-2" />
+                                <div className="h-4 w-1/4 bg-gray-200 rounded" />
+                            </div>
+                        ))}
                     </div>
-                    <div className="bg-green-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-green-600">{availableDoctors}</div>
-                        <div className="text-sm text-green-600">Có mặt</div>
-                    </div>
-                    <div className="bg-yellow-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-yellow-600">{busyDoctors}</div>
-                        <div className="text-sm text-yellow-600">Bận</div>
-                    </div>
-                    <div className="bg-red-50 p-4 rounded-lg">
-                        <div className="text-2xl font-bold text-red-600">{offDoctors}</div>
-                        <div className="text-sm text-red-600">Nghỉ</div>
-                    </div>
-                </div>
+                )}
+                {error && <div className="text-red-600 mt-2">{error}</div>}
+                {!loading && !error && doctors.length === 0 && (
+                    <div className="text-gray-500 mt-2">Không có bác sĩ nào.</div>
+                )}
             </div>
-
-            {/* Doctor Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {doctors.map((doctor) => (
-                    <DoctorCard key={doctor.id} doctor={doctor} />
+                    <div key={doctor.doctorId} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                        <div className="flex items-center space-x-4 mb-4">
+                            <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                                {doctor.avatar ? (
+                                    <img
+                                        src={doctor.avatar}
+                                        alt={doctor.fullName}
+                                        className="w-12 h-12 rounded-full object-cover"
+                                    />
+                                ) : (
+                                    <User className="w-6 h-6 text-white" />
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="font-semibold text-gray-900">{doctor.fullName}</h3>
+                                <p className="text-sm text-gray-600">{doctor.specialty?.specialtyName || ''}</p>
+                                <p className="text-xs text-gray-400">{doctor.email}</p>
+                            </div>
+                        </div>
+                        <div className="mb-2 text-sm text-gray-700">
+                            <span className="font-medium">Bằng cấp:</span> {doctor.academicTitle || 'N/A'}
+                        </div>
+                        <div className="mb-2 text-sm text-gray-700">
+                            <span className="font-medium">Kinh nghiệm:</span> {doctor.yearsOfExperience || 0} năm
+                        </div>
+                        <div className="mb-2 text-sm text-gray-700">
+                            <span className="font-medium">Giá khám:</span> {doctor.consultationFee?.toLocaleString()} VNĐ
+                        </div>
+                        <div className="mb-2 text-sm text-gray-700">
+                            <span className="font-medium">Trạng thái:</span> {doctor.isAvailable ? 'Đang làm việc' : 'Nghỉ'}
+                        </div>
+                        <div className="mt-4">
+                            <h4 className="font-semibold text-blue-700 mb-2">Lịch làm việc</h4>
+                            {Array.isArray(doctor.workSchedules) && doctor.workSchedules.length > 0 ? (
+                                <>
+                                    <ul className="space-y-1">
+                                        {doctor.workSchedules.slice(0, 3).map((day: any) => (
+                                            <li key={day.scheduleId || day.workDate || Math.random()} className="flex justify-between text-xs text-gray-800">
+                                                <span>{day.workDate ? (day.workDate.split ? day.workDate.split('T')[0] : day.workDate) : 'N/A'}</span>
+                                                <span>{day.startTime && day.endTime ? `${day.startTime} - ${day.endTime}` : 'N/A'}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                    {doctor.workSchedules.length > 3 && (
+                                        <button
+                                            className="mt-2 w-full bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded hover:bg-blue-100 transition-colors"
+                                            onClick={() => setModalDoctor(doctor)}
+                                        >
+                                            Xem tất cả lịch làm việc
+                                        </button>
+                                    )}
+                                </>
+                            ) : (
+                                <div className="text-gray-400 text-xs">Không có lịch làm việc</div>
+                            )}
+                        </div>
+                    </div>
                 ))}
+            </div>
+            {/* Pagination controls */}
+            <div className="flex items-center justify-between mt-8">
+                <div>
+                    <button
+                        className="px-3 py-1 border rounded mr-2 disabled:opacity-50"
+                        onClick={() => setPage(page - 1)}
+                        disabled={page <= 1}
+                    >
+                        Trang trước
+                    </button>
+                    <span>Trang {page} / {totalPages}</span>
+                    <button
+                        className="px-3 py-1 border rounded ml-2 disabled:opacity-50"
+                        onClick={() => setPage(page + 1)}
+                        disabled={page >= totalPages}
+                    >
+                        Trang sau
+                    </button>
+                </div>
+                <div>
+                    <span className="mr-2">Kích thước trang:</span>
+                    <select
+                        value={pageSize}
+                        onChange={e => { setPageSize(Number(e.target.value)); setPage(1); }}
+                        className="border rounded px-2 py-1"
+                    >
+                        <option value={3}>3</option>
+                        <option value={6}>6</option>
+                        <option value={12}>12</option>
+                        <option value={24}>24</option>
+                    </select>
+                </div>
+                <div className="ml-4 text-gray-500 text-sm">
+                    Tổng số: {totalElements}
+                </div>
             </div>
         </div>
     );
