@@ -119,28 +119,19 @@ export const getDoctors = async (params: SearchDoctorsParams = {}): Promise<ApiR
     if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
 
     const url = `${API_URL}/api/v1/doctors?${queryParams.toString()}`;
-    console.log('🔍 Debug - Search Doctors URL:', url);
-    console.log('🔍 Debug - Search Parameters:', params);
 
-
-    const token = localStorage.getItem('accessToken');
     const response = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-             ...(token && { Authorization: `Bearer ${token}` }),
         },
     });
-
-    console.log('🔍 Debug - Response Status:', response.status);
-    console.log('🔍 Debug - Response OK:', response.ok);
 
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('🔍 Debug - Response Data:', data);
     return data;
 };
 

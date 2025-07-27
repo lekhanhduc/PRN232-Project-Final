@@ -15,7 +15,7 @@ const DoctorsList: React.FC = () => {
     const [selectedSpecialty, setSelectedSpecialty] = useState<string>('All');
     const [selectedGender, setSelectedGender] = useState<Gender | undefined>(undefined);
     const [isAvailable, setIsAvailable] = useState<boolean | undefined>(undefined);
-    
+
     const {
         doctors,
         loading,
@@ -31,25 +31,25 @@ const DoctorsList: React.FC = () => {
     useEffect(() => {
         const timeoutId = setTimeout(() => {
             const params: any = {};
-            
+
             if (searchTerm.trim()) {
                 // Search by doctor name
                 params.doctorName = searchTerm.trim();
 
             }
-            
+
             if (selectedSpecialty !== 'All') {
                 params.specialtyName = selectedSpecialty;
             }
-            
+
             if (selectedGender) {
                 params.gender = selectedGender;
             }
-            
+
             if (isAvailable !== undefined) {
                 params.isAvailable = isAvailable;
             }
-            
+
             searchDoctors(params);
         }, 500);
 
@@ -90,7 +90,7 @@ const DoctorsList: React.FC = () => {
                             specialties={['All', 'Cardiology', 'Neurology', 'Orthopedics', 'Pediatrics', 'Dermatology', 'Internal Medicine', 'Surgery', 'Psychiatry', 'Ophthalmology']}
                         />
                     </div>
-                    
+
                     {/* Additional filters */}
                     <div className="flex flex-wrap gap-4 mt-6">
                         <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ const DoctorsList: React.FC = () => {
                                 <option value="Other">Other</option>
                             </select>
                         </div>
-                        
+
                         <div className="flex items-center gap-2">
                             <label className="text-sm font-medium text-gray-700">Availability:</label>
                             <select
@@ -121,7 +121,7 @@ const DoctorsList: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                
+
                 {loading ? (
                     <div className="flex justify-center items-center py-12">
                         <LoadingSpinner />

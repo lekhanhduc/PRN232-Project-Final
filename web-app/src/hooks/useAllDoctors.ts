@@ -28,7 +28,8 @@ export const useAllDoctors = (page: number = 1, pageSize: number = 8): UseAllDoc
             setLoading(true);
             setError(null);
 
-            const response: ApiResponse<PageResponse<DoctorDetailResponse>> = await doctorService.getAllDoctors(page, pageSize);
+            const response: ApiResponse<PageResponse<DoctorDetailResponse>> = await doctorService
+                .getAllDoctors(page, pageSize);
 
             if (response.code === 200 && response.result) {
                 setDoctors(response.result.items || []);
