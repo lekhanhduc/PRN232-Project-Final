@@ -38,7 +38,7 @@ export const doctorScheduleService = {
       const params = new URLSearchParams();
       if (fromDate) params.append('fromDate', fromDate);
       if (toDate) params.append('toDate', toDate);
-      if (includeTimeSlots) params.append('includeTimeSlots', String(includeTimeSlots));
+    //   if (includeTimeSlots) params.append('includeTimeSlots', String(includeTimeSlots));
 
       if (params.toString()) {
         url += `?${params.toString()}`;
@@ -206,7 +206,7 @@ export const doctorScheduleService = {
   },
 
   /**
-   * 📜 Fetch leave requests
+   * 📜 Fetch leave requests    
    */
   async getMyLeaves(): Promise<ApiResponse<LeaveResponse[]>> {
     const accessToken = localStorage.getItem('accessToken');

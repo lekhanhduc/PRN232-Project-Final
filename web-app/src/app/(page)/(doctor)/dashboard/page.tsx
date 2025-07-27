@@ -5,7 +5,6 @@ import ScheduleManagement from '@/components/doctor/ScheduleManagement/ScheduleM
 import AppointmentRequests from '@/components/doctor/AppointmentRequests/AppointmentRequests';
 import LeaveRequests from '@/components/doctor/LeaveRequests/LeaveRequests';
 import Profile from '@/components/doctor/Profile/Profile';
-import DashboardStatsComponent from '@/components/doctor/DashboardStats/DashboardStats';
 import Sidebar from '@/components/doctor/Sidebar/Sidebar';
 import { Calendar, Users, Clock, User } from 'lucide-react';
 import { doctorScheduleService, DoctorScheduleFilterRequest, DoctorAppointmentFilterRequest } from '@/services/doctorScheduleService';
@@ -14,7 +13,6 @@ import {
   DoctorAppointmentResponse,
   LeaveResponse,
   DoctorProfile,
-  DashboardStats,
 } from '@/types/doctorSchedule';
 import { toast } from 'react-hot-toast';
 
@@ -22,7 +20,6 @@ interface MenuItem {
   id: string;
   label: string;
   icon: React.ComponentType<{ size?: number; className?: string }>;
-  badge?: number;
 }
 
 const DoctorDashboard = () => {
@@ -32,7 +29,7 @@ const DoctorDashboard = () => {
     return today.toISOString().split('T')[0]; // "YYYY-MM-DD"
   });
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<string | 'all'>('all');
+  const [filterStatus, setFilterStatus] = useState<string | undefined | 'all'>('all');
 
   const [scheduleData, setScheduleData] = useState<WorkScheduleResponse[]>([]);
   const [appointmentRequests, setAppointmentRequests] = useState<DoctorAppointmentResponse[]>([]);
@@ -71,13 +68,8 @@ const DoctorDashboard = () => {
           toast.error(appointmentResponse.message || 'Không thể tải yêu cầu khám bệnh');
         }
 
-        // Fetch leave requests
-        const leaveResponse = await doctorScheduleService.getMyLeaves();
-        if (leaveResponse.code === 200 && leaveResponse.result) {
-          setLeaveRequests(leaveResponse.result);
-        } else {
-          toast.error(leaveResponse.message || 'Không thể tải đơn xin nghỉ');
-        }
+        // TODO: Implement leave requests API
+        setLeaveRequests([]);
       } catch (error) {
         console.error('Lỗi khi lấy dữ liệu:', error);
         toast.error('Đã xảy ra lỗi khi tải dữ liệu');
@@ -103,29 +95,9 @@ const DoctorDashboard = () => {
     languages: ['Tiếng Việt', 'English', '中文'],
   };
 
-  // Calculate dashboard stats
-  const dashboardStats: DashboardStats = useMemo(() => {
-    const todayAppointments = scheduleData.reduce(
-      (total, schedule) => total + schedule.timeSlots.filter((slot) => !slot.isAvailable).length,
-      0
-    );
-    const completedToday = appointmentRequests.filter((req) => req.status.toLowerCase() === 'completed').length;
-    const pendingRequests = appointmentRequests.filter((req) => req.status.toLowerCase() === 'pending').length;
-    const upcomingAppointments = scheduleData.reduce(
-      (total, schedule) =>
-        total +
-        schedule.timeSlots.filter(
-          (slot) => !slot.isAvailable && (slot.appointment?.status === 'confirmed' || slot.appointment?.status === 'pending')
-        ).length,
-      0
-    );
-
-    return { todayAppointments, completedToday, pendingRequests, upcomingAppointments };
-  }, [scheduleData, appointmentRequests]);
-
   const menuItems: MenuItem[] = [
-    { id: 'schedule', label: 'Quản lý Lịch hẹn', icon: Calendar, badge: dashboardStats.upcomingAppointments },
-    { id: 'appointments', label: 'Yêu cầu Khám bệnh', icon: Users, badge: dashboardStats.pendingRequests },
+    { id: 'schedule', label: 'Quản lý Lịch hẹn', icon: Calendar },
+    { id: 'appointments', label: 'Yêu cầu Khám bệnh', icon: Users },
     { id: 'leave', label: 'Đơn xin Nghỉ', icon: Clock },
     { id: 'profile', label: 'Hồ sơ Cá nhân', icon: User },
   ];
@@ -225,9 +197,26 @@ const DoctorDashboard = () => {
       case 'leave':
         return (
           <LeaveRequests
-            leaveRequests={leaveRequests}
-            getStatusColor={getStatusColor}
-            getStatusText={getStatusText}
+            onSuccess={() => {
+              const fetchData = async () => {
+                try {
+                  // Fetch appointments with current filter
+                  const appointmentFilter: DoctorAppointmentFilterRequest = {
+                    appointmentDate: selectedDate,
+                    status: filterStatus === 'all' ? undefined : filterStatus,
+                    page: 1,
+                    pageSize: 100,
+                  };
+                  const appointmentResponse = await doctorScheduleService.getMyAppointments(appointmentFilter);
+                  if (appointmentResponse.code === 200 && appointmentResponse.result) {
+                    setAppointmentRequests(appointmentResponse.result.items);
+                  }
+                } catch (error) {
+                  console.error('Error refreshing appointments:', error);
+                }
+              };
+              fetchData();
+            }}
           />
         );
       case 'profile':
@@ -259,12 +248,7 @@ const DoctorDashboard = () => {
           <main className="p-6">
             {loading ? (
               <div className="text-center text-gray-500 py-8">Đang tải dữ liệu...</div>
-            ) : (
-              <>
-                {activeTab === 'schedule' && <DashboardStatsComponent dashboardStats={dashboardStats} />}
-                {renderContent()}
-              </>
-            )}
+            ) : renderContent()}
           </main>
         </div>
       </div>

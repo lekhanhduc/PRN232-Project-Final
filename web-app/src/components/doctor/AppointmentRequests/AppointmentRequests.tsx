@@ -19,10 +19,11 @@ const AppointmentManagement = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [showCompleteModal, setShowCompleteModal] = useState<number | null>(null);
   const [completionNotes, setCompletionNotes] = useState<string>('');
+  const [selectedDate, setSelectedDate] = useState<string>('');
 
   const [filterRequest, setFilterRequest] = useState<DoctorAppointmentFilterRequest>({
-    appointmentDate: '',
-    status: '',
+    appointmentDate: undefined,
+    status: undefined,
     orderBy: 'appointmentTime',
     page: 1,
     pageSize: 20,
@@ -47,13 +48,29 @@ const AppointmentManagement = () => {
     }
   };
 
-  // Load data on component mount or filter change
+  // Load appointments when filter changes
   useEffect(() => {
     fetchAppointments();
   }, [filterRequest]);
 
   // Mark patient as arrived
-  const handleMarkArrived = async (appointmentId: number) => {
+  const handleMarkArrived = async (appointmentId: number, appointmentDate: string) => {
+    // Parse appointment date
+    const [year, month, day] = appointmentDate.split('-').map(Number);
+    const appointmentDateTime = new Date(year, month - 1, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Check if appointment is in the future
+    if (appointmentDateTime > today) {
+      toast.error('Không thể đánh dấu bệnh nhân có mặt cho cuộc hẹn trong tương lai');
+      return;
+    }
+
+    if (!window.confirm('Bạn có chắc muốn đánh dấu bệnh nhân này đã có mặt?')) {
+      return;
+    }
+
     try {
       const response = await doctorScheduleService.markPatientArrived(appointmentId);
       if (response.code === 200) {
@@ -63,7 +80,10 @@ const AppointmentManagement = () => {
         toast.error(response.message || 'Không thể đánh dấu bệnh nhân có mặt');
       }
     } catch (error: any) {
-      toast.error(error.message || 'Lỗi khi đánh dấu bệnh nhân có mặt');
+      const errorMessage = error.message?.includes('future appointments') 
+        ? 'Không thể đánh dấu bệnh nhân có mặt cho cuộc hẹn trong tương lai'
+        : error.message || 'Lỗi khi đánh dấu bệnh nhân có mặt';
+      toast.error(errorMessage);
       console.error('Error marking patient arrived:', error);
     }
   };
@@ -130,17 +150,27 @@ const AppointmentManagement = () => {
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+    try {
+      const [year, month, day] = dateString.split('-').map(Number);
+      const date = new Date(year, month - 1, day);
+      return date.toLocaleDateString('vi-VN', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch (error) {
+      return dateString;
+    }
   };
 
   const formatTime = (timeString: string) => {
-    return timeString.slice(0, 5);
+    try {
+      const [hours, minutes] = timeString.split(':').map(Number);
+      return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    } catch (error) {
+      return timeString;
+    }
   };
 
   const formatCurrency = (amount: number) => {
@@ -180,7 +210,7 @@ const AppointmentManagement = () => {
             <input
               type="date"
               value={filterRequest.appointmentDate || ''}
-              onChange={(e) => handleFilterChange('appointmentDate', e.target.value)}
+              onChange={(e) => handleFilterChange('appointmentDate', e.target.value || undefined)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -188,7 +218,7 @@ const AppointmentManagement = () => {
             <label className="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
             <select
               value={filterRequest.status || ''}
-              onChange={(e) => handleFilterChange('status', e.target.value)}
+              onChange={(e) => handleFilterChange('status', e.target.value || undefined)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Tất cả</option>
@@ -281,9 +311,10 @@ const AppointmentManagement = () => {
                 </span>
                 {appointment.status === 'scheduled' && (
                   <button
-                    onClick={() => handleMarkArrived(appointment.appointmentId)}
-                    className="px-3 py-1 bg-yellow-600 text-white rounded-lg text-sm hover:bg-yellow-700 transition-colors"
+                    onClick={() => handleMarkArrived(appointment.appointmentId, appointment.appointmentDate)}
+                    className="px-3 py-1 bg-yellow-600 text-white rounded-lg text-sm hover:bg-yellow-700 transition-colors flex items-center gap-1"
                   >
+                    <UserCheck size={16} />
                     Đánh dấu có mặt
                   </button>
                 )}

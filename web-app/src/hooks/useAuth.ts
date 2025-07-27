@@ -1,14 +1,39 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
+
+interface AuthUser {
+    id: number;
+    email: string;
+    role: string;
+}
 
 export const useAuth = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState<AuthUser | null>(null);
+
+    const parseToken = (token: string | null) => {
+        if (!token) return null;
+        try {
+            const decoded = jwtDecode<any>(token);
+            return {
+                id: decoded.userId,
+                email: decoded.email,
+                role: decoded.role
+            };
+        } catch (error) {
+            console.error('Error parsing token:', error);
+            return null;
+        }
+    };
 
     const checkAuthStatus = () => {
         const token = localStorage.getItem('accessToken');
-        setIsLoggedIn(!!token);
+        const userData = parseToken(token);
+        setIsLoggedIn(!!token && !!userData);
+        setUser(userData);
         setLoading(false);
     };
 
@@ -36,6 +61,7 @@ export const useAuth = () => {
 
     const login = (userData?: any) => {
         setIsLoggedIn(true);
+        checkAuthStatus(); // Check auth status to update user info
         window.dispatchEvent(new CustomEvent('authChange'));
     };
 
@@ -43,6 +69,7 @@ export const useAuth = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         setIsLoggedIn(false);
+        setUser(null);
         window.dispatchEvent(new CustomEvent('authChange'));
     };
 
@@ -51,6 +78,7 @@ export const useAuth = () => {
         loading,
         login,
         logout,
-        checkAuthStatus
+        checkAuthStatus,
+        user
     };
 };

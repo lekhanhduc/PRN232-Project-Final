@@ -38,6 +38,8 @@ const ScheduleManagement = ({
   const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm);
   const [loading, setLoading] = useState<boolean>(false);
   const [actionLoading, setActionLoading] = useState<number | null>(null); // Track loading for specific actions
+  const [showDetailModal, setShowDetailModal] = useState<boolean>(false);
+  const [selectedAppointment, setSelectedAppointment] = useState<any>(null);
   const [dateRange, setDateRange] = useState<DoctorScheduleFilterRequest>({
     fromDate: '',
     toDate: '',
@@ -61,15 +63,19 @@ const ScheduleManagement = ({
   const fetchScheduleData = async () => {
     setLoading(true);
     try {
-      const response = await doctorScheduleService.getMyWorkSchedule(dateRange);
+      const response = await doctorScheduleService.getMyWorkSchedule({
+        fromDate: dateRange.fromDate || undefined,
+        toDate: dateRange.toDate || undefined,
+        includeTimeSlots: true
+      });
       if (response.code === 200 && response.result) {
         setScheduleData(response.result);
       } else {
         toast.error(response.message || 'Không thể tải lịch làm việc');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching schedule:', error);
-      toast.error('Lỗi khi tải lịch làm việc');
+      toast.error(error.message || 'Lỗi khi tải lịch làm việc');
     } finally {
       setLoading(false);
     }
@@ -88,10 +94,10 @@ const ScheduleManagement = ({
     try {
       const response = await doctorScheduleService.markPatientArrived(appointmentId);
       if (response.code === 200) {
-        toast.success(response.message || 'Đã đánh dấu bệnh nhân có mặt');
+        toast.success(response.message || 'Đã đánh dấu bệnh nhân đã đến');
         await fetchScheduleData(); // Refresh schedule data
       } else {
-        toast.error(response.message || 'Không thể đánh dấu bệnh nhân có mặt');
+        toast.error(response.message || 'Không thể đánh dấu bệnh nhân đã đến');
       }
     } catch (error: any) {
       console.error('Error marking patient arrived:', error);
@@ -123,19 +129,41 @@ const ScheduleManagement = ({
 
   // Filter data by date, search term, and status
   const filteredScheduleData = scheduleData.filter((item) => {
-    const matchesDate = selectedDate === '' || item.workDate === selectedDate;
-    const matchesSearch =
-      searchTerm === '' ||
-      item.timeSlots.some(
-        (slot) =>
-          slot.appointment?.patient.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          slot.appointment?.patient.phone.includes(searchTerm)
-      );
-    const matchesStatus =
-      initialFilterStatus === 'all' ||
-      !initialFilterStatus ||
-      item.timeSlots.some((slot) => slot.appointment?.status === initialFilterStatus);
-    return matchesDate && matchesSearch && matchesStatus;
+    // First check the date filter as it's the simplest
+    if (selectedDate && item.workDate !== selectedDate) {
+      return false;
+    }
+
+    // If there's no search or status filter, we can return true early
+    if (!searchTerm && (!initialFilterStatus || initialFilterStatus === 'all')) {
+      return true;
+    }
+
+    // Check if any time slot matches our search and status criteria
+    return item.timeSlots.some((slot) => {
+      // Status check
+      const statusMatches = 
+        !initialFilterStatus || 
+        initialFilterStatus === 'all' || 
+        slot.appointment?.status === initialFilterStatus;
+
+      // If we're not searching, we only care about status
+      if (!searchTerm) {
+        return statusMatches;
+      }
+
+      // Search check - only if we have an appointment
+      if (!slot.appointment) {
+        return false;
+      }
+
+      const searchLower = searchTerm.toLowerCase();
+      const nameMatches = slot.appointment.patient.fullName.toLowerCase().includes(searchLower);
+      const phoneMatches = slot.appointment.patient.phone.includes(searchTerm);
+
+      // Both search and status must match
+      return (nameMatches || phoneMatches) && statusMatches;
+    });
   });
 
   const handleDateRangeChange = (field: keyof DoctorScheduleFilterRequest, value: string | boolean) => {
@@ -160,17 +188,20 @@ const ScheduleManagement = ({
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+    try {
+      const date = new Date(dateString);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    } catch (error) {
+      return dateString;
+    }
   };
 
   const formatTime = (timeString: string) => {
-    return timeString.slice(0, 5); // HH:MM
+    if (!timeString) return '';
+    return timeString.substring(0, 5); // Lấy HH:MM từ HH:MM:SS
   };
 
   if (loading) {
@@ -241,8 +272,8 @@ const ScheduleManagement = ({
               aria-describedby="status-filter-help"
             >
               <option value="all">Tất cả</option>
-              <option value="pending">Chờ xử lý</option>
-              <option value="confirmed">Đã xác nhận</option>
+              <option value="scheduled">Đã xếp lịch</option>
+              <option value="arrived">Đã đến</option>
               <option value="completed">Hoàn thành</option>
               <option value="cancelled">Đã hủy</option>
             </select>
@@ -270,14 +301,18 @@ const ScheduleManagement = ({
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
           <div className="flex items-center gap-2">
             <Calendar className="text-blue-600" size={20} />
-            <span className="text-blue-800 font-medium">Tổng ngày làm việc: {filteredScheduleData.length}</span>
+            <span className="text-blue-800 font-medium">
+              Tổng ngày làm việc: {scheduleData.length || 0}
+            </span>
           </div>
         </div>
         <div className="bg-green-50 p-4 rounded-lg border border-green-200">
           <div className="flex items-center gap-2">
             <User className="text-green-600" size={20} />
             <span className="text-green-800 font-medium">
-              Tổng lịch hẹn: {filteredScheduleData.reduce((total, schedule) => total + schedule.timeSlots.filter((slot) => !slot.isAvailable).length, 0)}
+              Tổng lịch hẹn: {scheduleData.reduce((total, schedule) => 
+                total + schedule.timeSlots.filter(slot => !slot.isAvailable).length, 0
+              )}
             </span>
           </div>
         </div>
@@ -285,7 +320,9 @@ const ScheduleManagement = ({
           <div className="flex items-center gap-2">
             <Clock className="text-yellow-600" size={20} />
             <span className="text-yellow-800 font-medium">
-              Slot trống: {filteredScheduleData.reduce((total, schedule) => total + schedule.timeSlots.filter((slot) => slot.isAvailable).length, 0)}
+              Slot trống: {scheduleData.reduce((total, schedule) => 
+                total + schedule.timeSlots.filter(slot => slot.isAvailable).length, 0
+              )}
             </span>
           </div>
         </div>
@@ -293,13 +330,13 @@ const ScheduleManagement = ({
 
       {/* Schedule Display */}
       <div className="space-y-4">
-        {filteredScheduleData.length === 0 && (
+        {scheduleData.length === 0 && (
           <div className="text-center py-8 text-gray-500 bg-white rounded-lg shadow-sm border border-gray-200">
             <Calendar className="mx-auto mb-2 text-gray-400" size={48} />
             <p>Không có lịch làm việc phù hợp</p>
           </div>
         )}
-        {filteredScheduleData.map((schedule) => (
+        {scheduleData.map((schedule) => (
           <div key={schedule.scheduleId} className="border border-gray-200 rounded-xl shadow-sm p-6 bg-white">
             <div className="flex justify-between items-center mb-4">
               <div>
@@ -325,25 +362,31 @@ const ScheduleManagement = ({
               {schedule.timeSlots.map((slot) => (
                 <div
                   key={slot.slotId}
-                  className={`p-4 rounded-lg border ${
+                  className={`p-4 rounded-lg border cursor-pointer transition hover:shadow-md ${
                     slot.isAvailable ? 'border-gray-200 bg-gray-50' : 'border-blue-200 bg-blue-50'
                   }`}
+                  onClick={() => {
+                    if (!slot.isAvailable && slot.appointment) {
+                      setSelectedAppointment(slot);
+                      setShowDetailModal(true);
+                    }
+                  }}
                 >
                   <div className="flex justify-between items-center">
                     <div>
-                      <p className="font-medium text-gray-800">{slot.slotTimeFormatted}</p>
+                      <p className="font-medium text-gray-800">{slot.slotTimeFormatted || formatTime(slot.slotTime)}</p>
                       {slot.appointment && (
                         <>
                           <p className="text-sm text-gray-600">Bệnh nhân: {slot.appointment.patient.fullName}</p>
                           <p className="text-sm text-gray-600">SĐT: {slot.appointment.patient.phone}</p>
                           <span
                             className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${getStatusColor(
-                              slot.appointment.status || ''
+                              slot.appointment.status || 'pending'
                             )}`}
                           >
-                            {getStatusText(slot.appointment.status || '')}
+                            {getStatusText(slot.appointment.status || 'pending')}
                           </span>
-                          {slot.appointment.priority && (
+                          {/* {slot.appointment.priority && (
                             <span
                               className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ml-2 ${getPriorityColor(
                                 slot.appointment.priority
@@ -351,25 +394,25 @@ const ScheduleManagement = ({
                             >
                               {getPriorityText(slot.appointment.priority)}
                             </span>
-                          )}
+                          )} */}
                         </>
                       )}
                     </div>
                     {!slot.isAvailable && slot.appointment && (
                       <div className="flex gap-2">
-                        {slot.appointment.status === 'pending' && (
+                        {slot.appointment.status === 'scheduled' && (
                           <button
-                            onClick={() => handleMarkPatientArrived(slot.appointment.appointmentId)}
+                            onClick={() => slot.appointment && handleMarkPatientArrived(slot.appointment.appointmentId)}
                             className="px-3 py-1 bg-yellow-600 text-white rounded-lg text-sm hover:bg-yellow-700 disabled:opacity-50"
                             disabled={actionLoading === slot.appointment.appointmentId}
-                            aria-label={`Đánh dấu bệnh nhân có mặt cho lịch hẹn ${slot.appointment.appointmentId}`}
+                            aria-label={`Đánh dấu bệnh nhân đã đến cho lịch hẹn ${slot.appointment.appointmentId}`}
                           >
-                            {actionLoading === slot.appointment.appointmentId ? 'Đang xử lý...' : 'Đánh dấu có mặt'}
+                            {actionLoading === slot.appointment.appointmentId ? 'Đang xử lý...' : 'Đánh dấu đã đến'}
                           </button>
                         )}
-                        {(slot.appointment.status === 'pending' || slot.appointment.status === 'confirmed') && (
+                        {(slot.appointment.status === 'scheduled' || slot.appointment.status === 'arrived') && (
                           <button
-                            onClick={() => handleCompleteAppointment(slot.appointment!.appointmentId)}
+                            onClick={() => slot.appointment && handleCompleteAppointment(slot.appointment.appointmentId)}
                             className="px-3 py-1 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 disabled:opacity-50"
                             disabled={actionLoading === slot.appointment.appointmentId}
                             aria-label={`Hoàn thành lịch hẹn ${slot.appointment.appointmentId}`}

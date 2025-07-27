@@ -81,17 +81,25 @@ export interface LeaveResponse {
 }
 
 // Added missing interfaces
-export interface DoctorProfile {
-  name: string;
-  specialization: string;
-  experience: string;
+export interface SpecialtyDto {
+  specialtyId: number;
+  specialtyName: string;
+  description?: string;
+}
+
+export interface DoctorDetailResponse {
+  doctorId: number;
+  fullName: string;
   email: string;
   phone: string;
-  address: string;
-  education: string;
-  certifications: string[];
-  workingHours: string;
-  languages: string[];
+  specialty: SpecialtyDto;
+  licenseNumber: string;
+  degree: string;
+  yearsOfExperience: number;
+  consultationFee: number;
+  bio: string;
+  gender?: 'Male' | 'Female' | 'Other';
+  isAvailable: boolean;
 }
 
 export interface DashboardStats {

@@ -13,54 +13,95 @@ export interface SearchDoctorsParams {
     pageSize?: number;
 }
 
+const defaultHeaders = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+};
+
+const handleApiError = async (error: any) => {
+    console.error('API Error:', error);
+    if (error instanceof TypeError && error.message === 'Failed to fetch') {
+        throw new Error('Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối và thử lại sau.');
+    }
+    if (error.status === 404) {
+        throw new Error('Không tìm thấy thông tin yêu cầu');
+    }
+    if (error.status === 401) {
+        throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.');
+    }
+    if (error.status === 403) {
+        throw new Error('Bạn không có quyền thực hiện thao tác này.');
+    }
+    throw error;
+};
+
 export const doctorService = {
     async searchDoctors(params: SearchDoctorsParams = {}): Promise<ApiResponse<PageResponse<DoctorSearchResponse>>> {
-        const queryParams = new URLSearchParams();
+        try {
+            const queryParams = new URLSearchParams();
 
-        if (params.doctorName) queryParams.append('doctorName', params.doctorName);
-        if (params.specialtyName) queryParams.append('specialtyName', params.specialtyName);
-        if (params.gender) queryParams.append('gender', params.gender);
-        if (params.isAvailable !== undefined) queryParams.append('isAvailable', params.isAvailable.toString());
-        if (params.orderBy) queryParams.append('orderBy', params.orderBy);
-        if (params.page) queryParams.append('page', params.page.toString());
-        if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
+            if (params.doctorName) queryParams.append('doctorName', params.doctorName);
+            if (params.specialtyName) queryParams.append('specialtyName', params.specialtyName);
+            if (params.gender) queryParams.append('gender', params.gender);
+            if (params.isAvailable !== undefined) queryParams.append('isAvailable', params.isAvailable.toString());
+            if (params.orderBy) queryParams.append('orderBy', params.orderBy);
+            if (params.page) queryParams.append('page', params.page.toString());
+            if (params.pageSize) queryParams.append('pageSize', params.pageSize.toString());
 
-        const url = `${API_URL}/api/v1/doctors/search?${queryParams.toString()}`;
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+            const url = `${API_URL}/api/v1/doctors/search?${queryParams.toString()}`;
+            console.log('🔍 Debug - Search Doctors URL:', url);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: defaultHeaders,
+                mode: 'cors'
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Search Doctors Error:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('🔍 Debug - Response Data:', data);
+            return data;
+        } catch (error) {
+            return handleApiError(error);
         }
-
-        const data = await response.json();
-        console.log('🔍 Debug - Response Data:', data);
-        return data;
     },
 
     async getDoctorDetails(doctorId: number): Promise<ApiResponse<DoctorDetailResponse>> {
-        const url = `${API_URL}/api/v1/doctors/${doctorId}`;
+        try {
+            const url = `${API_URL}/api/v1/doctors/${doctorId}`;
+            console.log('🔍 Debug - Fetching doctor details from:', url);
 
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+            const accessToken = localStorage.getItem('accessToken');
+            const headers = {
+                ...defaultHeaders,
+                ...(accessToken && { Authorization: `Bearer ${accessToken}` })
+            };
+            
+            const response = await fetch(url, {
+                method: 'GET',
+                headers,
+                mode: 'cors'
+            });
 
-        console.log('🔍 Debug - Doctor Details Response Status:', response.status);
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Doctor Details Error:', errorText);
+                throw { 
+                    status: response.status, 
+                    message: response.status === 404 ? 'Không tìm thấy thông tin bác sĩ' : errorText 
+                };
+            }
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const result: ApiResponse<DoctorDetailResponse> = await response.json();
+            return result;
+        } catch (error) {
+            throw await handleApiError(error);
         }
-
-        const data = await response.json();
-        console.log('🔍 Debug - Doctor Details Response Data:', data);
-        return data;
     },
 
     async getDoctorAppointmentSchedule(doctorId: number, fromDate?: string, toDate?: string) {

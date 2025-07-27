@@ -1,6 +1,6 @@
 export const getRedirectPath = (userType: string): string => {
     switch (userType) {
-        case 'Doctor':
+        case 'DOCTOR':
             return '/dashboard';
         case 'STAFF':
             return '/staff';

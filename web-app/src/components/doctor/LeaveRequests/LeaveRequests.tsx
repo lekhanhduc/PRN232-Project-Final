@@ -1,57 +1,56 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Clock, Plus, X, Calendar, FileText } from 'lucide-react';
-import { LeaveResponse, LeaveRequestPayload } from '@/types/doctorSchedule';
+import { Plus, X } from 'lucide-react';
 import { doctorScheduleService } from '@/services/doctorScheduleService';
 import { toast } from 'react-hot-toast';
 
+import { LeaveResponse } from '@/types/doctorSchedule';
+
+import { LeaveRequestPayload } from '@/types/doctorSchedule';
+
 interface LeaveRequestsProps {
-  leaveRequests: LeaveResponse[];
-  getStatusColor: (status: string) => string;
-  getStatusText: (status: string) => string;
+  onSuccess?: () => void;
 }
 
-const LeaveRequests = ({ leaveRequests: initialLeaveRequests, getStatusColor, getStatusText }: LeaveRequestsProps) => {
-  const [leaveRequests, setLeaveRequests] = useState<LeaveResponse[]>(initialLeaveRequests);
-  const [loading, setLoading] = useState<boolean>(false);
+const LeaveRequests = ({ onSuccess }: LeaveRequestsProps) => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     leaveDate: '',
     reason: '',
   });
   const [submitLoading, setSubmitLoading] = useState(false);
-
-  // Update local state when prop changes
-  useEffect(() => {
-    setLeaveRequests(initialLeaveRequests);
-  }, [initialLeaveRequests]);
-
-  // Fetch leave requests
-  const fetchLeaveRequests = async () => {
-    setLoading(true);
-    try {
-      const response = await doctorScheduleService.getMyLeaves();
-      if (response.code === 200 && response.result) {
-        setLeaveRequests(response.result);
-      } else {
-        toast.error(response.message || 'Không thể tải danh sách đơn nghỉ');
-      }
-    } catch (error) {
-      console.error('Error fetching leave requests:', error);
-      toast.error('Lỗi khi tải danh sách đơn nghỉ');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [loading, setLoading] = useState(true);
+  const [leaveRequests, setLeaveRequests] = useState<LeaveResponse[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  useEffect(() => {
+    const fetchLeaveRequests = async () => {
+      setLoading(true);
+      try {
+        const response = await doctorScheduleService.getMyLeaves();
+        if (response.code === 200 && response.result) {
+          setLeaveRequests(response.result);
+        } else {
+          toast.error(response.message || 'Không thể tải danh sách đơn xin nghỉ');
+        }
+      } catch (error: any) {
+        console.error('Error fetching leave requests:', error);
+        toast.error('Lỗi khi tải danh sách đơn xin nghỉ');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeaveRequests();
+  }, []);
+
   const handleSubmit = async () => {
-    if (!formData.leaveDate || !formData.reason.trim()) {
-      toast.error('Vui lòng nhập đầy đủ thông tin');
+    if (!formData.leaveDate) {
+      toast.error('Vui lòng chọn ngày nghỉ');
       return;
     }
 
@@ -68,14 +67,24 @@ const LeaveRequests = ({ leaveRequests: initialLeaveRequests, getStatusColor, ge
     try {
       const payload: LeaveRequestPayload = {
         leaveDate: formData.leaveDate,
-        reason: formData.reason,
+        reason: formData.reason.trim() || '',
       };
+      
       const response = await doctorScheduleService.requestLeave(payload);
       if (response.code === 200) {
         toast.success(response.message || 'Gửi đơn nghỉ thành công');
         setShowModal(false);
         setFormData({ leaveDate: '', reason: '' });
-        fetchLeaveRequests();
+        
+        // Refresh leave requests list
+        const updatedResponse = await doctorScheduleService.getMyLeaves();
+        if (updatedResponse.code === 200 && updatedResponse.result) {
+          setLeaveRequests(updatedResponse.result);
+        }
+        
+        if (onSuccess) {
+          onSuccess();
+        }
       } else {
         toast.error(response.message || 'Gửi đơn nghỉ thất bại');
       }
@@ -88,25 +97,36 @@ const LeaveRequests = ({ leaveRequests: initialLeaveRequests, getStatusColor, ge
   };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('vi-VN', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('vi-VN', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    } catch (error) {
+      return dateString;
+    }
   };
 
   const formatDateTime = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleString('vi-VN');
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleString('vi-VN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
+    } catch (error) {
+      return dateString;
+    }
   };
 
-  const getRequestStatus = (request: LeaveResponse) => {
-    return request.requestedAt ? 'approved' : 'pending';
-  };
-
-  if (loading) {
+  if (submitLoading) {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -117,69 +137,56 @@ const LeaveRequests = ({ leaveRequests: initialLeaveRequests, getStatusColor, ge
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Đơn xin Nghỉ</h2>
+        <h2 className="text-xl font-semibold">Danh sách đơn xin nghỉ</h2>
         <button
           onClick={() => setShowModal(true)}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors"
-          disabled={loading}
         >
           <Plus size={20} />
           Tạo đơn xin nghỉ
         </button>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <div className="flex items-center gap-2">
-            <FileText className="text-blue-600" size={20} />
-            <span className="text-blue-800 font-medium">Tổng đơn: {leaveRequests.length}</span>
-          </div>
-        </div>
-        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-          <div className="flex items-center gap-2">
-            <Clock className="text-yellow-600" size={20} />
-            <span className="text-yellow-800 font-medium">Đang chờ: {leaveRequests.filter((req) => !req.requestedAt).length}</span>
-          </div>
-        </div>
-        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
-          <div className="flex items-center gap-2">
-            <Clock className="text-green-600" size={20} />
-            <span className="text-green-800 font-medium">Đã duyệt: {leaveRequests.filter((req) => req.requestedAt).length}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Leave Requests List */}
-      <div className="space-y-4">
-        {leaveRequests.length === 0 && (
-          <div className="text-center py-8 text-gray-500 bg-white rounded-lg shadow-sm border border-gray-200">
-            <FileText className="mx-auto mb-2 text-gray-400" size={48} />
-            <p>Không có đơn xin nghỉ nào</p>
-          </div>
-        )}
-        {leaveRequests.map((request) => (
-          <div
-            key={request.leaveId}
-            className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
-          >
-            <div className="flex justify-between items-center">
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                  <Calendar className="text-blue-600" size={20} />
-                  {formatDate(request.leaveDate)}
-                </h3>
-                <p className="text-sm text-gray-600 mt-1">Lý do: {request.reason}</p>
-                <p className="text-sm text-gray-600">Gửi lúc: {formatDateTime(request.requestedAt)}</p>
-              </div>
-              <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(getRequestStatus(request))}`}
-              >
-                {getStatusText(getRequestStatus(request))}
-              </span>
-            </div>
-          </div>
-        ))}
+      {/* Hardcoded Leave Requests List */}
+      <div className="bg-white rounded-lg shadow overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Ngày nghỉ
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Lý do
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Ngày tạo
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {leaveRequests.length === 0 ? (
+              <tr>
+                <td colSpan={3} className="px-6 py-4 text-center text-sm text-gray-500">
+                  Không có đơn xin nghỉ nào
+                </td>
+              </tr>
+            ) : (
+              leaveRequests.map((leave) => (
+                <tr key={leave.leaveId}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {formatDate(leave.leaveDate)}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-900">
+                    {leave.reason || 'Không có lý do'}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {formatDateTime(leave.requestedAt)}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
 
       {/* Modal for Creating Leave Request */}
