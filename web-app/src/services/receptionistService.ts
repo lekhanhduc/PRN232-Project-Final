@@ -6,7 +6,6 @@ import {
 } from '@/types/receptionist';
 import { AppointmentListDto, AppointmentCreationRequest, CreateAppointmentResponse } from "@/types/appointment";
 import { PageResponse } from "@/types/pageResponse";
-import { API_URL } from '@/utils/baseUrl';
 import { ApiResponse } from '@/types/apiResonse';
 import { PatientDTOResponse } from '@/types/user';
 
