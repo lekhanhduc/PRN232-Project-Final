@@ -58,49 +58,60 @@ export const PatientTable = ({ patients }: PatientTableProps) => {
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                        {patients.map((patient) => {
-                            const lastVisit = getLastVisitDate(patient.recentAppointments);
-                            return (
-                                <tr key={patient.id} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div>
-                                            <div className="text-sm font-medium text-gray-900">{patient.firstName}</div>
-                                            <div className="text-sm text-gray-500">
-                                                {patient.gender} • {calculateAge(patient.dateOfBirth)} tuổi
+                        {patients.length === 0 ? (
+                            <tr>
+                                <td colSpan={5} className="text-center py-8 text-gray-400 text-base font-medium">
+                                    <span className="inline-flex flex-col items-center gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                                        Không tìm thấy bệnh nhân nào.<br/>Hãy thử lại từ khóa khác hoặc thêm mới bệnh nhân!
+                                    </span>
+                                </td>
+                            </tr>
+                        ) : (
+                            patients.map((patient) => {
+                                const lastVisit = getLastVisitDate(patient.recentAppointments);
+                                return (
+                                    <tr key={patient.id} className="hover:bg-gray-50">
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div>
+                                                <div className="text-sm font-medium text-gray-900">{patient.firstName}</div>
+                                                <div className="text-sm text-gray-500">
+                                                    {patient.gender} • {calculateAge(patient.dateOfBirth)} tuổi
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <div className="text-sm text-gray-900">{patient.phone}</div>
-                                        <div className="text-sm text-gray-500">{patient.email}</div>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
-                                        {/* Nếu DTO không có address, bạn có thể bỏ cột này hoặc hiển thị mặc định */}
-                                        Không có thông tin
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {lastVisit ? formatDate(lastVisit) : 'Chưa khám'}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <div className="flex space-x-2">
-                                            <button className="text-indigo-600 hover:text-indigo-900 p-1" title="Chỉnh sửa">
-                                                <Edit className="w-4 h-4" />
-                                            </button>
-                                            <button
-                                                className="text-green-600 hover:text-green-900 p-1"
-                                                title="Đặt lịch khám"
-                                                onClick={() => setBookingPatient(patient)}
-                                            >
-                                                <Calendar className="w-4 h-4" />
-                                            </button>
-                                            <button className="text-red-600 hover:text-red-900 p-1" title="Xóa">
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            );
-                        })}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="text-sm text-gray-900">{patient.phone}</div>
+                                            <div className="text-sm text-gray-500">{patient.email}</div>
+                                        </td>
+                                        <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
+                                            {/* Nếu DTO không có address, bạn có thể bỏ cột này hoặc hiển thị mặc định */}
+                                            Không có thông tin
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            {lastVisit ? formatDate(lastVisit) : 'Chưa khám'}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                            <div className="flex space-x-2">
+                                                <button className="text-indigo-600 hover:text-indigo-900 p-1" title="Chỉnh sửa">
+                                                    <Edit className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    className="text-green-600 hover:text-green-900 p-1"
+                                                    title="Đặt lịch khám"
+                                                    onClick={() => setBookingPatient(patient)}
+                                                >
+                                                    <Calendar className="w-4 h-4" />
+                                                </button>
+                                                <button className="text-red-600 hover:text-red-900 p-1" title="Xóa">
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        )}
                     </tbody>
                     <BookAppointmentModal
                         open={!!bookingPatient}

@@ -94,65 +94,76 @@ export const DoctorSchedule = () => {
                 )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {doctors.map((doctor) => (
-                    <div key={doctor.doctorId} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-                        <div className="flex items-center space-x-4 mb-4">
-                            <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                                {doctor.avatar ? (
-                                    <img
-                                        src={doctor.avatar}
-                                        alt={doctor.fullName}
-                                        className="w-12 h-12 rounded-full object-cover"
-                                    />
+                {doctors.length === 0 ? (
+                    <div className="col-span-full flex flex-col items-center justify-center py-16 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-blue-200 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                        <div className="text-lg font-medium">Không tìm thấy bác sĩ nào.</div>
+                        <div className="text-sm">Hãy thử lại từ khóa khác hoặc kiểm tra bộ lọc!</div>
+                    </div>
+                ) : (
+                    doctors.map((doctor) => (
+                        <div key={doctor.doctorId} className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+                            <div className="flex items-center space-x-4 mb-4">
+                                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                                    {doctor.avatar ? (
+                                        <img
+                                            src={doctor.avatar}
+                                            alt={doctor.fullName}
+                                            className="w-12 h-12 rounded-full object-cover"
+                                        />
+                                    ) : (
+                                        <User className="w-6 h-6 text-white" />
+                                    )}
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className="font-semibold text-gray-900">{doctor.fullName}</h3>
+                                    <p className="text-sm text-gray-600">{doctor.specialty?.specialtyName || ''}</p>
+                                    <p className="text-xs text-gray-400">{doctor.email}</p>
+                                </div>
+                            </div>
+                            <div className="mb-2 text-sm text-gray-700">
+                                <span className="font-medium">Bằng cấp:</span> {doctor.academicTitle || 'N/A'}
+                            </div>
+                            <div className="mb-2 text-sm text-gray-700">
+                                <span className="font-medium">Kinh nghiệm:</span> {doctor.yearsOfExperience || 0} năm
+                            </div>
+                            <div className="mb-2 text-sm text-gray-700">
+                                <span className="font-medium">Giá khám:</span> {doctor.consultationFee?.toLocaleString()} VNĐ
+                            </div>
+                            <div className="mb-2 text-sm text-gray-700">
+                                <span className="font-medium">Trạng thái:</span> {doctor.isAvailable ? 'Đang làm việc' : 'Nghỉ'}
+                            </div>
+                            <div className="mt-4">
+                                <h4 className="font-semibold text-blue-700 mb-2">Lịch làm việc</h4>
+                                {Array.isArray(doctor.workSchedules) && doctor.workSchedules.length > 0 ? (
+                                    <>
+                                        <ul className="space-y-1">
+                                            {doctor.workSchedules.slice(0, 3).map((day: any) => (
+                                                <li key={day.scheduleId || day.workDate || Math.random()} className="flex justify-between text-xs text-gray-800">
+                                                    <span>{day.workDate ? (day.workDate.split ? day.workDate.split('T')[0] : day.workDate) : 'N/A'}</span>
+                                                    <span>{day.startTime && day.endTime ? `${day.startTime} - ${day.endTime}` : 'N/A'}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        {doctor.workSchedules.length > 3 && (
+                                            <button
+                                                className="mt-2 w-full bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded hover:bg-blue-100 transition-colors"
+                                                onClick={() => setModalDoctor(doctor)}
+                                            >
+                                                Xem tất cả lịch làm việc
+                                            </button>
+                                        )}
+                                    </>
                                 ) : (
-                                    <User className="w-6 h-6 text-white" />
+                                    <div className="flex flex-col items-center gap-1 text-gray-400 text-xs py-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                                        Không có lịch làm việc cho bác sĩ này.
+                                    </div>
                                 )}
                             </div>
-                            <div className="flex-1">
-                                <h3 className="font-semibold text-gray-900">{doctor.fullName}</h3>
-                                <p className="text-sm text-gray-600">{doctor.specialty?.specialtyName || ''}</p>
-                                <p className="text-xs text-gray-400">{doctor.email}</p>
-                            </div>
                         </div>
-                        <div className="mb-2 text-sm text-gray-700">
-                            <span className="font-medium">Bằng cấp:</span> {doctor.academicTitle || 'N/A'}
-                        </div>
-                        <div className="mb-2 text-sm text-gray-700">
-                            <span className="font-medium">Kinh nghiệm:</span> {doctor.yearsOfExperience || 0} năm
-                        </div>
-                        <div className="mb-2 text-sm text-gray-700">
-                            <span className="font-medium">Giá khám:</span> {doctor.consultationFee?.toLocaleString()} VNĐ
-                        </div>
-                        <div className="mb-2 text-sm text-gray-700">
-                            <span className="font-medium">Trạng thái:</span> {doctor.isAvailable ? 'Đang làm việc' : 'Nghỉ'}
-                        </div>
-                        <div className="mt-4">
-                            <h4 className="font-semibold text-blue-700 mb-2">Lịch làm việc</h4>
-                            {Array.isArray(doctor.workSchedules) && doctor.workSchedules.length > 0 ? (
-                                <>
-                                    <ul className="space-y-1">
-                                        {doctor.workSchedules.slice(0, 3).map((day: any) => (
-                                            <li key={day.scheduleId || day.workDate || Math.random()} className="flex justify-between text-xs text-gray-800">
-                                                <span>{day.workDate ? (day.workDate.split ? day.workDate.split('T')[0] : day.workDate) : 'N/A'}</span>
-                                                <span>{day.startTime && day.endTime ? `${day.startTime} - ${day.endTime}` : 'N/A'}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                    {doctor.workSchedules.length > 3 && (
-                                        <button
-                                            className="mt-2 w-full bg-blue-50 text-blue-600 text-xs px-2 py-1 rounded hover:bg-blue-100 transition-colors"
-                                            onClick={() => setModalDoctor(doctor)}
-                                        >
-                                            Xem tất cả lịch làm việc
-                                        </button>
-                                    )}
-                                </>
-                            ) : (
-                                <div className="text-gray-400 text-xs">Không có lịch làm việc</div>
-                            )}
-                        </div>
-                    </div>
-                ))}
+                    ))
+                )}
             </div>
             {/* Pagination controls */}
             <div className="flex items-center justify-between mt-8">

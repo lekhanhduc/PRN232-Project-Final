@@ -8,6 +8,7 @@ import { usePatients } from '@/hooks/usePatients';
 import { Header } from '@/components/receptionist/layouts/Header';
 import { Sidebar } from '@/components/receptionist/layouts/Sidebar';
 import { StatsCards } from '@/components/receptionist/layouts/StatsCards';
+import ChangePatientPassword from '@/components/receptionist/patients/ChangePatientPassword';
 
 export default function ReceptionistPage() {
     const [activeTab, setActiveTab] = useState('appointments');
@@ -25,13 +26,14 @@ export default function ReceptionistPage() {
         <div className="min-h-screen bg-gray-50">
             <Header />
             <div className="flex">
-                <Sidebar activeTab={activeTab} onTabChange={setActiveTab} />
+                <Sidebar activeTab={activeTab} onTabChange={setActiveTab} tabs={["appointments", "patients", "schedule", "change-password"]} />
                 <div className="flex-1 p-6">
                     <StatsCards stats={todayStats} />
 
                     {activeTab === 'appointments' && <AppointmentList />}
                     {activeTab === 'patients' && <PatientList />}
                     {activeTab === 'schedule' && <DoctorSchedule />}
+                    {activeTab === 'change-password' && <ChangePatientPassword />}
                 </div>
             </div>
         </div>
