@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { StatsCards } from '@/components/manager/layouts/StatsCards';
 import { Dashboard } from '@/components/manager/dashboard/Dashboard';
 import { DoctorsManagement } from '@/components/manager/doctors/DoctorsManagement';
@@ -9,6 +9,8 @@ import { PatientsManagement } from '@/components/manager/patients/PatientsManage
 import { ReportsManagement } from '@/components/manager/reports/ReportsManagement';
 import { UsersManagement } from '@/components/manager/users/UsersManagement';
 import { ManagerStats } from '@/types/manager';
+import { getDoctors, SearchDoctorsParams } from '@/services/doctorService';
+import { receptionistService } from '@/services/receptionistService';
 
 export type Doctor = {
     id: string;
@@ -25,17 +27,43 @@ export type Doctor = {
 
 export default function ManagerPage() {
     const [activeTab, setActiveTab] = useState('dashboard');
+    const [stats, setStats] = useState<ManagerStats>({
+        totalDoctors: 0,
+        totalPatients: 0,
+        totalAppointments: 0,
+        totalDepartments: 0,
+        appointmentsToday: 0,
+        newPatientsThisMonth: 0,
+        totalRevenue: 0,
+        pendingAppointments: 0
+    });
 
-    const stats: ManagerStats = {
-        totalDoctors: 25,
-        totalPatients: 1250,
-        totalAppointments: 450,
-        totalDepartments: 8,
-        appointmentsToday: 45,
-        newPatientsThisMonth: 89,
-        totalRevenue: 12500000,
-        pendingAppointments: 12
+    const loadStats = async () => {
+        try {
+            const doctorResponse = await getDoctors({ page: 1, pageSize: 1 });
+            const totalDoctors = doctorResponse.result?.totalElements ?? 0;
+
+            const patientResponse = await receptionistService.getAllPatients('', 1, 1);
+            const totalPatients = patientResponse.result?.totalElements ?? 0;
+
+            setStats({
+                totalDoctors: totalDoctors,
+                totalPatients: totalPatients,
+                totalAppointments: 450,
+                totalDepartments: 8,
+                appointmentsToday: 45,
+                newPatientsThisMonth: 89,
+                totalRevenue: 12500000,
+                pendingAppointments: 12
+            });
+        } catch (error) {
+            console.error("❌ Error loading stats:", error);
+        }
     };
+
+    useEffect(() => {
+        loadStats();
+    }, []);
 
     const renderContent = () => {
         switch (activeTab) {
