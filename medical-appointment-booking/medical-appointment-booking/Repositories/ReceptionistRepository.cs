@@ -45,18 +45,26 @@ namespace medical_appointment_booking.Repositories
                 .FirstOrDefaultAsync(a => a.Id == appointment.Id);
         }
 
-        public async Task<IEnumerable<Appointment>> GetTodayAppointmentsAsync()
+        public async Task<IEnumerable<Appointment>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
         {
-            var today = DateOnly.FromDateTime(DateTime.Today);
+            var selectedDate = date ?? DateOnly.FromDateTime(DateTime.Today);
+            query = query?.ToLower().Trim();
 
             return await context.Appointments
                 .Include(a => a.Patient)
                     .ThenInclude(p => p.User)
                 .Include(a => a.Doctor)
-                    .ThenInclude(d => d.Specialty)
-                .Where(a => a.AppointmentDate == today)
+                    .ThenInclude(d => d.User)
+                .Include(a => a.Doctor.Specialty)
+                .Where(a => a.AppointmentDate == selectedDate &&
+                    (string.IsNullOrEmpty(query) ||
+                     a.Doctor.FirstName.ToLower().Contains(query) ||
+                     a.Doctor.LastName.ToLower().Contains(query) ||
+                     a.Patient.LastName.ToLower().Contains(query) ||
+                     a.Patient.FirstName.ToLower().Contains(query)))
                 .ToListAsync();
         }
+
 
         public async Task<bool> CancelAppointmentAsync(long appointmentId, string cancelReason, long? cancelledByUserId = null)
         {
