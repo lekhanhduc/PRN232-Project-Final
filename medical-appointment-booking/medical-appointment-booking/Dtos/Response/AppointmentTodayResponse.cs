@@ -1,6 +1,6 @@
 ﻿namespace medical_appointment_booking.Dtos.Response
 {
-    public class AppointmentTodayResponse
+    public class AppointmentListDto
     {
         public long AppointmentId { get; set; }
 

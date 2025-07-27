@@ -18,7 +18,7 @@ namespace medical_appointment_booking.Dtos.Request
         public TimeOnly AppointmentTime { get; set; }
 
         public string? ReasonForVisit { get; set; }
-        //public int PackageId { get; set; }
+        public int PackageId { get; set; }
         //public string? Notes { get; set; }
 
     }
