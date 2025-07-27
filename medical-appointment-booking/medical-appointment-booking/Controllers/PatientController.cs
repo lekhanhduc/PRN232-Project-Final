@@ -74,4 +74,3 @@ namespace medical_appointment_booking.Controllers
 
     }
 }
-﻿

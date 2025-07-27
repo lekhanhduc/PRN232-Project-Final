@@ -67,5 +67,4 @@
         public string? Reason { get; set; }
         public DateTime RequestedAt { get; set; }
     }
-
 }
