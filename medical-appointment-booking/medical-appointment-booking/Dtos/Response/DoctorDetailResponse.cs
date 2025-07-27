@@ -19,6 +19,12 @@ namespace medical_appointment_booking.Dtos.Response
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public Gender? Gender { get; set; }
         public bool IsAvailable { get; set; }
+
+        public string? Avatar { get; set; }
+
+        public string? UserType { get; set; }
+
+        public bool Enable2FA { get; set; }
     }
 
     public class SpecialtyDto

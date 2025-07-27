@@ -33,7 +33,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "ADMIN")]
+        [AllowAnonymous]
         public async Task<ApiResponse<PageResponse<DoctorDetailResponse>>> GetAllWithSearch(
            [FromQuery] string? specialtyName = null,
            [FromQuery] Gender? gender = null,

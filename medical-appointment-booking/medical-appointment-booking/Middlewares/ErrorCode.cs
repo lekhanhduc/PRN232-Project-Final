@@ -52,6 +52,9 @@ namespace medical_appointment_booking.Middlewares
         public static readonly ErrorCode LEAVE_DATE_IN_PAST = new ErrorCode(400,"Leave date must be in the future", HttpStatusCode.BadRequest);
 
         public static readonly ErrorCode LEAVE_CONFLICT = new ErrorCode(400, "Leave request already exists for this date", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode INVALID_ROLE = new ErrorCode(400, "Invalid Role", HttpStatusCode.BadRequest);
+
     }
 
 }

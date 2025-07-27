@@ -5,7 +5,7 @@ namespace medical_appointment_booking.Services
 {
     public interface IPatientService
     {
-        Task<PatientDetailResponse> GetInfoPatient();
+        Task<object> GetInfoPatient();
         Task<PatientDetailResponse> UpdateProfile(PatientDetailRequest request);
 
         Task<string> UploadAvatar(IFormFile file);

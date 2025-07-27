@@ -20,9 +20,9 @@ namespace medical_appointment_booking.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ApiResponse<PatientDetailResponse>> GetInfoDetailPatient()
+        public async Task<ApiResponse<object>> GetInfoDetailPatient()
         {
-            return new ApiResponse<PatientDetailResponse>
+            return new ApiResponse<object>
             {
                 code = 200,
                 result = await patientService.GetInfoPatient()

@@ -10,7 +10,7 @@ namespace medical_appointment_booking.Dtos.Response
 
         public string? LastName { get; set; }
 
-        public bool ? Enable2FA { get; set; }
+        public bool? Enable2FA { get; set; }
         public string? Phone { get; set; }
 
         public string? Avatar { get; set; }
@@ -20,5 +20,7 @@ namespace medical_appointment_booking.Dtos.Response
         public Gender? Gender { get; set; }
 
         public string? Address { get; set; }
+
+        public string? UserType { get; set; }
     }
 }

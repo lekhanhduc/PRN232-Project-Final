@@ -42,11 +42,11 @@ namespace medical_appointment_booking.Services.Impl
             user.Email = request.Email.Trim();
             user.Password = passwordHasher.HashPassword(user, request.Password.Trim());
              
-            var role = await roleRepository.FindByRoleName(DefinitionRole.ADMIN);
+            var role = await roleRepository.FindByRoleName(DefinitionRole.PATIENT);
             if (role == null)
             {
                 role = new Role();
-                role.Name = DefinitionRole.ADMIN;
+                role.Name = DefinitionRole.PATIENT;
                 await roleRepository.CreateRole(role);
             }
             user.Role = role;

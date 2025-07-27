@@ -127,6 +127,7 @@ namespace medical_appointment_booking.Services.Impl
                     Gender = doctor.Gender,
                     YearsOfExperience = doctor.YearsOfExperience,
                     Bio = doctor.Bio,
+                    Avatar = doctor.Avatar,
 
                 });
             }

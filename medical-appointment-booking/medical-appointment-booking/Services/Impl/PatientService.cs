@@ -14,16 +14,21 @@ namespace medical_appointment_booking.Services.Impl
         private readonly UserRepository userRepository;
         private readonly CloudinaryService _cloudinaryService;
         private readonly PasswordHasher<User> passwordHasher;
+        private readonly DoctorRepository doctorRepository;
+        private readonly SpecialtyRepository specialtyRepository;
 
-        public PatientService(PatientRepository patientRepository, 
-            IHttpContextAccessor httpContextAccessor, UserRepository userRepository, 
-            CloudinaryService cloudinaryService)
+        public PatientService(PatientRepository patientRepository,
+            IHttpContextAccessor httpContextAccessor, UserRepository userRepository,
+            CloudinaryService cloudinaryService, DoctorRepository doctorRepository,
+            SpecialtyRepository specialtyRepository)
         {
             this.patientRepository = patientRepository;
             this.httpContextAccessor = httpContextAccessor;
             this.userRepository = userRepository;
             _cloudinaryService = cloudinaryService;
             passwordHasher = new PasswordHasher<User>();
+            this.doctorRepository = doctorRepository;
+            this.specialtyRepository = specialtyRepository;
         }
 
         public async Task ChangePassword(ChangePasswordRequest request)
@@ -51,7 +56,7 @@ namespace medical_appointment_booking.Services.Impl
             await userRepository.UpdateUser(existingUser);
         }
 
-        public async Task<PatientDetailResponse> GetInfoPatient()
+        public async Task<object> GetInfoPatient()
         {
             var accountIdClaim = httpContextAccessor.HttpContext?.User.FindFirst("userId")?.Value;
             if (string.IsNullOrEmpty(accountIdClaim))
@@ -63,23 +68,82 @@ namespace medical_appointment_booking.Services.Impl
 
             var existingUser = await userRepository.FindUserById(accountId);
 
-            var user = await patientRepository.GetPatientByUserIdAsync(accountId);
-            if (user == null)
+            if (existingUser == null)
+            {
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
+
+            var userRole = httpContextAccessor.HttpContext?.User.FindFirst("Authorities")?.Value;
+
+            switch (userRole?.ToUpper())
+            {
+                case "PATIENT":
+                    return await GetPatientProfile(accountId, existingUser);
+
+                case "DOCTOR":
+                    return await GetDoctorProfile(accountId, existingUser);
+
+                default:
+                    throw new AppException(ErrorCode.INVALID_ROLE);
+            }
+        }
+
+        private async Task<PatientDetailResponse> GetPatientProfile(int accountId, User existingUser)
+        {
+            var patient = await patientRepository.GetPatientByUserIdAsync(accountId);
+            if (patient == null)
             {
                 throw new AppException(ErrorCode.USER_NOT_EXISTED);
             }
 
             return new PatientDetailResponse
             {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
+                FirstName = patient.FirstName,
+                LastName = patient.LastName,
                 Email = existingUser.Email,
                 Enable2FA = existingUser.Enable2FA,
-                Dob = user.Dob,
-                Gender = user.Gender,
-                Phone = user.Phone,
-                Avatar = user.Avatar,
-                Address = user.Address
+                Dob = patient.Dob,
+                Gender = patient.Gender,
+                Phone = patient.Phone,
+                Avatar = patient.Avatar,
+                Address = patient.Address,
+                UserType = patient.User.Role.Name
+            };
+        }
+
+        private async Task<DoctorDetailResponse> GetDoctorProfile(int accountId, User existingUser)
+        {
+            var doctor = await doctorRepository.GetDoctorByUserIdAsync(accountId);
+            if (doctor == null)
+            {
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+            }
+
+            var specialty = doctor.SpecialtyId.HasValue ?
+                await specialtyRepository.GetSpecialty(doctor.SpecialtyId.Value) : null;
+
+            return new DoctorDetailResponse
+            {
+                DoctorId = doctor.Id,
+                FullName = $"{doctor.FirstName} {doctor.LastName}".Trim(),
+                Email = existingUser.Email ?? string.Empty,
+                Phone = existingUser.Phone ?? string.Empty,
+                Specialty = doctor.Specialty != null ? new SpecialtyDto
+                {
+                    SpecialtyId = doctor.Specialty.Id,
+                    SpecialtyName = doctor.Specialty.SpecialtyName ?? string.Empty,
+                    Description = doctor.Specialty.Description ?? string.Empty
+                } : new SpecialtyDto { SpecialtyId = 0, SpecialtyName = string.Empty, Description = string.Empty },
+                LicenseNumber = doctor.LicenseNumber ?? string.Empty,
+                Degree = doctor.Degree ?? string.Empty,
+                YearsOfExperience = doctor.YearsOfExperience,
+                ConsultationFee = doctor.ConsultationFee,
+                Bio = doctor.Bio ?? string.Empty,
+                Gender = doctor.Gender,
+                IsAvailable = doctor.IsAvailable,
+                UserType = doctor.User.Role.Name,
+                Enable2FA = doctor.User.Enable2FA,
+                Avatar = doctor.Avatar ?? string.Empty,
             };
         }
 
@@ -161,21 +225,45 @@ namespace medical_appointment_booking.Services.Impl
             }
 
             var accountId = int.Parse(accountIdClaim);
-            var existingPatient = await patientRepository.GetPatientByUserIdAsync(accountId);
-            if (existingPatient == null)
+
+            var user = await userRepository.FindUserById(accountId);
+            if (user == null)
             {
                 throw new AppException(ErrorCode.USER_NOT_EXISTED);
             }
 
+            var userRole = httpContextAccessor.HttpContext?.User.FindFirst("Authorities")?.Value;
+
             using var stream = file.OpenReadStream();
             var imageUrl = await _cloudinaryService.UploadImageAsync(stream, file.FileName);
 
-            existingPatient.Avatar = imageUrl;
-            await patientRepository.UpdatePatientAsync(existingPatient);
+            if (userRole == "DOCTOR")
+            {
+                var doctor = await doctorRepository.GetDoctorByUserIdAsync(accountId);
+                if (doctor == null)
+                {
+                    throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+                }
+                doctor.Avatar = imageUrl;
+                await doctorRepository.UpdateDoctorAsync(doctor);
+            }
+            else
+            {
+                var existingPatient = await patientRepository.GetPatientByUserIdAsync(accountId);
+                if (existingPatient == null)
+                {
+                    throw new AppException(ErrorCode.USER_NOT_EXISTED);
+                }
+                existingPatient.Avatar = imageUrl;
+                await patientRepository.UpdatePatientAsync(existingPatient);
+
+                return imageUrl;
+            }
 
             return imageUrl;
 
         }
+
     }
 
 }
