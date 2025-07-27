@@ -1,7 +1,8 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Edit, Trash2, Calendar } from 'lucide-react';
 import { PatientDTOResponse } from '@/types/user';
+import BookAppointmentModal from './BookAppointmentModal';
 
 interface PatientTableProps {
     patients: PatientDTOResponse[];
@@ -30,6 +31,8 @@ export const PatientTable = ({ patients }: PatientTableProps) => {
         );
         return sorted[0].appointmentDate;
     };
+
+    const [bookingPatient, setBookingPatient] = useState<PatientDTOResponse | null>(null);
 
     return (
         <div className="bg-white rounded-lg shadow-sm">
@@ -83,7 +86,11 @@ export const PatientTable = ({ patients }: PatientTableProps) => {
                                             <button className="text-indigo-600 hover:text-indigo-900 p-1" title="Chỉnh sửa">
                                                 <Edit className="w-4 h-4" />
                                             </button>
-                                            <button className="text-green-600 hover:text-green-900 p-1" title="Đặt lịch khám">
+                                            <button
+                                                className="text-green-600 hover:text-green-900 p-1"
+                                                title="Đặt lịch khám"
+                                                onClick={() => setBookingPatient(patient)}
+                                            >
                                                 <Calendar className="w-4 h-4" />
                                             </button>
                                             <button className="text-red-600 hover:text-red-900 p-1" title="Xóa">
@@ -95,6 +102,12 @@ export const PatientTable = ({ patients }: PatientTableProps) => {
                             );
                         })}
                     </tbody>
+                    <BookAppointmentModal
+                        open={!!bookingPatient}
+                        patient={bookingPatient}
+                        onClose={() => setBookingPatient(null)}
+                        onSuccess={() => setBookingPatient(null)}
+                    />
                 </table>
             </div>
         </div>

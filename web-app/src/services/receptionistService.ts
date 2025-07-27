@@ -5,7 +5,7 @@ import {
     ReceptionistResponse,
     CreateReceptionistResponse
 } from '@/types/receptionist';
-import { AppointmentListDto} from "@/types/appointment";
+import { AppointmentListDto, AppointmentCreationRequest, CreateAppointmentResponse } from "@/types/appointment";
 import { PageResponse } from "@/types/pageResponse";
 import { API_URL } from '@/utils/baseUrl';
 import { ApiResponse } from '@/types/apiResonse';
@@ -14,7 +14,7 @@ import { PatientDTOResponse } from '@/types/user';
 export const receptionistService = {
     // MAN010: Get All Receptionists
     getAllReceptionists: async (): Promise<ApiResponse<ReceptionistResponse>> => {
-        // const token = localStorage.getItem('accessToken');
+        const token = localStorage.getItem('accessToken');
         const url = `${API_URL}/api/Manager/receptionists`;
 
         console.log('🔍 Debug - Search Receptionists URL:', url);
@@ -23,7 +23,7 @@ export const receptionistService = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // ...(token && { Authorization: `Bearer ${token}` }),
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             },
         });
 
@@ -40,7 +40,8 @@ export const receptionistService = {
     },
 
 
-   getAllPatients: async (searchTerm?: string, page: number = 1, pageSize: number = 10): Promise<ApiResponse<PageResponse<PatientDTOResponse>>> => {
+    getAllPatients: async (searchTerm?: string, page: number = 1, pageSize: number = 10): Promise<ApiResponse<PageResponse<PatientDTOResponse>>> => {
+        const token = localStorage.getItem('accessToken');
         const params = new URLSearchParams();
         if (searchTerm) params.append('query', searchTerm);
         params.append('page', page.toString());
@@ -50,6 +51,7 @@ export const receptionistService = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             },
         });
         if (!response.ok) {
@@ -60,6 +62,7 @@ export const receptionistService = {
     },
 
     getAppointmentsByDateAndQueryAsync: async (date?: string, query?: string): Promise<ApiResponse<AppointmentListDto[]>> => {
+        const token = localStorage.getItem('accessToken');
         const params = new URLSearchParams();
         if (date) params.append('date', date);
         if (query) params.append('query', query);
@@ -68,6 +71,7 @@ export const receptionistService = {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             },
         });
         if (!response.ok) {
@@ -78,11 +82,13 @@ export const receptionistService = {
     },
 
     cancelAppointmentForReceptionist: async (appointmentId: number, patientId: number, cancelReason: string): Promise<ApiResponse<any>> => {
+        const token = localStorage.getItem('accessToken');
         const url = `${API_URL}/api/Receptionist/appointments/${appointmentId}/cancel?patientId=${patientId}`;
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             },
             body: JSON.stringify({ cancelReason }),
         });
@@ -92,20 +98,14 @@ export const receptionistService = {
         return await response.json();
     },
 
-    createAppointmentForReceptionist: async (data: {
-        patientId: number;
-        doctorId: number;
-        slotId: number;
-        appointmentDate: string;
-        appointmentTime: string;
-        reasonForVisit?: string;
-        packageId: number;
-    }): Promise<ApiResponse<any>> => {
+    createAppointmentForReceptionist: async (data: AppointmentCreationRequest): Promise<ApiResponse<CreateAppointmentResponse>> => {
+        const token = localStorage.getItem('accessToken');
         const url = `${API_URL}/api/Receptionist/appointments`;
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
             },
             body: JSON.stringify(data),
         });
@@ -117,7 +117,7 @@ export const receptionistService = {
 
 
     // MAN007: Create Receptionist Account
-     createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
+    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists`, {
                 method: 'POST',
@@ -141,7 +141,7 @@ export const receptionistService = {
 
 
     // MAN008: Update Receptionist Information
-     updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
+    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists/${userId}`, {
                 method: 'PUT',

@@ -79,3 +79,22 @@ export interface AppointmentListDto {
         specialty: string;
     };
 }
+
+export interface AppointmentCreationRequest {
+    patientId: number;
+    doctorId: number;
+    slotId: number;
+    appointmentDate: string; // Format: "2024-06-10"
+    reasonForVisit?: string;
+    packageId: number;
+}
+
+export interface CreateAppointmentResponse {
+    appointmentId: number;
+    appointmentNumber: string;
+    doctor: DoctorInfoDto;
+    appointmentDate: string;
+    appointmentTime: string;
+    totalFee: number;
+    status: string;
+}
