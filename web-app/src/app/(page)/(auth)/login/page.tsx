@@ -331,6 +331,10 @@ const SignIn = () => {
                 isOpen={isModalOpen}
                 onRequestClose={() => setIsModalOpen(false)}
                 style={{
+                    overlay: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                        zIndex: 1000,
+                    },
                     content: {
                         top: '50%',
                         left: '50%',
@@ -338,52 +342,100 @@ const SignIn = () => {
                         bottom: 'auto',
                         marginRight: '-50%',
                         transform: 'translate(-50%, -50%)',
-                        maxWidth: '400px',
+                        maxWidth: '450px',
                         width: '90%',
-                        borderRadius: '12px',
-                        padding: '24px',
+                        borderRadius: '8px',
+                        padding: '32px',
+                        border: '1px solid #e5e7eb',
+                        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+                        background: 'white',
                     },
                 }}
             >
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                    {twoFaStep === 'SETUP_REQUIRED' ? 'Cài đặt Xác thực Hai Yếu tố' : 'Xác minh Mã OTP'}
-                </h2>
-                {twoFaStep === 'SETUP_REQUIRED' && (
-                    <div className="mb-6">
-                        <p className="text-gray-600 mb-4">Quét mã QR bên dưới bằng ứng dụng xác thực (như Google Authenticator):</p>
-                        <div className="flex justify-center">
-                            <img src={qrCodeData} alt="QR Code" style={{ width: '200px', height: '200px' }} />
-                        </div>
+                <div className="mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-semibold text-gray-900">
+                            {twoFaStep === 'SETUP_REQUIRED' ? 'Cài đặt Xác thực Hai Yếu tố' : 'Xác minh Mã OTP'}
+                        </h2>
+                        <button
+                            onClick={() => setIsModalOpen(false)}
+                            className="text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
-                )}
-                <div>
-                    <label htmlFor="otpCode" className="block text-sm font-semibold text-gray-700 mb-2">
-                        Nhập mã OTP
-                    </label>
-                    <input
-                        type="text"
-                        id="otpCode"
-                        value={otpCode}
-                        onChange={(e) => setOtpCode(e.target.value)}
-                        disabled={isLoading}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                        placeholder="Nhập mã OTP"
-                    />
-                </div>
-                <div className="mt-6 flex justify-end space-x-4">
-                    <button
-                        onClick={() => setIsModalOpen(false)}
-                        className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300"
-                    >
-                        Hủy
-                    </button>
-                    <button
-                        onClick={handle2FASubmit}
-                        disabled={isLoading}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isLoading ? 'Đang xác minh...' : 'Xác minh'}
-                    </button>
+
+                    {twoFaStep === 'SETUP_REQUIRED' && (
+                        <div className="mb-6">
+                            <p className="text-gray-600 text-sm mb-4">
+                                Quét mã QR bằng ứng dụng xác thực như Google Authenticator hoặc Authy:
+                            </p>
+
+                            <div className="flex justify-center mb-4">
+                                <div className="p-4 border border-gray-200 rounded-lg bg-white">
+                                    <img
+                                        src={qrCodeData}
+                                        alt="QR Code"
+                                        className="w-40 h-40"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 mb-4">
+                                <p className="text-gray-700 text-xs">
+                                    <strong>Lưu ý:</strong> Hãy lưu mã backup hoặc chụp màn hình QR code để phòng trường hợp mất thiết bị.
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    <div>
+                        <label htmlFor="otpCode" className="block text-sm font-medium text-gray-700 mb-2">
+                            {twoFaStep === 'SETUP_REQUIRED' ? 'Nhập mã từ ứng dụng xác thực' : 'Nhập mã OTP'}
+                        </label>
+                        <input
+                            type="text"
+                            id="otpCode"
+                            value={otpCode}
+                            onChange={(e) => {
+                                const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+                                setOtpCode(value);
+                            }}
+                            disabled={isLoading}
+                            className="w-full px-4 py-3 text-lg font-mono text-center border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed tracking-wider"
+                            placeholder="000000"
+                            maxLength={6}
+                        />
+                        <p className="text-xs text-gray-500 mt-1 text-center">Mã gồm 6 chữ số</p>
+                    </div>
+
+                    <div className="flex justify-end space-x-3 mt-6">
+                        <button
+                            onClick={() => setIsModalOpen(false)}
+                            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 font-medium transition-colors"
+                        >
+                            Hủy
+                        </button>
+                        <button
+                            onClick={handle2FASubmit}
+                            disabled={isLoading || otpCode.length !== 6}
+                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors flex items-center space-x-2"
+                        >
+                            {isLoading ? (
+                                <>
+                                    <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span>Đang xác minh...</span>
+                                </>
+                            ) : (
+                                <span>Xác minh</span>
+                            )}
+                        </button>
+                    </div>
                 </div>
             </Modal>
         </>
