@@ -4,6 +4,7 @@ import { Calendar, Users, Clock, Lock } from 'lucide-react';
 interface SidebarProps {
     activeTab: string;
     onTabChange: (tab: string) => void;
+    tabs?: string[];
 }
 
 export const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
