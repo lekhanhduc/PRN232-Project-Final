@@ -9,27 +9,27 @@ const HeroSection = () => {
                     {/* Left Content */}
                     <div className="space-y-8">
                         <div className="space-y-2">
-                            <p className="text-blue-500 font-medium tracking-wide">We are Here for You</p>
+                            <p className="text-blue-500 font-medium tracking-wide">Chúng tôi luôn bên bạn</p>
                             <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                                Helping People Lead{' '}
-                                <span className="text-blue-600">Healthy & Happy Lives</span>
+                                Giúp mọi người có{' '}
+                                <span className="text-blue-600">Cuộc sống khỏe mạnh & Hạnh phúc</span>
                             </h1>
                         </div>
 
                         <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
-                            Nisi molestie fusce quis eget vitae. Aliquam senectus id placerat egestas
-                            sed sed venenatis nisl. Tincidunt faucibus facilisi vestibulum et ut congue
-                            in eget. Augue purus hendrerit tempus consequat ut sit.
+                            Chúng tôi cam kết mang đến dịch vụ chăm sóc sức khỏe tốt nhất với đội ngũ bác sĩ
+                            chuyên nghiệp, trang thiết bị hiện đại và phương pháp điều trị tiên tiến nhất
+                            để bảo vệ sức khỏe của bạn và gia đình.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4">
                             <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-8 rounded-full flex items-center justify-center space-x-2 transition-colors group">
-                                <span>Make Appointment</span>
+                                <span>Đặt lịch khám</span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </button>
 
                             <button className="border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 font-semibold py-4 px-8 rounded-full transition-colors">
-                                Learn More
+                                Tìm hiểu thêm
                             </button>
                         </div>
                     </div>
@@ -44,7 +44,7 @@ const HeroSection = () => {
                                         <div className="w-32 h-32 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center">
                                             <Users className="w-16 h-16 text-blue-500" />
                                         </div>
-                                        <p className="text-gray-600 font-medium">Professional Medical Care</p>
+                                        <p className="text-gray-600 font-medium">Chăm sóc y tế chuyên nghiệp</p>
                                     </div>
                                 </div>
                             </div>
@@ -61,8 +61,8 @@ const HeroSection = () => {
                             <div className="flex items-center space-x-2">
                                 <Heart className="w-6 h-6 text-red-500" />
                                 <div>
-                                    <p className="text-sm font-semibold">Health Care</p>
-                                    <p className="text-xs text-gray-500">24/7 Support</p>
+                                    <p className="text-sm font-semibold">Chăm sóc sức khỏe</p>
+                                    <p className="text-xs text-gray-500">Hỗ trợ 24/7</p>
                                 </div>
                             </div>
                         </div>
@@ -71,8 +71,8 @@ const HeroSection = () => {
                             <div className="flex items-center space-x-2">
                                 <Award className="w-6 h-6 text-blue-500" />
                                 <div>
-                                    <p className="text-sm font-semibold">Certified</p>
-                                    <p className="text-xs text-gray-500">Professionals</p>
+                                    <p className="text-sm font-semibold">Được chứng nhận</p>
+                                    <p className="text-xs text-gray-500">Chuyên gia y tế</p>
                                 </div>
                             </div>
                         </div>

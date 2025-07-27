@@ -1,7 +1,5 @@
 import {
-    Receptionist,
     CreateReceptionistRequest,
-    UpdateReceptionistRequest,
     ReceptionistResponse,
     CreateReceptionistResponse
 } from '@/types/receptionist';
@@ -12,7 +10,6 @@ import { ApiResponse } from '@/types/apiResonse';
 import { PatientDTOResponse } from '@/types/user';
 
 export const receptionistService = {
-    // MAN010: Get All Receptionists
     getAllReceptionists: async (): Promise<ApiResponse<ReceptionistResponse>> => {
         const token = localStorage.getItem('accessToken');
         const url = `${API_URL}/api/Manager/receptionists`;
@@ -118,6 +115,7 @@ export const receptionistService = {
 
     // MAN007: Create Receptionist Account
     createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
+    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists`, {
                 method: 'POST',
@@ -141,6 +139,7 @@ export const receptionistService = {
 
 
     // MAN008: Update Receptionist Information
+    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
     updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists/${userId}`, {
