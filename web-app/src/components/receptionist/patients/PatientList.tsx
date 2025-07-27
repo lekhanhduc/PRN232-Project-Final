@@ -4,37 +4,11 @@ import { Plus, Search } from 'lucide-react';
 import { PatientTable } from './PatientTable';
 import { PatientDTOResponse } from "@/types/user";
 import { receptionistService } from '@/services/receptionistService';
+import { usePatients } from '@/hooks/usePatients';
 
 export const PatientList = () => {
-    const [patients, setPatients] = useState<PatientDTOResponse[]>([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const { patients, loading, setSearchTerm } = usePatients();
     const [showNewPatient, setShowNewPatient] = useState(false);
-    const [loading, setLoading] = useState(false);
-
-    const fetchPatients = async (term: string) => {
-        try {
-            setLoading(true);
-            const params = term ? `${encodeURIComponent(term)}` : '';
-            const response = await receptionistService.getAllPatients(params); 
-            if (Array.isArray(response?.result)) {
-                setPatients(response.result);
-            } else {
-                setPatients([]);
-            }
-        } catch (error) {
-            console.error('Lỗi khi tìm kiếm bệnh nhân:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchPatients(searchTerm); // gọi trực tiếp không debounce
-    }, [searchTerm]);
-
-    useEffect(() => {
-        fetchPatients(''); // fetch lần đầu
-    }, []);
 
     return (
         <div>
@@ -55,7 +29,6 @@ export const PatientList = () => {
                     <input
                         type="text"
                         placeholder="Tìm bệnh nhân theo tên, số điện thoại hoặc email..."
-                        value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />

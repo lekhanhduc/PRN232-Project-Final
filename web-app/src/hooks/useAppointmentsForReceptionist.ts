@@ -7,7 +7,7 @@ export const useAppointmentsForReceptionist = (date?: string, query?: string) =>
     
     const fetchAppointments = async () => {
         try {
-            const response = await receptionistService.getAllAppointmentToday(date, query);
+            const response = await receptionistService.getAppointmentsByDateAndQueryAsync(date, query);
             if (Array.isArray(response?.result)) {
                 setAppointments(response.result);
             } else {

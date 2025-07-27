@@ -5,11 +5,11 @@ import {
     ReceptionistResponse,
     CreateReceptionistResponse
 } from '@/types/receptionist';
-import { PatientDTOResponse} from "@/types/user";
 import { AppointmentToday} from "@/types/appointment";
 import { PageResponse } from "@/types/pageResponse";
 import { API_URL } from '@/utils/baseUrl';
 import { ApiResponse } from '@/types/apiResonse';
+import { PatientDTOResponse } from '@/types/user';
 
 export const receptionistService = {
     // MAN010: Get All Receptionists
@@ -35,57 +35,79 @@ export const receptionistService = {
         }
     },
 
-   getAllPatients: async (params?: string): Promise<ApiResponse<PatientDTOResponse>> => {
-        // const token = localStorage.getItem('accessToken');
-        const url = `${API_URL}/api/api/Receptionist/appointments/today`;
-
-        console.log('🔍 Debug - Search Receptionists URL:', url);
-
+   getAllPatients: async (searchTerm?: string, page: number = 1, pageSize: number = 10): Promise<ApiResponse<PageResponse<PatientDTOResponse>>> => {
+        const params = new URLSearchParams();
+        if (searchTerm) params.append('query', searchTerm);
+        params.append('page', page.toString());
+        params.append('pageSize', pageSize.toString());
+        const url = `${API_URL}/api/Receptionist/patients/search?${params.toString()}`;
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // ...(token && { Authorization: `Bearer ${token}` }),
             },
         });
-
-        console.log('🔍 Debug - Response Status:', response.status);
-        console.log('🔍 Debug - Response OK:', response.ok);
-
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const data = await response.json();
-        console.log('🔍 Debug - Response Data:', data);
         return data;
     },
 
-    getAllAppointmentToday: async (date?: string, query?: string): Promise<ApiResponse<AppointmentToday>> => {
+    getAppointmentsByDateAndQueryAsync: async (date?: string, query?: string): Promise<ApiResponse<AppointmentToday[]>> => {
         const params = new URLSearchParams();
-
-        if (date) params.append("date", date);
-        if (query) params.append("query", query);
-
-        const url = `${API_URL}/api/Receptionist/appointments/today${params.toString() ? `?${params.toString()}` : ''}`;
-
-        console.log('🔍 URL:', url);
-
+        if (date) params.append('date', date);
+        if (query) params.append('query', query);
+        const url = `${API_URL}/api/Receptionist/appointments${params.toString() ? `?${params.toString()}` : ''}`;
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // Authorization nếu cần
             },
         });
-
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const data = await response.json();
-        console.log('🔍 Response Data:', data);
         return data;
+    },
+
+    cancelAppointmentForReceptionist: async (appointmentId: number, patientId: number, cancelReason: string): Promise<ApiResponse<any>> => {
+        const url = `${API_URL}/api/Receptionist/appointments/${appointmentId}/cancel?patientId=${patientId}`;
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ cancelReason }),
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    },
+
+    createAppointmentForReceptionist: async (data: {
+        patientId: number;
+        doctorId: number;
+        slotId: number;
+        appointmentDate: string;
+        appointmentTime: string;
+        reasonForVisit?: string;
+        packageId: number;
+    }): Promise<ApiResponse<any>> => {
+        const url = `${API_URL}/api/Receptionist/appointments`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
     },
 
 
@@ -134,26 +156,4 @@ export const receptionistService = {
             throw error;
         }
     },
-
-    // MAN009: Delete Receptionist Account
-    deleteReceptionist: async (userId: number): Promise<CreateReceptionistResponse> => {
-        try {
-            const response = await fetch(`${API_URL}/api/manager/receptionists/${userId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to delete receptionist');
-            }
-
-            return await response.json();
-        } catch (error) {
-            console.error('Error deleting receptionist:', error);
-            throw error;
-        }
-    }
-}; 
+};
