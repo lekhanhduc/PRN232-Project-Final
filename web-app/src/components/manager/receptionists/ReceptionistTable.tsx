@@ -1,12 +1,12 @@
 'use client'
 import { Eye, Edit, Trash2, User } from 'lucide-react';
-import { Receptionist } from '@/types/receptionist';
+import { ReceptionistManagerResponse,ReceptionistResponse } from '@/types/receptionist';
 
 interface ReceptionistTableProps {
-    receptionists: Receptionist[];
-    onView: (receptionist: Receptionist) => void;
-    onEdit: (receptionist: Receptionist) => void;
-    onDelete: (receptionist: Receptionist) => void;
+    receptionists: ReceptionistManagerResponse[];
+    onView: (receptionist: ReceptionistManagerResponse) => void;
+    onEdit: (receptionist: ReceptionistManagerResponse) => void;
+    onDelete: (receptionist: ReceptionistManagerResponse) => void;
 }
 
 export const ReceptionistTable = ({
@@ -26,10 +26,10 @@ export const ReceptionistTable = ({
                     <thead className="bg-gray-50">
                         <tr>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Lễ tân
+                                Email
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Thông tin liên hệ
+                                Số điện thoại
                             </th>
                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Trạng thái
@@ -44,7 +44,7 @@ export const ReceptionistTable = ({
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                         {receptionists.map((receptionist) => (
-                            <tr key={receptionist.userId} className="hover:bg-gray-50">
+                            <tr key={receptionist.id} className="hover:bg-gray-50">
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0 h-10 w-10">
@@ -54,25 +54,21 @@ export const ReceptionistTable = ({
                                         </div>
                                         <div className="ml-4">
                                             <div className="text-sm font-medium text-gray-900">
-                                                {receptionist.fullName}
-                                            </div>
-                                            <div className="text-sm text-gray-500">
-                                                @{receptionist.username}
+                                                {receptionist.email}
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-900">{receptionist.email}</div>
-                                    <div className="text-sm text-gray-500">{receptionist.phone}</div>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                    {receptionist.phone}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                                        receptionist.isActive
-                                            ? 'bg-green-100 text-green-800'
-                                            : 'bg-red-100 text-red-800'
+                                        receptionist.userStatus
+                                            ? 'bg-red-100 text-red-800 '
+                                            : 'bg-green-100 text-green-800'
                                     }`}>
-                                        {receptionist.isActive ? 'Hoạt động' : 'Không hoạt động'}
+                                        {receptionist.userStatus ? 'Không hoạt động ' : 'Hoạt động'}
                                     </span>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -118,4 +114,4 @@ export const ReceptionistTable = ({
             )}
         </div>
     );
-}; 
+};
