@@ -51,6 +51,14 @@ namespace medical_appointment_booking.Repositories
                 .ToListAsync();
         }
 
+        public async Task<Doctor?> GetDoctorByUserIdAsync(long userId)
+        {
+            return await context.Doctors
+                .Include(d => d.User)
+                .Include(d => d.Specialty)
+                .FirstOrDefaultAsync(d => d.UserId == userId);
+        }
+
         public async Task<long> GetTotalCount(string? keyword = null)
         {
             var query = context.Doctors.AsQueryable();

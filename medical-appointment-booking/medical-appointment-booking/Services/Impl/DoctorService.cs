@@ -725,31 +725,6 @@ namespace medical_appointment_booking.Services.Impl
 
             return availableSlots;
         }
-
-        public Task<List<WorkScheduleResponse>> GetMyWorkScheduleAsync(long doctorId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<AppointmentResponse>> GetMyAppointmentsAsync(long doctorId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> MarkPatientArrivedAsync(long appointmentId, long doctorId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> CompleteAppointmentAsync(long appointmentId, long doctorId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<LeaveResponse> RequestLeaveAsync(long doctorId, LeaveRequest request)
-        {
-            throw new NotImplementedException();
-        }
        
     }
 }
