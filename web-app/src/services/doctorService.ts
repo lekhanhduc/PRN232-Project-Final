@@ -120,10 +120,12 @@ export const getDoctors = async (params: SearchDoctorsParams = {}): Promise<ApiR
 
     const url = `${API_URL}/api/v1/doctors?${queryParams.toString()}`;
 
+    const accessToken = localStorage.getItem("accessToken"); 
     const response = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+             ...(accessToken && { Authorization: `Bearer ${accessToken}` })
         },
     });
 

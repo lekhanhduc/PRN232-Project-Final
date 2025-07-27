@@ -114,8 +114,7 @@ export const receptionistService = {
 
 
     // MAN007: Create Receptionist Account
-    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
-    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
+    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {   
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists`, {
                 method: 'POST',
@@ -139,8 +138,7 @@ export const receptionistService = {
 
 
     // MAN008: Update Receptionist Information
-    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
-    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
+    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {  
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists/${userId}`, {
                 method: 'PUT',
