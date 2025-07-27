@@ -101,7 +101,7 @@ namespace medical_appointment_booking.Services.Impl
 
             // Apply pagination
             var doctors = await query
-                .Skip((page - 1) *size)
+                .Skip((page - 1) * size)
                 .Take(size)
                 .ToListAsync();
 
@@ -558,12 +558,12 @@ namespace medical_appointment_booking.Services.Impl
         {
             if (doctorId <= 0)
                 throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
-        
+
             // Get doctor info
             var doctor = await doctorRepository.GetDoctorByIdAsync(doctorId);
             if (doctor == null)
                 throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
-          
+
 
             var workSchedulesTask = await doctorRepository.GetWorkSchedulesAsync(doctorId, workDate, workDate);
             var leaveDatesTask = await doctorRepository.GetDoctorLeaveDatesAsync(doctorId, workDate, workDate);
@@ -578,8 +578,8 @@ namespace medical_appointment_booking.Services.Impl
             };
 
             var workSchedules = workSchedulesTask;
-            var leaveDates = leaveDatesTask.ToHashSet(); 
-            var bookedSlots = bookedSlotsTask.ToHashSet(); 
+            var leaveDates = leaveDatesTask.ToHashSet();
+            var bookedSlots = bookedSlotsTask.ToHashSet();
 
             return BuildWorkingScheduleResponse(doctor, workSchedules, leaveDates, bookedSlots);
         }
@@ -725,7 +725,6 @@ namespace medical_appointment_booking.Services.Impl
 
             return availableSlots;
         }
-       
+
     }
 }
-﻿

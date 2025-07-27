@@ -209,7 +209,7 @@ namespace medical_appointment_booking.Services.Impl
             }
 
             // Check if appointment belongs to this doctor
-            if (!await _doctorScheduleRepository.CheckAppointmentBelongsToDoctorAsync(appointmentId, doctorId))     
+            if (!await _doctorScheduleRepository.CheckAppointmentBelongsToDoctorAsync(appointmentId, doctorId))
             {
                 throw new AppException(ErrorCode.APPOINTMENT_NOT_FOUND);
             }
