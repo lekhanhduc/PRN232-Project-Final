@@ -64,3 +64,18 @@ export interface Appointment {
     symptoms: string;
     notes?: string;
 }
+
+export interface AppointmentToday {
+  appointmentId: number;
+  appointmentTime: string;
+  status: string;
+  totalFee: number;
+  patient: {
+    fullName: string;
+    phone: string;
+  };
+  doctor: {
+    fullName: string;
+    specialty: string;
+  };
+}
