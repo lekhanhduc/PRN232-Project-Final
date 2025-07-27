@@ -29,7 +29,8 @@ const ChangePassword: React.FC<ChangePasswordProps> = ({ onShowToast }) => {
         try {
             setLoading(true);
             const response = await patientService.changePassword(currentPassword, newPassword);
-            if (response.code === 200 && response.result?.success) {
+
+            if (response.code === 200) {
                 setCurrentPassword('');
                 setNewPassword('');
                 setConfirmPassword('');

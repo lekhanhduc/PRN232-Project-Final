@@ -54,14 +54,11 @@ export const doctorService = {
             },
         });
 
-        console.log('🔍 Debug - Doctor Details Response Status:', response.status);
-
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data = await response.json();
-        console.log('🔍 Debug - Doctor Details Response Data:', data);
         return data;
     },
 
@@ -120,12 +117,10 @@ export const getDoctors = async (params: SearchDoctorsParams = {}): Promise<ApiR
 
     const url = `${API_URL}/api/v1/doctors?${queryParams.toString()}`;
 
-    const accessToken = localStorage.getItem("accessToken"); 
     const response = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-             ...(accessToken && { Authorization: `Bearer ${accessToken}` })
         },
     });
 

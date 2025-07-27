@@ -9,7 +9,7 @@ export interface Receptionist {
 }
 
 export interface CreateReceptionistRequest {
-    email: string;  
+    email: string;
     phone: string;
     userStatus: number;
 }
@@ -29,20 +29,20 @@ export interface ReceptionistResponse {
 export interface CreateReceptionistResponse {
     success: boolean;
     message: string;
-} 
+}
 
 export interface ReceptionistManagerResponse {
-  id: number;
-  email: string;
-  phone: string;
-  userStatus: number;
-  createdAt: string;  
+    id: number;
+    email: string;
+    phone: string;
+    userStatus: number;
+    createdAt: string;
 }
 
 export interface ReceptionistResponse {
-  id: number;
-  email: string;
-  phone: string;
-  userStatus: boolean;
-  createdAt: string;  
+    id: number;
+    email: string;
+    phone: string;
+    userStatus: boolean;
+    createdAt: string;
 }

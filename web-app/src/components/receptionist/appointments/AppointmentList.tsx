@@ -32,7 +32,6 @@ const CreateAppointmentModalForReceptionist = ({ open, onClose, onSuccess }: { o
                 doctorId: Number(form.doctorId),
                 slotId: Number(form.slotId),
                 appointmentDate: form.appointmentDate,
-                appointmentTime: form.appointmentTime,
                 reasonForVisit: form.reasonForVisit,
                 packageId: Number(form.packageId),
             });
@@ -71,9 +70,9 @@ const CreateAppointmentModalForReceptionist = ({ open, onClose, onSuccess }: { o
 export const AppointmentList = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedDate, setSelectedDate] = useState(() => {
-    const today = new Date();
-    return today.toISOString().split('T')[0]; 
-});
+        const today = new Date();
+        return today.toISOString().split('T')[0];
+    });
 
     const [statusFilter, setStatusFilter] = useState<string>('all');
     const [showNewAppointment, setShowNewAppointment] = useState(false);

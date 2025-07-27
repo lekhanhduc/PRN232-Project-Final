@@ -154,27 +154,36 @@ export const DepartmentsManagement = () => {
     };
     return (
         <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-gray-900">Quản lý Chuyên khoa</h2>
-                <button
-                    onClick={() => setShowAddModal(true)}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
-                >
-                    <Plus className="w-4 h-4" />
-                    <span>Thêm Chuyên khoa</span>
-                </button>
-            </div>
+            {/* Header */}
+            <div className="bg-white shadow-sm rounded-lg border border-gray-200">
+                <div className="p-6 border-b border-gray-200">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h1 className="text-2xl font-semibold text-gray-900">Quản lý Chuyên khoa</h1>
+                            <p className="text-gray-600 mt-1">Quản lý thông tin các chuyên khoa trong hệ thống</p>
+                        </div>
+                        <button
+                            onClick={() => setShowAddModal(true)}
+                            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2 transition-colors"
+                        >
+                            <Plus className="w-4 h-4" />
+                            <span>Thêm Chuyên khoa</span>
+                        </button>
+                    </div>
+                </div>
 
-            <div className="bg-white rounded-lg shadow-sm p-4">
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <input
-                        type="text"
-                        placeholder="Tìm kiếm chuyên khoa..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    />
+                {/* Search */}
+                <div className="p-6">
+                    <div className="relative max-w-md">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                        <input
+                            type="text"
+                            placeholder="Tìm kiếm chuyên khoa..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        />
+                    </div>
                 </div>
             </div>
 
@@ -186,144 +195,194 @@ export const DepartmentsManagement = () => {
             )}
 
             {!loading && specialties.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {specialties.map((specialty) => (
-                        <div key={specialty.id} className="bg-white rounded-lg shadow-sm p-6 hover:shadow-md transition-shadow">
-                            <div className="flex items-center justify-between mb-4">
-                                <div className="flex items-center space-x-3">
-                                    <div className="p-2 bg-blue-100 rounded-full">
-                                        <Building2 className="w-6 h-6 text-blue-600" />
+                <div className="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0 divide-y divide-x-0 md:divide-y-0 md:divide-x divide-gray-200">
+                        {specialties.map((specialty) => (
+                            <div key={specialty.id} className="p-6 hover:bg-gray-50 transition-colors">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center space-x-3">
+                                        <div className="p-2 bg-blue-100 rounded-lg">
+                                            <Building2 className="w-5 h-5 text-blue-600" />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-lg font-medium text-gray-900">{specialty.specialtyName}</h3>
+                                            <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800 border border-green-200">
+                                                Hoạt động
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-gray-900">{specialty.specialtyName}</h3>
-                                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
-                                            Hoạt động
-                                        </span>
+                                    <div className="flex space-x-1">
+                                        <button
+                                            onClick={() => handleEdit(specialty)}
+                                            className="p-2 text-yellow-600 hover:text-yellow-800 hover:bg-yellow-50 rounded-lg transition-colors"
+                                            title="Chỉnh sửa"
+                                        >
+                                            <Edit className="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            onClick={() => DeleteById(specialty.id)}
+                                            className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-colors"
+                                            title="Xóa"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
                                     </div>
                                 </div>
-                                <div className="flex space-x-2">
-                                    <button onClick={() => handleEdit(specialty)} className="text-green-600 hover:text-green-900">
-                                        <Edit className="w-4 h-4" />
+                                <p className="text-sm text-gray-600 mb-4 line-clamp-2">{specialty.description}</p>
+                                <div className="space-y-3">
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="text-gray-500">Số bác sĩ:</span>
+                                        <div className="flex items-center space-x-1">
+                                            <Users className="w-4 h-4 text-gray-400" />
+                                            <span className="font-medium text-gray-900">{specialty.doctorNumber || 0}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-between text-sm">
+                                        <span className="text-gray-500">Bệnh nhân:</span>
+                                        <span className="font-medium text-gray-900">{specialty.patientNumber || 0}</span>
+                                    </div>
+                                </div>
+                                <div className="mt-4 pt-4 border-t border-gray-200">
+                                    <button className="w-full text-sm text-blue-600 hover:text-blue-800 font-medium hover:bg-blue-50 py-2 rounded-lg transition-colors">
+                                        Xem chi tiết
                                     </button>
-                                    <button
-                                        onClick={() => DeleteById(specialty.id)}
-                                        className="text-red-600 hover:text-red-900"
-                                    >
-                                        <Trash2 className="w-4 h-4" />
-                                    </button>
                                 </div>
                             </div>
-                            <p className="text-sm text-gray-600 mb-4">{specialty.description}</p>
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-gray-500">Số bác sĩ:</span>
-                                    <div className="flex items-center space-x-1">
-                                        <Users className="w-4 h-4 text-gray-400" />
-                                        <span className="font-medium text-gray-900">{specialty.doctorNumber || 0}</span>
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-between text-sm">
-                                    <span className="text-gray-500">Bệnh nhân:</span>
-                                    <span className="font-medium text-gray-900">{specialty.patientNumber || 0}</span>
-                                </div>
-                            </div>
-                            <div className="mt-4 pt-4 border-t border-gray-200">
-                                <button className="w-full text-sm text-blue-600 hover:text-blue-800 font-medium">
-                                    Xem chi tiết
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             )}
 
             {!loading && specialties.length === 0 && (
-                <div key="empty-state" className="text-center py-8">
-                    <Building2 className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600">Không tìm thấy chuyên khoa nào</p>
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                        <Building2 className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Không tìm thấy chuyên khoa</h3>
+                    <p className="text-gray-500">Không có chuyên khoa nào phù hợp với tiêu chí tìm kiếm của bạn.</p>
                 </div>
             )}
 
             {totalPages > 1 && (
-                <div className="flex justify-center items-center space-x-2 mt-6">
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage === 1}
-                        className="px-3 py-1 text-sm border rounded disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        Trước
-                    </button>
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                <div className="bg-white shadow-sm rounded-lg border border-gray-200 p-4">
+                    <div className="flex justify-center items-center space-x-2">
                         <button
-                            key={`page-${page}`}
-                            onClick={() => handlePageChange(page)}
-                            className={`px-3 py-1 text-sm border rounded ${currentPage === page
-                                ? 'bg-blue-600 text-white border-blue-600'
-                                : 'hover:bg-gray-50'
-                                }`}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            disabled={currentPage === 1}
+                            className="px-4 py-2 text-sm border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
                         >
-                            {page}
+                            Trước
                         </button>
-                    ))}
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
-                        className="px-3 py-1 text-sm border rounded disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        Sau
-                    </button>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                            <button
+                                key={`page-${page}`}
+                                onClick={() => handlePageChange(page)}
+                                className={`px-4 py-2 text-sm border rounded-lg transition-colors ${currentPage === page
+                                    ? 'bg-blue-600 text-white border-blue-600'
+                                    : 'border-gray-300 hover:bg-gray-50'
+                                    }`}
+                            >
+                                {page}
+                            </button>
+                        ))}
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            disabled={currentPage === totalPages}
+                            className="px-4 py-2 text-sm border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                        >
+                            Sau
+                        </button>
+                    </div>
                 </div>
             )}
 
             {showAddModal && (
-                <div key="modal" className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 w-full max-w-md">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            {selectedSpecialty ? 'Chỉnh sửa Chuyên khoa' : 'Thêm Chuyên khoa mới'}
-                        </h3>
-                        <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto transform transition-all">
+                        {/* Header */}
+                        <div className="flex items-center justify-between p-6 border-b border-gray-200 bg-white rounded-t-lg">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">Tên chuyên khoa</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleInputChange}
-                                    onBlur={validateForm}
-                                    required
-                                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
-                                />
-                                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                                <h2 className="text-xl font-semibold text-gray-900">
+                                    {selectedSpecialty ? 'Chỉnh sửa Chuyên khoa' : 'Thêm Chuyên khoa mới'}
+                                </h2>
+                                <p className="text-gray-600 mt-1">
+                                    {selectedSpecialty ? 'Cập nhật thông tin chuyên khoa' : 'Điền thông tin để tạo chuyên khoa mới'}
+                                </p>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">Mô tả</label>
-                                <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    onBlur={validateForm}
-                                    rows={3}
-                                    required
-                                    className={`mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
-                                />
-                                {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+                            <button
+                                onClick={handleCloseModal}
+                                className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Form */}
+                        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+                            <div className="space-y-5">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Tên chuyên khoa <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleInputChange}
+                                        onBlur={validateForm}
+                                        required
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors ${errors.name ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                        placeholder="Nhập tên chuyên khoa..."
+                                    />
+                                    {errors.name && (
+                                        <p className="mt-2 text-sm text-red-600 flex items-center space-x-1">
+                                            <span className="w-4 h-4 text-red-500">⚠</span>
+                                            <span>{errors.name}</span>
+                                        </p>
+                                    )}
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Mô tả <span className="text-red-500">*</span>
+                                    </label>
+                                    <textarea
+                                        name="description"
+                                        value={formData.description}
+                                        onChange={handleInputChange}
+                                        onBlur={validateForm}
+                                        rows={4}
+                                        required
+                                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none ${errors.description ? 'border-red-500 bg-red-50' : 'border-gray-300'}`}
+                                        placeholder="Nhập mô tả chuyên khoa..."
+                                    />
+                                    {errors.description && (
+                                        <p className="mt-2 text-sm text-red-600 flex items-center space-x-1">
+                                            <span className="w-4 h-4 text-red-500">⚠</span>
+                                            <span>{errors.description}</span>
+                                        </p>
+                                    )}
+                                </div>
                             </div>
-                            <div className="flex justify-end space-x-3 pt-4">
+
+                            {/* Buttons */}
+                            <div className="flex space-x-4 pt-6 border-t border-gray-200">
                                 <button
                                     type="button"
                                     onClick={handleCloseModal}
                                     disabled={creating}
-                                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 disabled:opacity-50"
+                                    className="flex-1 px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors disabled:opacity-50"
                                 >
-                                    Hủy
+                                    Hủy bỏ
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={creating}
-                                    className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50 flex items-center space-x-2"
+                                    className="flex-1 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center space-x-2"
                                 >
                                     {creating && <Loader2 className="w-4 h-4 animate-spin" />}
-                                    <span>{selectedSpecialty ? 'Cập nhật' : 'Thêm'}</span>
+                                    <span>{selectedSpecialty ? 'Cập nhật thông tin' : 'Tạo chuyên khoa'}</span>
                                 </button>
                             </div>
                         </form>

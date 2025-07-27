@@ -1,5 +1,5 @@
 'use client'
-import { UserCheck, Users, Calendar, Building2 } from 'lucide-react';
+import { UserCheck, Users, Calendar, Building2, TrendingUp, Activity } from 'lucide-react';
 import { RecentActivities } from './RecentActivities';
 import { UpcomingAppointments } from './UpcomingAppointments';
 import { QuickActions } from './QuickActions';
@@ -10,6 +10,15 @@ interface DashboardProps {
 }
 
 export const Dashboard = ({ stats }: DashboardProps) => {
+    const mockStats = {
+        totalDoctors: 45,
+        totalPatients: 1234,
+        totalAppointments: 89,
+        totalDepartments: 12,
+        pendingAppointments: 23,
+        completedAppointments: 156
+    };
+
     const recentActivities = [
         {
             id: 1,
@@ -99,11 +108,85 @@ export const Dashboard = ({ stats }: DashboardProps) => {
         }
     ];
 
+    const statCards = [
+        {
+            title: 'Tổng Bác sĩ',
+            value: mockStats.totalDoctors,
+            icon: UserCheck,
+            color: 'bg-blue-500',
+            bgColor: 'bg-blue-50',
+            textColor: 'text-blue-600'
+        },
+        {
+            title: 'Tổng Bệnh nhân',
+            value: mockStats.totalPatients,
+            icon: Users,
+            color: 'bg-green-500',
+            bgColor: 'bg-green-50',
+            textColor: 'text-green-600'
+        },
+        {
+            title: 'Lịch hẹn hôm nay',
+            value: mockStats.totalAppointments,
+            icon: Calendar,
+            color: 'bg-purple-500',
+            bgColor: 'bg-purple-50',
+            textColor: 'text-purple-600'
+        },
+        {
+            title: 'Khoa/Phòng ban',
+            value: mockStats.totalDepartments,
+            icon: Building2,
+            color: 'bg-orange-500',
+            bgColor: 'bg-orange-50',
+            textColor: 'text-orange-600'
+        }
+    ];
+
     return (
-        <div className="space-y-6">
-            <RecentActivities activities={recentActivities} />
-            {/* <UpcomingAppointments appointments={upcomingAppointments} />
-            <QuickActions actions={quickActions} /> */}
+        <div className="space-y-8">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="text-2xl font-bold mb-2">Chào mừng trở lại!</h1>
+                        <p className="text-blue-100">Tổng quan hệ thống quản lý bệnh viện</p>
+                    </div>
+                    <div className="hidden md:flex items-center space-x-2">
+                        <Activity className="w-8 h-8 text-blue-200" />
+                        <TrendingUp className="w-8 h-8 text-blue-200" />
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {statCards.map((stat, index) => (
+                    <div key={index} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-sm font-medium text-gray-600 mb-1">{stat.title}</p>
+                                <p className="text-3xl font-bold text-gray-900">{stat.value.toLocaleString()}</p>
+                            </div>
+                            <div className={`p-3 rounded-full ${stat.bgColor}`}>
+                                <stat.icon className={`w-6 h-6 ${stat.textColor}`} />
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2">
+                    <RecentActivities activities={recentActivities} />
+                </div>
+
+                <div className="space-y-6">
+                    <QuickActions actions={quickActions} />
+                </div>
+            </div>
+
+            <div>
+                <UpcomingAppointments appointments={upcomingAppointments} />
+            </div>
         </div>
     );
 }; 
