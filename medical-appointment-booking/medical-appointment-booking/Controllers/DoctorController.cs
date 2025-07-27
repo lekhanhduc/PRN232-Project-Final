@@ -155,5 +155,70 @@ namespace medical_appointment_booking.Controllers
             };
         }
 
+
+        [HttpGet("{id}")]
+        //[Authorize(Roles = "ADMIN,DOCTOR")]
+        public async Task<ApiResponse<DoctorDetailResponse>> GetDoctorById(long id)
+        {
+            var result = await doctorService.GetDoctorByIdAsync(id);
+            return new ApiResponse<DoctorDetailResponse> { code = 200, result = result };
+        }
+
+        [HttpPut("{id}")]
+        [HttpGet("schedule")]
+        //[Authorize(Roles = "DOCTOR")]
+        public async Task<ApiResponse<List<WorkScheduleResponse>>> GetDoctorWorkSchedule([FromQuery] long doctorId)
+        {
+            var result = await doctorService.GetMyWorkScheduleAsync(doctorId);
+            return new ApiResponse<List<WorkScheduleResponse>> { code = 200, result = result };
+        }
+
+
+        [HttpGet("appointments")]
+        //[Authorize(Roles = "DOCTOR")]  
+        public async Task<ApiResponse<List<AppointmentResponse>>> GetDoctorAppointments([FromQuery] long doctorId)
+        {
+            var result = await doctorService.GetMyAppointmentsAsync(doctorId);
+            return new ApiResponse<List<AppointmentResponse>> { code = 200, result = result };
+        }
+
+        [HttpPut("appointments/{appointmentId}/arrived")]
+        // [Authorize(Roles = "DOCTOR")] // nếu cần bảo vệ quyền
+        public async Task<ApiResponse<string>> MarkPatientArrived(long appointmentId, [FromQuery] long doctorId)
+        {
+            var success = await doctorService.MarkPatientArrivedAsync(appointmentId, doctorId);
+
+            if (!success)
+            {
+                return new ApiResponse<string>
+                {
+                    code = 400,
+                    success = false,
+                    message = "Bệnh nhân đã được đánh dấu có mặt trước đó"
+                };
+            }
+
+            return new ApiResponse<string>
+            {
+                code = 200,
+                success = true,
+                message = "Đã đánh dấu bệnh nhân có mặt"
+            };
+        }
+
+        [HttpPost("leaves")]
+        // [Authorize(Roles = "DOCTOR")]
+        public async Task<ApiResponse<string>> RequestLeave([FromQuery] long doctorId, [FromBody] LeaveRequest request)
+        {
+            var response = await doctorService.RequestLeaveAsync(doctorId, request);
+
+            return new ApiResponse<string>
+            {
+                code = 200,
+                success = true,
+                message = "Đã gửi yêu cầu nghỉ"
+            };
+        }
+
     }
 }

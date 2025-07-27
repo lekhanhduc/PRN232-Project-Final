@@ -725,47 +725,32 @@ namespace medical_appointment_booking.Services.Impl
 
             return availableSlots;
         }
-        //public async Task<DoctorCreationResponse> CreateDoctorScheduleAsync(ScheduleCreateRequest request)
-        //{
-        //    var existingDoctor = await doctorRepository.GetDoctorByIdAsync(request.DoctorId);
-        //    if (existingDoctor == null)
-        //    {
-        //        throw new AppException(ErrorCode.USER_NOT_EXISTED);
-        //    }
 
+        public Task<List<WorkScheduleResponse>> GetMyWorkScheduleAsync(long doctorId)
+        {
+            throw new NotImplementedException();
+        }
 
-        //    var newDoctorSchedule = new WorkSchedule
-        //    {
-        //        DoctorId = request.DoctorId,
-        //        WorkDate = request.WorkDate,
-        //        StartTime = request.StartTime,
-        //        EndTime = request.EndTime,
-        //        MaxPatients = request.MaxPatients,
-        //        IsAvailable = request.IsAvailable,     
-        //        TimeSlots = request.TimeSlots
-        //    };
+        public Task<List<AppointmentResponse>> GetMyAppointmentsAsync(long doctorId)
+        {
+            throw new NotImplementedException();
+        }
 
-        //    await scheduleRepository.CreateScheduleAsync(newDoctorSchedule);
+        public Task<bool> MarkPatientArrivedAsync(long appointmentId, long doctorId)
+        {
+            throw new NotImplementedException();
+        }
 
-         
+        public Task<bool> CompleteAppointmentAsync(long appointmentId, long doctorId)
+        {
+            throw new NotImplementedException();
+        }
 
-        //    return new DoctorCreationResponse
-        //    {
-        //        Id = newDoctor.Id,
-        //        UserId = newDoctor.UserId,
-        //        UserName = newDoctor.FirstName + " " + newDoctor.LastName,
-        //        UserEmail = newUser.Email,
-        //        SpecialtyId = specialty.Id,
-        //        SpecialtyName = specialty.SpecialtyName,
-        //        LicenseNumber = newDoctor.LicenseNumber,
-        //        Degree = newDoctor.Degree,
-        //        ConsultationFee = newDoctor.ConsultationFee,
-        //        IsAvailable = newDoctor.IsAvailable,
-        //        Gender = newDoctor.Gender,
-        //        YearsOfExperience = newDoctor.YearsOfExperience,
-        //        Bio = newDoctor.Bio,
-        //        CreatedAt = newDoctor.CreatedAt
-        //    };
-        //}
+        public Task<LeaveResponse> RequestLeaveAsync(long doctorId, LeaveRequest request)
+        {
+            throw new NotImplementedException();
+        }
+       
     }
 }
+﻿
