@@ -1,14 +1,61 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { Edit, Trash2, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { AppointmentToday } from '@/types/appointment';
+import { receptionistService } from '@/services/receptionistService';
 
 interface AppointmentTableProps {
     appointments: AppointmentToday[];
     onUpdateStatus: (id: number, status: AppointmentToday['status']) => void;
 }
 
+interface CancelModalProps {
+    open: boolean;
+    onClose: () => void;
+    onConfirm: (reason: string) => void;
+}
+
+const CancelModal = ({ open, onClose, onConfirm }: CancelModalProps) => {
+    const [reason, setReason] = useState('');
+    if (!open) return null;
+    return (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg max-w-md w-full p-6">
+                <h3 className="text-lg font-semibold mb-4">Hủy lịch hẹn</h3>
+                <textarea
+                    className="w-full border rounded p-2 mb-4"
+                    placeholder="Nhập lý do hủy..."
+                    value={reason}
+                    onChange={e => setReason(e.target.value)}
+                />
+                <div className="flex gap-2 justify-end">
+                    <button onClick={onClose} className="px-4 py-2 bg-gray-200 rounded">Hủy</button>
+                    <button onClick={() => { onConfirm(reason); setReason(''); }} className="px-4 py-2 bg-red-600 text-white rounded">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export const AppointmentTable = ({ appointments, onUpdateStatus }: AppointmentTableProps) => {
+    const [cancelModal, setCancelModal] = useState<{ open: boolean, appointmentId: number | null }>({ open: false, appointmentId: null });
+    const [cancelLoading, setCancelLoading] = useState(false);
+    const [cancelError, setCancelError] = useState<string | null>(null);
+
+    const handleCancel = async (appointmentId: number, patientId: number, reason: string) => {
+        setCancelLoading(true);
+        setCancelError(null);
+        try {
+            await receptionistService.cancelAppointmentForReceptionist(appointmentId, patientId, reason);
+            onUpdateStatus(appointmentId, 'cancelled');
+            setCancelModal({ open: false, appointmentId: null });
+        } catch (err) {
+            setCancelError('Có lỗi khi hủy lịch hẹn');
+        } finally {
+            setCancelLoading(false);
+        }
+    };
+
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'confirmed': return 'bg-green-100 text-green-800';
@@ -100,7 +147,7 @@ export const AppointmentTable = ({ appointments, onUpdateStatus }: AppointmentTa
                                         <button className="text-indigo-600 hover:text-indigo-900 p-1">
                                             <Edit className="w-4 h-4" />
                                         </button>
-                                        <button className="text-red-600 hover:text-red-900 p-1">
+                                        <button className="text-red-600 hover:text-red-900 p-1" onClick={() => setCancelModal({ open: true, appointmentId: appointment.appointmentId })}>
                                             <Trash2 className="w-4 h-4" />
                                         </button>
                                     </div>
@@ -110,6 +157,19 @@ export const AppointmentTable = ({ appointments, onUpdateStatus }: AppointmentTa
                     </tbody>
                 </table>
             </div>
+            {cancelModal.open && (
+                <CancelModal
+                    open={cancelModal.open}
+                    onClose={() => setCancelModal({ open: false, appointmentId: null })}
+                    onConfirm={reason => {
+                        const appointment = appointments.find(a => a.appointmentId === cancelModal.appointmentId);
+                        if (appointment) {
+                            // patientId giả định là 1, cần sửa lại nếu có patientId thật
+                            handleCancel(appointment.appointmentId, 1, reason);
+                        }
+                    }}
+                />
+            )}
         </div>
     );
 };

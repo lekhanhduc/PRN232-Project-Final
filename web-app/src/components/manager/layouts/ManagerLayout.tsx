@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
-import { Header } from './Header';
+import { Header } from '@/components/manager/layouts/Header';
 import { Sidebar } from './Sidebar';
 
 interface ManagerLayoutProps {

@@ -10,7 +10,7 @@ export default function LayoutWrapper({
 }) {
     const pathname = usePathname();
 
-    const noLayoutPages = ['/login', '/register', '/registration', "/receptionist", "/forgot-password"];
+    const noLayoutPages = ['/login', '/register', '/registration', "/receptionist", "/forgot-password",'/manager','/manager/doctors','/manager/receptionists','/manager/departments'];
     const shouldShowLayout = !noLayoutPages.includes(pathname);
 
     return (
