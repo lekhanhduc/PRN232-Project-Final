@@ -154,14 +154,5 @@ namespace medical_appointment_booking.Controllers
                 result = schedule
             };
         }
-
-
-        [HttpGet("{id}")]
-        //[Authorize(Roles = "ADMIN,DOCTOR")]
-        public async Task<ApiResponse<DoctorDetailResponse>> GetDoctorById(long id)
-        {
-            var result = await doctorService.GetDoctorByIdAsync(id);
-            return new ApiResponse<DoctorDetailResponse> { code = 200, result = result };
-        }
     }
 }

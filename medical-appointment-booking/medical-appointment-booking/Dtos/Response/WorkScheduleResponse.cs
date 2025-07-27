@@ -59,15 +59,6 @@
         public string? Avatar { get; set; }
     }
 
-    public class ServicePackageResponse
-    {
-        public int PackageId { get; set; }
-        public string PackageName { get; set; } = string.Empty;
-        public string? Description { get; set; }
-        public decimal Fee { get; set; }
-        public int? DurationMinutes { get; set; }
-    }
-
     public class LeaveResponse
     {
         public int LeaveId { get; set; }
