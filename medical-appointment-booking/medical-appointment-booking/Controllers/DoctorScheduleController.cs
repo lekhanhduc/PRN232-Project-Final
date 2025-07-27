@@ -1,5 +1,6 @@
 ﻿using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
+using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Services;
 using medical_appointment_booking.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
@@ -8,26 +9,28 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace medical_appointment_booking.Controllers
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/doctor-schedules")]
     [ApiController]
     public class DoctorScheduleController : ControllerBase
     {
         private readonly IDoctorScheduleService _doctorScheduleService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public DoctorScheduleController(IDoctorScheduleService doctorScheduleService)
+        public DoctorScheduleController(IDoctorScheduleService doctorScheduleService, IHttpContextAccessor httpContextAccessor)
         {
             _doctorScheduleService = doctorScheduleService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         // DOC001: Get My Work Schedule
         [HttpGet("schedule")]
-        [Authorize(Roles = "DOCTOR")]
+        //[Authorize(Roles = "DOCTOR")]
         public async Task<ApiResponse<List<WorkScheduleResponse>>> GetDoctorWorkSchedule(
-        [FromQuery] long doctorId,
             [FromQuery] DateOnly? fromDate = null,
             [FromQuery] DateOnly? toDate = null)
         {
-            var result = await _doctorScheduleService.GetMyWorkScheduleAsync(doctorId, fromDate, toDate);
+            var userId = GetCurrentUserId();
+            var result = await _doctorScheduleService.GetMyWorkScheduleAsync(userId, fromDate, toDate);
             return new ApiResponse<List<WorkScheduleResponse>>
             {
                 code = 200,
@@ -37,15 +40,15 @@ namespace medical_appointment_booking.Controllers
 
         // DOC002: Get My Appointments
         [HttpGet("appointments")]
-        [Authorize(Roles = "DOCTOR")]
+        //[Authorize(Roles = "DOCTOR")]
         public async Task<ApiResponse<PageResponse<AppointmentDoctorResponse>>> GetDoctorAppointments(
-            [FromQuery] long doctorId,
             [FromQuery] DateOnly? appointmentDate = null,
             [FromQuery] string? status = null,
             [FromQuery] string? orderBy = "appointmentTime",
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 20)
         {
+            var userId = GetCurrentUserId();
             var request = new DoctorAppointmentFilterRequest
             {
                 AppointmentDate = appointmentDate,
@@ -55,7 +58,7 @@ namespace medical_appointment_booking.Controllers
                 PageSize = pageSize
             };
 
-            var result = await _doctorScheduleService.GetMyAppointmentsAsync(doctorId, request);
+            var result = await _doctorScheduleService.GetMyAppointmentsAsync(userId, request);
             return new ApiResponse<PageResponse<AppointmentDoctorResponse>>
             {
                 code = 200,
@@ -65,12 +68,11 @@ namespace medical_appointment_booking.Controllers
 
         // DOC003: Mark Patient Arrived
         [HttpPut("appointments/{appointmentId}/arrived")]
-        [Authorize(Roles = "DOCTOR")]
-        public async Task<ApiResponse<string>> MarkPatientArrived(
-            long appointmentId,
-            [FromQuery] long doctorId)
+        //[Authorize(Roles = "DOCTOR")]
+        public async Task<ApiResponse<string>> MarkPatientArrived(long appointmentId)
         {
-            var success = await _doctorScheduleService.MarkPatientArrivedAsync(appointmentId, doctorId);
+            var userId = GetCurrentUserId();
+            var success = await _doctorScheduleService.MarkPatientArrivedAsync(appointmentId, userId);
 
             if (!success)
             {
@@ -90,13 +92,13 @@ namespace medical_appointment_booking.Controllers
 
         // DOC004: Complete Appointment
         [HttpPut("appointments/{appointmentId}/complete")]
-        [Authorize(Roles = "DOCTOR")]
+        //[Authorize(Roles = "DOCTOR")]
         public async Task<ApiResponse<string>> CompleteAppointment(
-        long appointmentId,
-            [FromQuery] long doctorId,
+            long appointmentId,
             [FromBody] CompleteAppointmentRequest request)
         {
-            var success = await _doctorScheduleService.CompleteAppointmentAsync(appointmentId, doctorId, request);
+            var userId = GetCurrentUserId();
+            var success = await _doctorScheduleService.CompleteAppointmentAsync(appointmentId, userId, request);
 
             if (!success)
             {
@@ -116,12 +118,12 @@ namespace medical_appointment_booking.Controllers
 
         // DOC005: Request Leave
         [HttpPost("leaves")]
-        [Authorize(Roles = "DOCTOR")]
+        //[Authorize(Roles = "DOCTOR")]
         public async Task<ApiResponse<LeaveResponse>> RequestLeave(
-            [FromQuery] long doctorId,
             [FromBody] LeaveRequest request)
         {
-            var response = await _doctorScheduleService.RequestLeaveAsync(doctorId, request);
+            var userId = GetCurrentUserId();
+            var response = await _doctorScheduleService.RequestLeaveAsync(userId, request);
 
             return new ApiResponse<LeaveResponse>
             {
@@ -129,6 +131,19 @@ namespace medical_appointment_booking.Controllers
                 message = "Đã gửi yêu cầu nghỉ thành công",
                 result = response
             };
+        }
+
+        private int GetCurrentUserId()
+        {
+            var userIdClaim = _httpContextAccessor.HttpContext?.User.Claims
+                .FirstOrDefault(c => c.Type == "userId");
+
+            if (userIdClaim == null)
+            {
+                throw new AppException(ErrorCode.USER_NOT_EXISTED);
+            }
+
+            return int.Parse(userIdClaim.Value);
         }
     }
 }

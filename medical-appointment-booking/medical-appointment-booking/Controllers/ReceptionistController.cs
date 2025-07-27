@@ -80,7 +80,7 @@ namespace medical_appointment_booking.Controllers
             try
             {
                 var currentUser = await _receptionistService.GetPatientByPatientIdAsync(patientId);
-                await _appointmentService.CancelAppointmentAsync(appointmentId, request, (int) currentUser.UserId);
+                await _appointmentService.CancelAppointmentAsync(appointmentId, request, (int)currentUser.UserId);
 
                 return Ok(new ApiResponse<object>
                 {

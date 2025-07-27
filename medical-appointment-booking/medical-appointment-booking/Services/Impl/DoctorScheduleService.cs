@@ -8,15 +8,29 @@ namespace medical_appointment_booking.Services.Impl
 {
     public class DoctorScheduleService : IDoctorScheduleService
     {
-        private readonly IDoctorScheduleRepository _doctorScheduleRepository;
+        private readonly DoctorScheduleRepository _doctorScheduleRepository;
+        private readonly DoctorRepository _doctorRepository;
 
-        public DoctorScheduleService(IDoctorScheduleRepository doctorScheduleRepository)
+        public DoctorScheduleService(DoctorScheduleRepository doctorScheduleRepository, DoctorRepository doctorRepository)
         {
             _doctorScheduleRepository = doctorScheduleRepository;
+            _doctorRepository = doctorRepository;
         }
 
-        public async Task<List<WorkScheduleResponse>> GetMyWorkScheduleAsync(long doctorId, DateOnly? fromDate = null, DateOnly? toDate = null)
+        public async Task<Doctor> GetDoctorByUserIdAsync(long userId)
         {
+            var doctor = await _doctorRepository.GetDoctorByUserIdAsync(userId);
+            if (doctor == null)
+            {
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+            }
+            return doctor;
+        }
+
+        public async Task<List<WorkScheduleResponse>> GetMyWorkScheduleAsync(long userId, DateOnly? fromDate = null, DateOnly? toDate = null)
+        {
+            var doctorId = (await GetDoctorByUserIdAsync(userId)).Id;
+
             // Validate doctor exists
             if (!await _doctorScheduleRepository.DoctorExistsAsync(doctorId))
             {
@@ -86,8 +100,10 @@ namespace medical_appointment_booking.Services.Impl
             return response;
         }
 
-        public async Task<PageResponse<AppointmentDoctorResponse>> GetMyAppointmentsAsync(long doctorId, DoctorAppointmentFilterRequest request)
+        public async Task<PageResponse<AppointmentDoctorResponse>> GetMyAppointmentsAsync(long userId, DoctorAppointmentFilterRequest request)
         {
+            var doctorId = (await GetDoctorByUserIdAsync(userId)).Id;
+
             // Validate doctor exists
             if (!await _doctorScheduleRepository.DoctorExistsAsync(doctorId))
             {
@@ -143,8 +159,10 @@ namespace medical_appointment_booking.Services.Impl
             };
         }
 
-        public async Task<bool> MarkPatientArrivedAsync(long appointmentId, long doctorId)
+        public async Task<bool> MarkPatientArrivedAsync(long appointmentId, long userId)
         {
+            var doctorId = (await GetDoctorByUserIdAsync(userId)).Id;
+
             // Validate doctor exists
             if (!await _doctorScheduleRepository.DoctorExistsAsync(doctorId))
             {
@@ -180,8 +198,10 @@ namespace medical_appointment_booking.Services.Impl
             return await _doctorScheduleRepository.UpdateAppointmentStatusAsync(appointmentId, "arrived");
         }
 
-        public async Task<bool> CompleteAppointmentAsync(long appointmentId, long doctorId, CompleteAppointmentRequest request)
+        public async Task<bool> CompleteAppointmentAsync(long appointmentId, long userId, CompleteAppointmentRequest request)
         {
+            var doctorId = (await GetDoctorByUserIdAsync(userId)).Id;
+
             // Validate doctor exists
             if (!await _doctorScheduleRepository.DoctorExistsAsync(doctorId))
             {
@@ -211,8 +231,10 @@ namespace medical_appointment_booking.Services.Impl
             return await _doctorScheduleRepository.UpdateAppointmentStatusAsync(appointmentId, "completed", request.Notes);
         }
 
-        public async Task<LeaveResponse> RequestLeaveAsync(long doctorId, LeaveRequest request)
+        public async Task<LeaveResponse> RequestLeaveAsync(long userId, LeaveRequest request)
         {
+            var doctorId = (await GetDoctorByUserIdAsync(userId)).Id;
+
             // Validate doctor exists
             if (!await _doctorScheduleRepository.DoctorExistsAsync(doctorId))
             {
