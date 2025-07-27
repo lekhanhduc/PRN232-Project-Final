@@ -73,5 +73,10 @@ namespace medical_appointment_booking.Repositories
             return true;
         }
 
+        public async Task<Patient?> GetPatientByPatientIdAsync(long id)
+        {
+            return await context.Patients.FirstOrDefaultAsync(p => p.Id == id);
+        }
+
     }
 }

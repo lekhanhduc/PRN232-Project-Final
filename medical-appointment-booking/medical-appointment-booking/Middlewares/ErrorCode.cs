@@ -28,6 +28,7 @@ namespace medical_appointment_booking.Middlewares
         public static readonly ErrorCode SPECIALTY_EXISTED = new ErrorCode(400, "Specialty existed", HttpStatusCode.BadRequest);
         public static readonly ErrorCode TWO_FACTOR_SECRET_NOT_SET = new ErrorCode(400,"Two-factor authentication is not configured for this account.",HttpStatusCode.BadRequest);
         public static readonly ErrorCode INVALID_2FA_CODE = new ErrorCode(401, "The verification code is invalid or has expired.", HttpStatusCode.Unauthorized);
+        public static readonly ErrorCode FILE_INVALID = new ErrorCode(400, "File invalid", HttpStatusCode.BadRequest);
 
         public static readonly ErrorCode PATIENT_NOT_FOUND = new ErrorCode(404, "Patient not found", HttpStatusCode.NotFound);
         public static readonly ErrorCode DOCTOR_NOT_FOUND = new ErrorCode(404, "Doctor not found or not available", HttpStatusCode.NotFound);
@@ -41,6 +42,16 @@ namespace medical_appointment_booking.Middlewares
         public static readonly ErrorCode APPOINTMENT_CANNOT_BE_CANCELLED = new ErrorCode(400, "Appointment cannot be cancelled. Only scheduled appointments can be cancelled at least 24 hours in advance", HttpStatusCode.BadRequest);
         public static readonly ErrorCode APPOINTMENT_CANNOT_BE_RESCHEDULED = new ErrorCode(400, "Appointment cannot be rescheduled. Only scheduled appointments can be rescheduled at least 24 hours in advance", HttpStatusCode.BadRequest);
         public static readonly ErrorCode INVALID_DAYS_AHEAD_RANGE = new ErrorCode(400, "Days ahead must be between 1 and 365", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode INVALID_DATE_RANGE = new ErrorCode(400,"Start date cannot be greater than end date", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode FUTURE_APPOINTMENT_ARRIVAL = new ErrorCode(400,"Cannot mark patient as arrived for future appointments", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode INVALID_APPOINTMENT_STATUS_FOR_COMPLETION = new ErrorCode(400, "Appointment cannot be completed. Invalid status.", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode LEAVE_DATE_IN_PAST = new ErrorCode(400,"Leave date must be in the future", HttpStatusCode.BadRequest);
+
+        public static readonly ErrorCode LEAVE_CONFLICT = new ErrorCode(400, "Leave request already exists for this date", HttpStatusCode.BadRequest);
     }
 
 }
