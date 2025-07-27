@@ -4,23 +4,23 @@ import { Plus } from 'lucide-react';
 import { AppointmentFilters } from './AppointmentFilters';
 import { useAppointments } from '@/hooks/useAppointments';
 import { AppointmentTable } from './AppointmentTable';
+import { useAppointmentsForReceptionist } from '@/hooks/useAppointmentsForReceptionist';
 
 export const AppointmentList = () => {
-    const { appointments, updateAppointmentStatus } = useAppointments();
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedDate, setSelectedDate] = useState('2025-06-10');
+    const [selectedDate, setSelectedDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; 
+});
+
     const [statusFilter, setStatusFilter] = useState<string>('all');
     const [showNewAppointment, setShowNewAppointment] = useState(false);
 
+    const { appointments, updateAppointmentStatus } = useAppointmentsForReceptionist(selectedDate, searchTerm);
+
     const filteredAppointments = appointments.filter(apt => {
-        // Since AppointmentResponse doesn't have patient info, we'll search by doctor name and appointment number
-        const matchesSearch = searchTerm === '' ||
-            apt.doctor.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            apt.appointmentNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            apt.reasonForVisit.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesDate = apt.appointmentDate === selectedDate;
         const matchesStatus = statusFilter === 'all' || apt.status === statusFilter;
-        return matchesSearch && matchesDate && matchesStatus;
+        return matchesStatus;
     });
 
     return (

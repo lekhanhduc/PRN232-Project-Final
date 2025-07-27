@@ -43,6 +43,7 @@ export interface PatientDetailResponse {
     enable2FA?: boolean;
 }
 
+
 export interface PatientDetailRequest {
     firstName?: string;
     lastName?: string;
@@ -51,4 +52,32 @@ export interface PatientDetailRequest {
     dob: string; // ISO date string (DateOnly from backend)
     gender?: Gender;
     address?: string;
+}
+
+export interface PatientDTOResponse {
+  id: number;
+  firstName: string;
+  phone: string;
+  email: string;
+  dateOfBirth: string;
+  gender: string;
+  recentAppointments: AppointmentSummary[];
+}
+
+export interface AppointmentSummary {
+  appointmentId: number;
+  patient: {
+    patientId: number;
+    fullName: string;
+    phone: string;
+    dateOfBirth: string;
+    gender: string;
+  };
+  patientName: string;
+  appointmentDate: string;
+  appointmentTime: string;
+  status: string;
+  reasonForVisit: string;
+  consultationFee: number;
+  totalFee: number;
 }
