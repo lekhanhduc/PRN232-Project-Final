@@ -29,8 +29,8 @@ namespace medical_appointment_booking.Controllers
             [FromQuery] DateOnly? fromDate = null,
             [FromQuery] DateOnly? toDate = null)
         {
-            var doctorId = GetCurrentUserId();
-            var result = await _doctorScheduleService.GetMyWorkScheduleAsync(doctorId, fromDate, toDate);
+            var userId = GetCurrentUserId();
+            var result = await _doctorScheduleService.GetMyWorkScheduleAsync(userId, fromDate, toDate);
             return new ApiResponse<List<WorkScheduleResponse>>
             {
                 code = 200,
@@ -48,7 +48,7 @@ namespace medical_appointment_booking.Controllers
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 20)
         {
-            var doctorId = GetCurrentUserId();
+            var userId = GetCurrentUserId();
             var request = new DoctorAppointmentFilterRequest
             {
                 AppointmentDate = appointmentDate,
@@ -58,7 +58,7 @@ namespace medical_appointment_booking.Controllers
                 PageSize = pageSize
             };
 
-            var result = await _doctorScheduleService.GetMyAppointmentsAsync(doctorId, request);
+            var result = await _doctorScheduleService.GetMyAppointmentsAsync(userId, request);
             return new ApiResponse<PageResponse<AppointmentDoctorResponse>>
             {
                 code = 200,
@@ -71,8 +71,8 @@ namespace medical_appointment_booking.Controllers
         //[Authorize(Roles = "DOCTOR")]
         public async Task<ApiResponse<string>> MarkPatientArrived(long appointmentId)
         {
-            var doctorId = GetCurrentUserId();
-            var success = await _doctorScheduleService.MarkPatientArrivedAsync(appointmentId, doctorId);
+            var userId = GetCurrentUserId();
+            var success = await _doctorScheduleService.MarkPatientArrivedAsync(appointmentId, userId);
 
             if (!success)
             {
@@ -97,8 +97,8 @@ namespace medical_appointment_booking.Controllers
             long appointmentId,
             [FromBody] CompleteAppointmentRequest request)
         {
-            var doctorId = GetCurrentUserId();
-            var success = await _doctorScheduleService.CompleteAppointmentAsync(appointmentId, doctorId, request);
+            var userId = GetCurrentUserId();
+            var success = await _doctorScheduleService.CompleteAppointmentAsync(appointmentId, userId, request);
 
             if (!success)
             {
@@ -122,8 +122,8 @@ namespace medical_appointment_booking.Controllers
         public async Task<ApiResponse<LeaveResponse>> RequestLeave(
             [FromBody] LeaveRequest request)
         {
-            var doctorId = GetCurrentUserId();
-            var response = await _doctorScheduleService.RequestLeaveAsync(doctorId, request);
+            var userId = GetCurrentUserId();
+            var response = await _doctorScheduleService.RequestLeaveAsync(userId, request);
 
             return new ApiResponse<LeaveResponse>
             {
