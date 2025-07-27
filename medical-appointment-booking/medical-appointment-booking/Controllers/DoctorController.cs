@@ -1,9 +1,7 @@
 ﻿using medical_appointment_booking.Common;
 using medical_appointment_booking.Dtos.Request;
 using medical_appointment_booking.Dtos.Response;
-using medical_appointment_booking.Middlewares;
 using medical_appointment_booking.Services;
-using medical_appointment_booking.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

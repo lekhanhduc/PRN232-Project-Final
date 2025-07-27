@@ -44,4 +44,3 @@ namespace medical_appointment_booking.Middlewares
     }
 
 }
-
