@@ -6,6 +6,7 @@ using medical_appointment_booking.Models;
 using medical_appointment_booking.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using System.Numerics;
 
 namespace medical_appointment_booking.Services.Impl
@@ -68,12 +69,18 @@ namespace medical_appointment_booking.Services.Impl
             }
         }
 
-        public async Task<AppointmentCreationResponse> AddAppointmentAsync(AppointmentCreationRequest appointmentRequest)
+        public async Task<CreateAppointmentResponse> AddAppointmentAsync(AppointmentCreationRequest request, int currentUserId)
         {
+            using var transaction = await context.Database.BeginTransactionAsync();
+
             try
             {
+                // 1. Validate input
+                await ValidateAppointmentRequest(request);
+
+                // 2. Get patient from current user
                 var patient = await context.Patients
-                    .FirstOrDefaultAsync(p => p.Id == appointmentRequest.PatientId);
+                    .FirstOrDefaultAsync(p => p.Id == request.PatientId);
 
                 if (patient == null)
                 {
@@ -85,7 +92,7 @@ namespace medical_appointment_booking.Services.Impl
                 var doctor = await context.Doctors
                     .Include(d => d.User)
                     .Include(d => d.Specialty)
-                    .FirstOrDefaultAsync(d => d.Id == appointmentRequest.DoctorId);
+                    .FirstOrDefaultAsync(d => d.Id == request.DoctorId);
 
                 if (doctor == null || !doctor.IsAvailable)
                 {
@@ -95,55 +102,177 @@ namespace medical_appointment_booking.Services.Impl
                 // 4. Get time slot information with schedule
                 var timeSlot = await context.TimeSlots
                     .Include(ts => ts.WorkSchedule)
-                    .FirstOrDefaultAsync(ts => ts.Id == appointmentRequest.SlotId);
+                    .FirstOrDefaultAsync(ts => ts.Id == request.SlotId);
 
                 if (timeSlot == null || !timeSlot.IsAvailable)
                 {
                     throw new AppException(ErrorCode.TIMESLOT_NOT_AVAILABLE);
                 }
-
                 // 5. Get service package for fee calculation
                 var servicePackage = await context.ServicePackages
-                    .FirstOrDefaultAsync(sp => sp.Id == appointmentRequest.PackageId);
+                    .FirstOrDefaultAsync(sp => sp.Id == request.PackageId);
 
                 if (servicePackage == null || !servicePackage.IsActive)
                 {
                     throw new AppException(ErrorCode.SERVICE_PACKAGE_NOT_FOUND);
                 }
 
+                // 6. Parse appointment date
+                if (!DateOnly.TryParse(request.AppointmentDate, out var appointmentDate))
+                {
+                    throw new AppException(ErrorCode.INVALID_APPOINTMENT_DATE);
+                }
+
+                // 7. Validate that the slot belongs to the requested doctor and date
+                if (timeSlot.WorkSchedule.DoctorId != request.DoctorId ||
+                    timeSlot.WorkSchedule.WorkDate != appointmentDate)
+                {
+                    throw new AppException(ErrorCode.TIMESLOT_DOCTOR_MISMATCH);
+                }
+
+                // 8. Calculate fees
+                var consultationFee = doctor.ConsultationFee;
+                var packageFee = servicePackage.Fee;
+                var totalFee = consultationFee + packageFee;
+
+                // 9. Create appointment entity
                 var appointment = new Appointment
                 {
-                    PatientId = appointmentRequest.PatientId,
-                    DoctorId = appointmentRequest.DoctorId,
-                    SlotId = appointmentRequest.SlotId,
-                    AppointmentDate = appointmentRequest.AppointmentDate,
-                    AppointmentTime = appointmentRequest.AppointmentTime,
-                    ServicePackageId = appointmentRequest.PackageId
+                    PatientId = patient.Id,
+                    DoctorId = request.DoctorId,
+                    SlotId = request.SlotId,
+                    AppointmentDate = appointmentDate,
+                    AppointmentTime = timeSlot.SlotTime,
+                    Status = "scheduled",
+                    ReasonForVisit = request.ReasonForVisit,
+                    ConsultationFee = consultationFee,
+                    TotalFee = totalFee,
+                    ServicePackageId = request.PackageId,
+                    CreatedBy = currentUserId,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now,
                 };
-                await receptionistRepository.AddAppointmentAsync(appointment);
 
-                var response = new AppointmentCreationResponse
+                // 10. Save appointment
+                context.Appointments.Add(appointment);
+                await context.SaveChangesAsync();
+
+
+                // 11. Update time slot availability
+                timeSlot.IsAvailable = false;
+                await context.SaveChangesAsync();
+
+                // 12. Generate appointment number
+                var appointmentNumber = GenerateAppointmentNumber(appointmentDate, appointment.Id);
+
+                // 13. Commit transaction
+                await transaction.CommitAsync();
+
+                // 14. Create response
+                var response = new CreateAppointmentResponse
                 {
                     AppointmentId = appointment.Id,
-                    DoctorId = appointment.DoctorId,
-                    Doctor = new DoctorDto
+                    AppointmentNumber = appointmentNumber,
+                    Doctor = new DoctorInfoDto
                     {
-                        FullName = $"{appointment.Doctor.LastName} {appointment.Doctor.FirstName}",
-                        SpecialtyName = appointment.Doctor?.Specialty?.SpecialtyName
+                        FullName = $"Dr. {doctor.FirstName} {doctor.LastName}".Trim(),
+                        Specialty = doctor.Specialty?.SpecialtyName ?? "N/A"
                     },
-                    AppointmentDate = appointment.AppointmentDate,
-                    AppointmentTime = appointment.AppointmentTime,
-                    Status = appointment.Status,
-                    TotalFee = appointment.TotalFee,
+                    AppointmentDate = appointmentDate.ToString("yyyy-MM-dd"),
+                    AppointmentTime = timeSlot.SlotTime.ToString(@"hh\:mm"),
+                    TotalFee = totalFee,
+                    Status = "scheduled"
                 };
 
-                return response; // Ensure a value is returned in all code paths
+                return response;
+            }
+            catch (AppException ex)
+            {
+                await transaction.RollbackAsync();
+                throw;
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error adding appointment");
-                throw; // Rethrow the exception to maintain the error handling behavior
+                await transaction.RollbackAsync();
+                throw;
             }
+        }
+
+        private async Task ValidateAppointmentRequest(AppointmentCreationRequest request)
+        {
+
+            // Validate appointment date
+            if (!DateOnly.TryParse(request.AppointmentDate, out var appointmentDate))
+            {
+                throw new AppException(ErrorCode.INVALID_APPOINTMENT_DATE);
+            }
+
+            if (appointmentDate < DateOnly.FromDateTime(DateTime.Now))
+            {
+                throw new AppException(ErrorCode.PAST_APPOINTMENT_DATE);
+            }
+
+            // Check if doctor exists and is available
+            var doctor = await context.Doctors
+                .FirstOrDefaultAsync(d => d.Id == request.DoctorId);
+
+            if (doctor == null || !doctor.IsAvailable)
+            {
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+            }
+
+            // Check if time slot exists and is available
+            var timeSlot = await context.TimeSlots
+                .Include(ts => ts.WorkSchedule)
+                .FirstOrDefaultAsync(ts => ts.Id == request.SlotId);
+
+            if (timeSlot == null || !timeSlot.IsAvailable)
+            {
+                throw new AppException(ErrorCode.TIMESLOT_NOT_AVAILABLE);
+            }
+
+            // Validate that the slot belongs to the requested doctor and date
+            if (timeSlot.WorkSchedule.DoctorId != request.DoctorId ||
+                timeSlot.WorkSchedule.WorkDate != appointmentDate)
+            {
+                throw new AppException(ErrorCode.TIMESLOT_DOCTOR_MISMATCH);
+            }
+
+            // Check if service package exists
+            var servicePackage = await context.ServicePackages
+                .FirstOrDefaultAsync(sp => sp.Id == request.PackageId);
+
+            if (servicePackage == null || !servicePackage.IsActive)
+            {
+                throw new AppException(ErrorCode.SERVICE_PACKAGE_NOT_FOUND);
+            }
+
+            // Check if patient already has appointment at this time
+            var patient = await context.Patients
+                .FirstOrDefaultAsync(p => p.Id == request.PatientId);
+
+            if (patient == null)
+            {
+                throw new AppException(ErrorCode.PATIENT_NOT_FOUND);
+            }
+
+            var existingAppointment = await context.Appointments
+                .FirstOrDefaultAsync(a =>
+                    a.PatientId == patient.Id &&
+                    a.AppointmentDate == appointmentDate &&
+                    a.AppointmentTime == timeSlot.SlotTime &&
+                    a.Status != "cancelled");
+
+            if (existingAppointment != null)
+            {
+                throw new AppException(ErrorCode.APPOINTMENT_CONFLICT);
+            }
+        }
+
+        private static string GenerateAppointmentNumber(DateOnly appointmentDate, long appointmentId)
+        {
+            // Format: AP + YYYYMMDD + 4-digit sequential number
+            return $"AP{appointmentDate:yyyyMMdd}{appointmentId:D4}";
         }
 
         public async  Task<IEnumerable<AppointmentListDto>> GetAppointmentsByDateAndQueryAsync(DateOnly? date, string? query)
