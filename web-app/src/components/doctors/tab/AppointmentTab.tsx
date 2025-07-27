@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { Check } from 'lucide-react';
 import { doctorService } from '@/services/doctorService';
 import { appointmentService } from '@/services/appointmentService';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/useToast';
 
 // Types matching backend response
 interface AppointmentTimeSlotResponse {
@@ -26,6 +29,15 @@ interface AppointmentTabProps {
     doctorId: number;
 }
 
+// Add type for service package
+interface ServicePackageResponse {
+    packageId: number;
+    packageName: string;
+    description?: string;
+    fee: number;
+    durationMinutes?: number;
+}
+
 export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
     const [schedule, setSchedule] = useState<AppointmentDayResponse[]>([]);
     const [selectedDate, setSelectedDate] = useState<string>('');
@@ -35,6 +47,13 @@ export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [booking, setBooking] = useState(false);
+    const [servicePackages, setServicePackages] = useState<ServicePackageResponse[]>([]);
+    const [servicePackagesLoading, setServicePackagesLoading] = useState(false);
+    const [servicePackagesError, setServicePackagesError] = useState<string | null>(null);
+
+    const router = useRouter();
+    const { isLoggedIn } = useAuth();
+    const { showSuccess, showError, showInfo } = useToast();
 
     // Đưa fetchSchedule ra ngoài để có thể gọi lại sau khi booking
     const fetchSchedule = async () => {
@@ -50,12 +69,34 @@ export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
         }
     };
 
+    // Fetch service packages
+    useEffect(() => {
+        const fetchServicePackages = async () => {
+            setServicePackagesLoading(true);
+            setServicePackagesError(null);
+            try {
+                const res = await appointmentService.getActiveServicePackages();
+                setServicePackages(res.result || []);
+            } catch (err: any) {
+                setServicePackagesError('Failed to load service packages');
+            } finally {
+                setServicePackagesLoading(false);
+            }
+        };
+        fetchServicePackages();
+    }, []);
+
     useEffect(() => {
         fetchSchedule();
     }, [doctorId]);
 
     const handleBook = async () => {
-        if (!selectedDate || !selectedSlot) return;
+        if (!isLoggedIn) {
+            showInfo('Please login to book an appointment.');
+            router.push('/login');
+            return;
+        }
+        if (!selectedDate || !selectedSlot || !packageId) return;
         setBooking(true);
         setError(null);
         try {
@@ -64,18 +105,17 @@ export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
                 slotId: selectedSlot.slotId,
                 appointmentDate: selectedDate,
                 reasonForVisit: reason,
-                packageId: packageId || 1,
+                packageId: packageId,
             };
             const res = await appointmentService.createAppointment(payload);
-            alert('Appointment booked successfully!\nAppointment Number: ' + res.result?.appointmentNumber);
+            showSuccess('Appointment booked successfully! Appointment Number: ' + res.result?.appointmentNumber);
             setSelectedDate('');
             setSelectedSlot(null);
             setReason('');
             setPackageId(undefined);
-            // Refetch lại schedule để disable slot vừa book
             await fetchSchedule();
         } catch (err: any) {
-            setError(err.message || 'Failed to book appointment');
+            showError(err.message || 'Failed to book appointment');
         } finally {
             setBooking(false);
         }
@@ -140,21 +180,36 @@ export const AppointmentTab: React.FC<AppointmentTabProps> = ({ doctorId }) => {
                         placeholder="Describe your reason for visit..."
                     />
                 </div>
-                {/* Package Selection (optional) */}
+                {/* Package Selection (required) */}
                 <div className="bg-white border border-slate-200 rounded-2xl p-6">
-                    <h3 className="font-bold text-slate-900 mb-4">Package (optional)</h3>
-                    <input
-                        type="number"
-                        className="w-full border rounded-xl p-2"
-                        value={packageId || ''}
-                        onChange={(e) => setPackageId(Number(e.target.value))}
-                        placeholder="Enter package ID if any"
-                    />
+                    <h3 className="font-bold text-slate-900 mb-4">Service Package <span className='text-red-500'>*</span></h3>
+                    {servicePackagesLoading ? (
+                        <div>Loading packages...</div>
+                    ) : servicePackagesError ? (
+                        <div className="text-red-600">{servicePackagesError}</div>
+                    ) : (
+                        <select
+                            className="w-full border rounded-xl p-2"
+                            value={packageId || ''}
+                            onChange={e => setPackageId(e.target.value ? Number(e.target.value) : undefined)}
+                        >
+                            <option value="">Select a service package</option>
+                            {servicePackages.map(pkg => (
+                                <option key={pkg.packageId} value={pkg.packageId}>
+                                    {pkg.packageName} - {pkg.fee.toLocaleString()}₫
+                                    {pkg.durationMinutes ? ` (${pkg.durationMinutes} min)` : ''}
+                                </option>
+                            ))}
+                        </select>
+                    )}
+                    {!packageId && (
+                        <div className="text-red-500 text-sm mt-1">Please select a service package.</div>
+                    )}
                 </div>
                 {/* Submit Button */}
                 <div className="bg-white border border-slate-200 rounded-2xl p-6 flex items-center">
                     <button
-                        disabled={!selectedDate || !selectedSlot || !reason || booking}
+                        disabled={!selectedDate || !selectedSlot || !reason || !packageId || booking}
                         className="w-full px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition-all disabled:bg-slate-300 disabled:cursor-not-allowed"
                         onClick={handleBook}
                     >

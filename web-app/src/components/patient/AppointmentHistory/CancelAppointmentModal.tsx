@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { AppointmentResponse } from '@/types/appointment';
 import { useAppointments } from '@/hooks/useAppointments';
 import { useToast } from '@/hooks/useToast';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 interface CancelAppointmentModalProps {
     appointment: AppointmentResponse;
@@ -19,11 +21,17 @@ const CancelAppointmentModal: React.FC<CancelAppointmentModalProps> = ({
     const [cancelReason, setCancelReason] = useState('');
     const [loading, setLoading] = useState(false);
     const { cancelAppointment } = useAppointments();
-    const { showSuccess, showError } = useToast();
+    const { showSuccess, showError, showInfo } = useToast();
+    const { isLoggedIn } = useAuth();
+    const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+        if (!isLoggedIn) {
+            showInfo('Vui lòng đăng nhập để hủy lịch hẹn.');
+            router.push('/login');
+            return;
+        }
         if (!cancelReason.trim()) {
             showError('Vui lòng nhập lý do hủy lịch hẹn');
             return;

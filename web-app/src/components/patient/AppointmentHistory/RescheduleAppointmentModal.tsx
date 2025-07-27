@@ -5,6 +5,8 @@ import { AppointmentResponse } from '@/types/appointment';
 import { useAppointments } from '@/hooks/useAppointments';
 import { useToast } from '@/hooks/useToast';
 import { doctorService } from '@/services/doctorService';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 interface RescheduleAppointmentModalProps {
     appointment: AppointmentResponse;
@@ -23,13 +25,14 @@ const RescheduleAppointmentModal: React.FC<RescheduleAppointmentModalProps> = ({
     const [loading, setLoading] = useState(false);
     const [schedule, setSchedule] = useState<any[]>([]);
     const { rescheduleAppointment } = useAppointments();
-    const { showSuccess, showError } = useToast();
+    const { showSuccess, showError, showInfo } = useToast();
+    const { isLoggedIn } = useAuth();
+    const router = useRouter();
 
     // Fetch available schedule for the doctor
     React.useEffect(() => {
         const fetchSchedule = async () => {
             try {
-                alert(appointment.doctor.doctorId);
                 const res = await doctorService.getDoctorAppointmentSchedule(appointment.doctor.doctorId);
                 setSchedule(res.result?.workSchedules || []);
             } catch (err) {
@@ -46,6 +49,11 @@ const RescheduleAppointmentModal: React.FC<RescheduleAppointmentModalProps> = ({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!isLoggedIn) {
+            showInfo('Vui lòng đăng nhập để đổi lịch hẹn.');
+            router.push('/login');
+            return;
+        }
         if (!newDate || !newSlotId || !reason.trim()) {
             showError('Vui lòng điền đầy đủ thông tin');
             return;

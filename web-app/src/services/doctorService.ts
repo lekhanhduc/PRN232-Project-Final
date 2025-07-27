@@ -96,6 +96,14 @@ export const doctorService = {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         return response.json();
+    },
+
+    async getAllDoctors(page: number = 1, pageSize: number = 8): Promise<ApiResponse<PageResponse<DoctorDetailResponse>>> {
+        const params: SearchDoctorsParams = {
+            page,
+            pageSize
+        };
+        return getDoctors(params);
     }
 };
 
