@@ -7,5 +7,9 @@ namespace medical_appointment_booking.Services
     {
         Task<PatientDetailResponse> GetInfoPatient();
         Task<PatientDetailResponse> UpdateProfile(PatientDetailRequest request);
+
+        Task<string> UploadAvatar(IFormFile file);
+
+        Task ChangePassword(ChangePasswordRequest request);
     }
 }

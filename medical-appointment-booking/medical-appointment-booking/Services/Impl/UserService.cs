@@ -77,8 +77,5 @@ namespace medical_appointment_booking.Services.Impl
                     user.Role.Name
                 );
         }
-
-
-
     }
 }

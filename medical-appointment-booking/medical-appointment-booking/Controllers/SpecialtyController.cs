@@ -19,7 +19,7 @@ namespace medical_appointment_booking.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public async Task<ApiResponse<SpecialtyCreationResponse>> Creation([FromBody] SpecialtyCreationRequest request)
         {
             return new ApiResponse<SpecialtyCreationResponse>
