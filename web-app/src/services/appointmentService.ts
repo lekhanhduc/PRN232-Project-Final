@@ -1,4 +1,4 @@
-import { API_URL } from '@/utils/BaseUrl';
+import { API_URL } from '@/utils/baseUrl';
 import { ApiResponse } from '@/types/apiResonse';
 import {
     AppointmentResponse,

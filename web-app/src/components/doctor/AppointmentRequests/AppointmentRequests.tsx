@@ -13,8 +13,22 @@ import {
 } from '@/services/doctorScheduleService';
 import { toast } from 'react-hot-toast';
 
-const AppointmentManagement = () => {
-  const [appointments, setAppointments] = useState<DoctorAppointmentResponse[]>([]);
+interface AppointmentRequestsProps {
+  appointmentRequests: DoctorAppointmentResponse[];
+  getStatusColor: (status: string) => string;
+  getStatusText: (status: string) => string;
+  getPriorityColor: (priority: string | undefined) => string;
+  getPriorityText: (priority: string | undefined) => string;
+}
+
+const AppointmentRequests: React.FC<AppointmentRequestsProps> = ({
+  appointmentRequests: initialAppointments,
+  getStatusColor,
+  getStatusText,
+  getPriorityColor,
+  getPriorityText
+}) => {
+  const [appointments, setAppointments] = useState<DoctorAppointmentResponse[]>(initialAppointments);
   const [pagination, setPagination] = useState<PageResponse<DoctorAppointmentResponse> | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [showCompleteModal, setShowCompleteModal] = useState<number | null>(null);
@@ -119,35 +133,7 @@ const AppointmentManagement = () => {
   };
 
   // Utility functions
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'scheduled':
-        return 'bg-blue-100 text-blue-800';
-      case 'arrived':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'scheduled':
-        return 'Đã đặt lịch';
-      case 'arrived':
-        return 'Đã có mặt';
-      case 'completed':
-        return 'Hoàn thành';
-      case 'cancelled':
-        return 'Đã hủy';
-      default:
-        return status;
-    }
-  };
+  // Use the passed in utility functions instead of defining them locally
 
   const formatDate = (dateString: string) => {
     try {
@@ -418,7 +404,7 @@ const AppointmentManagement = () => {
 
       {/* Complete Appointment Modal */}
       {showCompleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+       <div className="fixed inset-0 z-50 backdrop-blur-sm bg-white/10 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-800">Hoàn thành cuộc hẹn</h3>
@@ -468,4 +454,4 @@ const AppointmentManagement = () => {
   );
 };
 
-export default AppointmentManagement;
+export default AppointmentRequests;

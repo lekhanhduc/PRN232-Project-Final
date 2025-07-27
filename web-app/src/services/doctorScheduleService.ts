@@ -7,7 +7,7 @@ import {
   CompleteAppointmentRequest,
 } from '@/types/doctorSchedule';
 import { PageResponse } from '@/types/pageResponse';
-import { API_URL } from '@/utils/BaseUrl';
+import { API_URL } from '@/utils/baseUrl';
 
 export interface DoctorAppointmentFilterRequest {
   appointmentDate?: string;

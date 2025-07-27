@@ -12,14 +12,40 @@ import {
   WorkScheduleResponse,
   DoctorAppointmentResponse,
   LeaveResponse,
-  DoctorProfile,
 } from '@/types/doctorSchedule';
 import { toast } from 'react-hot-toast';
 
+// Component types
 interface MenuItem {
   id: string;
   label: string;
   icon: React.ComponentType<{ size?: number; className?: string }>;
+}
+
+interface ScheduleManagementProps {
+  scheduleData: WorkScheduleResponse[];
+  selectedDate: string;
+  searchTerm: string;
+  filterStatus: string;
+  onDateChange: (date: string) => void;
+  onSearchChange: (term: string) => void;
+  onFilterChange: (status: string | undefined) => void;
+  getStatusColor: (status: string) => string;
+  getStatusText: (status: string) => string;
+  getPriorityColor: (priority: string | undefined) => string;
+  getPriorityText: (priority: string | undefined) => string;
+}
+
+interface AppointmentRequestsProps {
+  appointmentRequests: DoctorAppointmentResponse[];
+  getStatusColor: (status: string) => string;
+  getStatusText: (status: string) => string;
+  getPriorityColor: (priority: string | undefined) => string;
+  getPriorityText: (priority: string | undefined) => string;
+}
+
+interface LeaveRequestsProps {
+  onSuccess: () => void;
 }
 
 const DoctorDashboard = () => {
@@ -29,12 +55,18 @@ const DoctorDashboard = () => {
     return today.toISOString().split('T')[0]; // "YYYY-MM-DD"
   });
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<string | undefined | 'all'>('all');
+  type StatusFilter = 'all' | 'confirmed' | 'pending' | 'completed' | 'approved' | 'rejected' | 'cancelled';
+  const [filterStatus, setFilterStatus] = useState<StatusFilter>('all');
 
   const [scheduleData, setScheduleData] = useState<WorkScheduleResponse[]>([]);
   const [appointmentRequests, setAppointmentRequests] = useState<DoctorAppointmentResponse[]>([]);
   const [leaveRequests, setLeaveRequests] = useState<LeaveResponse[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Handle filter status change
+  const handleFilterStatusChange = (status: string | undefined) => {
+    setFilterStatus(status as StatusFilter || 'all');
+  };
 
   // Fetch data
   useEffect(() => {
@@ -81,19 +113,18 @@ const DoctorDashboard = () => {
     fetchData();
   }, [selectedDate, filterStatus]);
 
-  // Mock doctor profile (replace with actual API call if available)
-  const doctorProfile: DoctorProfile = {
-    name: 'BS. Trần Thị Mai',
-    specialization: 'Bác sĩ chuyên khoa Tim mạch',
-    experience: '10 năm kinh nghiệm',
-    email: 'bs.tranthibmai@hospital.com',
-    phone: '0912345678',
-    address: 'Bệnh viện Đa khoa Trung ương',
-    education: 'Tiến sĩ Y học - Đại học Y Hà Nội',
-    certifications: ['Chứng chỉ Tim mạch can thiệp', 'Chứng chỉ Siêu âm tim', 'Chứng chỉ Cấp cứu tim mạch'],
-    workingHours: '7:00 - 17:00',
-    languages: ['Tiếng Việt', 'English', '中文'],
-  };
+  // Component props types
+  interface AppointmentRequestsProps {
+    appointmentRequests: DoctorAppointmentResponse[];
+    getStatusColor: (status: string) => string;
+    getStatusText: (status: string) => string;
+    getPriorityColor: (priority: string | undefined) => string;
+    getPriorityText: (priority: string | undefined) => string;
+  }
+
+  interface LeaveRequestsProps {
+    onSuccess: () => void;
+  }
 
   const menuItems: MenuItem[] = [
     { id: 'schedule', label: 'Quản lý Lịch hẹn', icon: Calendar },
@@ -103,41 +134,27 @@ const DoctorDashboard = () => {
   ];
 
   const getStatusColor = (status: string): string => {
-    switch (status.toLowerCase()) {
-      case 'confirmed':
-        return 'text-green-600 bg-green-100';
-      case 'pending':
-        return 'text-yellow-600 bg-yellow-100';
-      case 'completed':
-        return 'text-blue-600 bg-blue-100';
-      case 'approved':
-        return 'text-green-600 bg-green-100';
-      case 'rejected':
-        return 'text-red-600 bg-red-100';
-      case 'cancelled':
-        return 'text-gray-600 bg-gray-100';
-      default:
-        return 'text-gray-600 bg-gray-100';
-    }
+    const statusMap: Record<string, string> = {
+      confirmed: 'text-green-600 bg-green-100',
+      pending: 'text-yellow-600 bg-yellow-100',
+      completed: 'text-blue-600 bg-blue-100',
+      approved: 'text-green-600 bg-green-100',
+      rejected: 'text-red-600 bg-red-100',
+      cancelled: 'text-gray-600 bg-gray-100'
+    };
+    return statusMap[status.toLowerCase()] || 'text-gray-600 bg-gray-100';
   };
 
   const getStatusText = (status: string): string => {
-    switch (status.toLowerCase()) {
-      case 'confirmed':
-        return 'Đã xác nhận';
-      case 'pending':
-        return 'Chờ xử lý';
-      case 'completed':
-        return 'Hoàn thành';
-      case 'approved':
-        return 'Đã duyệt';
-      case 'rejected':
-        return 'Từ chối';
-      case 'cancelled':
-        return 'Đã hủy';
-      default:
-        return status;
-    }
+    const statusTextMap: Record<string, string> = {
+      confirmed: 'Đã xác nhận',
+      pending: 'Chờ xử lý',
+      completed: 'Hoàn thành',
+      approved: 'Đã duyệt',
+      rejected: 'Từ chối',
+      cancelled: 'Đã hủy'
+    };
+    return statusTextMap[status.toLowerCase()] || status;
   };
 
   const getPriorityColor = (priority: string | undefined): string => {
@@ -167,23 +184,23 @@ const DoctorDashboard = () => {
   };
 
   const renderContent = () => {
+    const scheduleManagementProps = {
+      scheduleData,
+      selectedDate,
+      searchTerm,
+      filterStatus,
+      onDateChange: setSelectedDate,
+      onSearchChange: setSearchTerm,
+      onFilterChange: handleFilterStatusChange,
+      getStatusColor,
+      getStatusText,
+      getPriorityColor,
+      getPriorityText
+    };
+
     switch (activeTab) {
       case 'schedule':
-        return (
-          <ScheduleManagement
-            scheduleData={scheduleData}
-            selectedDate={selectedDate}
-            searchTerm={searchTerm}
-            filterStatus={filterStatus}
-            onDateChange={setSelectedDate}
-            onSearchChange={setSearchTerm}
-            onFilterChange={setFilterStatus}
-            getStatusColor={getStatusColor}
-            getStatusText={getStatusText}
-            getPriorityColor={getPriorityColor}
-            getPriorityText={getPriorityText}
-          />
-        );
+        return <ScheduleManagement {...scheduleManagementProps} />;
       case 'appointments':
         return (
           <AppointmentRequests
@@ -200,7 +217,6 @@ const DoctorDashboard = () => {
             onSuccess={() => {
               const fetchData = async () => {
                 try {
-                  // Fetch appointments with current filter
                   const appointmentFilter: DoctorAppointmentFilterRequest = {
                     appointmentDate: selectedDate,
                     status: filterStatus === 'all' ? undefined : filterStatus,
@@ -220,23 +236,9 @@ const DoctorDashboard = () => {
           />
         );
       case 'profile':
-        return <Profile doctorProfile={doctorProfile} />;
+        return <Profile />;
       default:
-        return (
-          <ScheduleManagement
-            scheduleData={scheduleData}
-            selectedDate={selectedDate}
-            searchTerm={searchTerm}
-            filterStatus={filterStatus}
-            onDateChange={setSelectedDate}
-            onSearchChange={setSearchTerm}
-            onFilterChange={setFilterStatus}
-            getStatusColor={getStatusColor}
-            getStatusText={getStatusText}
-            getPriorityColor={getPriorityColor}
-            getPriorityText={getPriorityText}
-          />
-        );
+        return <ScheduleManagement {...scheduleManagementProps} />;
     }
   };
 

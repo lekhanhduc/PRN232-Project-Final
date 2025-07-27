@@ -1,8 +1,8 @@
 import { ApiResponse } from "@/types/apiResonse";
 import { DoctorCreationRequest, DoctorCreationResponse, DoctorDetailResponse, DoctorSearchResponse, DoctorUpdateRequest, Gender } from "@/types/doctor";
 import { PageResponse } from "@/types/pageResponse";
-import { API_URL } from "@/utils/BaseUrl";
-import { fetchInterceptor } from "@/utils/Interceptor";
+import { API_URL } from "@/utils/baseUrl";
+import { fetchInterceptor } from "@/utils/interceptor";
 export interface SearchDoctorsParams {
     doctorName?: string;
     specialtyName?: string;

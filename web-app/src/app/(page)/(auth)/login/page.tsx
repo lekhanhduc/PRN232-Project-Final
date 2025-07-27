@@ -12,8 +12,8 @@ import SocialLoginButtons from '@/components/social/SocialLoginButtons';
 import Modal from 'react-modal';
 import { ApiResponse } from '@/types/apiResonse';
 import { getRedirectPath } from '@/utils/Authorities';
-import { fetchInterceptor } from '@/utils/Interceptor';
-import { API_URL } from '@/utils/BaseUrl';
+import { fetchInterceptor } from '@/utils/interceptor';
+import { API_URL } from '@/utils/baseUrl';
 
 const SignIn = () => {
     const { login: authLogin } = useAuth();
