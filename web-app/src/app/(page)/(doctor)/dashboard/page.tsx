@@ -5,69 +5,18 @@ import ScheduleManagement from '@/components/doctor/ScheduleManagement/ScheduleM
 import AppointmentRequests from '@/components/doctor/AppointmentRequests/AppointmentRequests';
 import LeaveRequests from '@/components/doctor/LeaveRequests/LeaveRequests';
 import Profile from '@/components/doctor/Profile/Profile';
-import DashboardStatsComponent from '@/components/doctor/DashboardStats/DashboardStats'; 
+import DashboardStatsComponent from '@/components/doctor/DashboardStats/DashboardStats';
 import Sidebar from '@/components/doctor/Sidebar/Sidebar';
-import Header from '@/components/doctor/Header/Header';
-import { 
-  Calendar, 
-  Users, 
-  Clock, 
-  User, 
-} from 'lucide-react'; // Removed unused 'Search' import
-import { doctorService } from '@/services/doctorService';
-
-
-type StatusType = 'confirmed' | 'pending' | 'completed' | 'approved' | 'rejected' | 'cancelled';
-
-interface ScheduleItem {
-  id: number;
-  patientName: string;
-  phone: string;
-  time: string;
-  department: string;
-  symptoms: string;
-  status: StatusType;
-  duration?: number;
-  patientAge?: number;
-  priority?: 'low' | 'medium' | 'high';
-}
-
-interface AppointmentRequest {
-  id: number;
-  patientName: string;
-  phone: string;
-  requestedTime: string;
-  department: string;
-  symptoms: string;
-  status: StatusType;
-  requestDate: string;
-  patientAge?: number;
-  urgency?: 'low' | 'medium' | 'high';
-}
-
-interface LeaveRequest {
-  id: number;
-  startDate: string;
-  endDate: string;
-  reason: string;
-  status: StatusType;
-  requestDate: string;
-  type: 'vacation' | 'sick' | 'conference' | 'emergency';
-}
-
-interface DoctorProfile {
-  name: string;
-  specialization: string;
-  experience: string;
-  email: string;
-  phone: string;
-  address: string;
-  education: string;
-  certifications: string[];
-  avatar?: string;
-  workingHours: string;
-  languages: string[];
-}
+import { Calendar, Users, Clock, User } from 'lucide-react';
+import { doctorScheduleService, DoctorScheduleFilterRequest, DoctorAppointmentFilterRequest } from '@/services/doctorScheduleService';
+import {
+  WorkScheduleResponse,
+  DoctorAppointmentResponse,
+  LeaveResponse,
+  DoctorProfile,
+  DashboardStats,
+} from '@/types/doctorSchedule';
+import { toast } from 'react-hot-toast';
 
 interface MenuItem {
   id: string;
@@ -76,63 +25,71 @@ interface MenuItem {
   badge?: number;
 }
 
-interface DashboardStats {
-  todayAppointments: number;
-  completedToday: number;
-  pendingRequests: number;
-  upcomingAppointments: number;
-}
-
 const DoctorDashboard = () => {
   const [activeTab, setActiveTab] = useState('schedule');
-  const [selectedDate, setSelectedDate] = useState('2025-06-11');
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // "YYYY-MM-DD"
+  });
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<StatusType | 'all'>('all');
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [filterStatus, setFilterStatus] = useState<string | 'all'>('all');
 
-  const [scheduleData, setScheduleData] = useState<ScheduleItem[]>([]);
-  const [loadingSchedule, setLoadingSchedule] = useState(true);
+  const [scheduleData, setScheduleData] = useState<WorkScheduleResponse[]>([]);
+  const [appointmentRequests, setAppointmentRequests] = useState<DoctorAppointmentResponse[]>([]);
+  const [leaveRequests, setLeaveRequests] = useState<LeaveResponse[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  // Fetch data
   useEffect(() => {
-  const fetchSchedule = async () => {
-    try {
-      const doctorId = 1; // TODO: Replace with real logged-in doctor ID
-      const response = await doctorService.getDoctorSchedule(doctorId);
-      const mappedData: ScheduleItem[] = response.data.map(item => ({
-        id: item.id,
-        patientName: item.patientName,
-        phone: item.phone,
-        time: item.time,
-        department: item.department,
-        symptoms: item.symptoms,
-        status: item.status as StatusType,
-        duration: item.duration,
-        patientAge: item.patientAge,
-        priority: item.priority,
-      }));
-      setScheduleData(mappedData);
-    } catch (error) {
-      console.error('Lỗi khi lấy lịch làm việc:', error);
-    } finally {
-      setLoadingSchedule(false);
-    }
-  };
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // Fetch schedule
+        const scheduleFilter: DoctorScheduleFilterRequest = {
+          fromDate: selectedDate,
+          toDate: selectedDate,
+          includeTimeSlots: true,
+        };
+        const scheduleResponse = await doctorScheduleService.getMyWorkSchedule(scheduleFilter);
+        if (scheduleResponse.code === 200 && scheduleResponse.result) {
+          setScheduleData(scheduleResponse.result);
+        } else {
+          toast.error(scheduleResponse.message || 'Không thể tải lịch làm việc');
+        }
 
-  fetchSchedule();
-}, []);
+        // Fetch appointments
+        const appointmentFilter: DoctorAppointmentFilterRequest = {
+          appointmentDate: selectedDate,
+          status: filterStatus === 'all' ? undefined : filterStatus,
+          page: 1,
+          pageSize: 100,
+        };
+        const appointmentResponse = await doctorScheduleService.getMyAppointments(appointmentFilter);
+        if (appointmentResponse.code === 200 && appointmentResponse.result) {
+          setAppointmentRequests(appointmentResponse.result.items);
+        } else {
+          toast.error(appointmentResponse.message || 'Không thể tải yêu cầu khám bệnh');
+        }
 
-  const appointmentRequests: AppointmentRequest[] = [
-    { id: 1, patientName: 'Trần Văn Hòa', phone: '0938475629', requestedTime: '15:30', department: 'Tim mạch', symptoms: 'Đau tim, khó thở khi gắng sức', status: 'pending', requestDate: '2025-06-12', patientAge: 62, urgency: 'high' },
-    { id: 2, patientName: 'Vũ Thị Mai', phone: '0967834521', requestedTime: '16:00', department: 'Nội khoa', symptoms: 'Sốt cao, đau họng, ho', status: 'pending', requestDate: '2025-06-12', patientAge: 28, urgency: 'medium' },
-    { id: 3, patientName: 'Đặng Minh Quân', phone: '0923456789', requestedTime: '09:00', department: 'Ngoại khoa', symptoms: 'Đau lưng, tê chân, khó đi lại', status: 'pending', requestDate: '2025-06-13', patientAge: 41, urgency: 'high' },
-  ];
+        // Fetch leave requests
+        const leaveResponse = await doctorScheduleService.getMyLeaves();
+        if (leaveResponse.code === 200 && leaveResponse.result) {
+          setLeaveRequests(leaveResponse.result);
+        } else {
+          toast.error(leaveResponse.message || 'Không thể tải đơn xin nghỉ');
+        }
+      } catch (error) {
+        console.error('Lỗi khi lấy dữ liệu:', error);
+        toast.error('Đã xảy ra lỗi khi tải dữ liệu');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const leaveRequests: LeaveRequest[] = [
-    { id: 1, startDate: '2025-06-15', endDate: '2025-06-17', reason: 'Nghỉ phép cá nhân', status: 'approved', requestDate: '2025-06-05', type: 'vacation' },
-    { id: 2, startDate: '2025-07-01', endDate: '2025-07-05', reason: 'Tham gia hội nghị y khoa', status: 'pending', requestDate: '2025-06-10', type: 'conference' },
-    { id: 3, startDate: '2025-06-20', endDate: '2025-06-20', reason: 'Khám sức khỏe định kỳ', status: 'approved', requestDate: '2025-06-08', type: 'sick' },
-  ];
+    fetchData();
+  }, [selectedDate, filterStatus]);
 
+  // Mock doctor profile (replace with actual API call if available)
   const doctorProfile: DoctorProfile = {
     name: 'BS. Trần Thị Mai',
     specialization: 'Bác sĩ chuyên khoa Tim mạch',
@@ -146,13 +103,22 @@ const DoctorDashboard = () => {
     languages: ['Tiếng Việt', 'English', '中文'],
   };
 
+  // Calculate dashboard stats
   const dashboardStats: DashboardStats = useMemo(() => {
-    const todayAppointments = scheduleData.length;
-    const completedToday = scheduleData.filter(item => item.status === 'completed').length;
-    const pendingRequests = appointmentRequests.filter(req => req.status === 'pending').length;
-    const upcomingAppointments = scheduleData.filter(item => 
-      item.status === 'confirmed' || item.status === 'pending'
-    ).length;
+    const todayAppointments = scheduleData.reduce(
+      (total, schedule) => total + schedule.timeSlots.filter((slot) => !slot.isAvailable).length,
+      0
+    );
+    const completedToday = appointmentRequests.filter((req) => req.status.toLowerCase() === 'completed').length;
+    const pendingRequests = appointmentRequests.filter((req) => req.status.toLowerCase() === 'pending').length;
+    const upcomingAppointments = scheduleData.reduce(
+      (total, schedule) =>
+        total +
+        schedule.timeSlots.filter(
+          (slot) => !slot.isAvailable && (slot.appointment?.status === 'confirmed' || slot.appointment?.status === 'pending')
+        ).length,
+      0
+    );
 
     return { todayAppointments, completedToday, pendingRequests, upcomingAppointments };
   }, [scheduleData, appointmentRequests]);
@@ -164,94 +130,124 @@ const DoctorDashboard = () => {
     { id: 'profile', label: 'Hồ sơ Cá nhân', icon: User },
   ];
 
-  const getStatusColor = (status: StatusType): string => {
-    switch (status) {
-      case 'confirmed': return 'text-green-600 bg-green-100';
-      case 'pending': return 'text-yellow-600 bg-yellow-100';
-      case 'completed': return 'text-blue-600 bg-blue-100';
-      case 'approved': return 'text-green-600 bg-green-100';
-      case 'rejected': return 'text-red-600 bg-red-100';
-      case 'cancelled': return 'text-gray-600 bg-gray-100';
-      default: return 'text-gray-600 bg-gray-100';
+  const getStatusColor = (status: string): string => {
+    switch (status.toLowerCase()) {
+      case 'confirmed':
+        return 'text-green-600 bg-green-100';
+      case 'pending':
+        return 'text-yellow-600 bg-yellow-100';
+      case 'completed':
+        return 'text-blue-600 bg-blue-100';
+      case 'approved':
+        return 'text-green-600 bg-green-100';
+      case 'rejected':
+        return 'text-red-600 bg-red-100';
+      case 'cancelled':
+        return 'text-gray-600 bg-gray-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
     }
   };
 
-  const getStatusText = (status: StatusType): string => {
-    switch (status) {
-      case 'confirmed': return 'Đã xác nhận';
-      case 'pending': return 'Chờ xử lý';
-      case 'completed': return 'Hoàn thành';
-      case 'approved': return 'Đã duyệt';
-      case 'rejected': return 'Từ chối';
-      case 'cancelled': return 'Đã hủy';
-      default: return status;
+  const getStatusText = (status: string): string => {
+    switch (status.toLowerCase()) {
+      case 'confirmed':
+        return 'Đã xác nhận';
+      case 'pending':
+        return 'Chờ xử lý';
+      case 'completed':
+        return 'Hoàn thành';
+      case 'approved':
+        return 'Đã duyệt';
+      case 'rejected':
+        return 'Từ chối';
+      case 'cancelled':
+        return 'Đã hủy';
+      default:
+        return status;
     }
   };
 
-  const getPriorityColor = (priority: string): string => {
-    switch (priority) {
-      case 'high': return 'text-red-600 bg-red-100';
-      case 'medium': return 'text-yellow-600 bg-yellow-100';
-      case 'low': return 'text-green-600 bg-green-100';
-      default: return 'text-gray-600 bg-gray-100';
+  const getPriorityColor = (priority: string | undefined): string => {
+    switch (priority?.toLowerCase()) {
+      case 'high':
+        return 'text-red-600 bg-red-100';
+      case 'medium':
+        return 'text-yellow-600 bg-yellow-100';
+      case 'low':
+        return 'text-green-600 bg-green-100';
+      default:
+        return 'text-gray-600 bg-gray-100';
     }
   };
 
-  const getPriorityText = (priority: string): string => {
-    switch (priority) {
-      case 'high': return 'Cao';
-      case 'medium': return 'Trung bình';
-      case 'low': return 'Thấp';
-      default: return priority;
+  const getPriorityText = (priority: string | undefined): string => {
+    switch (priority?.toLowerCase()) {
+      case 'high':
+        return 'Cao';
+      case 'medium':
+        return 'Trung bình';
+      case 'low':
+        return 'Thấp';
+      default:
+        return 'Không xác định';
     }
   };
 
   const renderContent = () => {
     switch (activeTab) {
       case 'schedule':
-        return <ScheduleManagement
-          scheduleData={scheduleData}
-          selectedDate={selectedDate}
-          searchTerm={searchTerm}
-          filterStatus={filterStatus}
-          onDateChange={setSelectedDate}
-          onSearchChange={setSearchTerm}
-          onFilterChange={setFilterStatus}
-          getStatusColor={getStatusColor}
-          getStatusText={getStatusText}
-          getPriorityColor={getPriorityColor}
-          getPriorityText={getPriorityText}
-        />;
+        return (
+          <ScheduleManagement
+            scheduleData={scheduleData}
+            selectedDate={selectedDate}
+            searchTerm={searchTerm}
+            filterStatus={filterStatus}
+            onDateChange={setSelectedDate}
+            onSearchChange={setSearchTerm}
+            onFilterChange={setFilterStatus}
+            getStatusColor={getStatusColor}
+            getStatusText={getStatusText}
+            getPriorityColor={getPriorityColor}
+            getPriorityText={getPriorityText}
+          />
+        );
       case 'appointments':
-        return <AppointmentRequests
-          appointmentRequests={appointmentRequests}
-          getStatusColor={getStatusColor}
-          getStatusText={getStatusText}
-          getPriorityColor={getPriorityColor}
-          getPriorityText={getPriorityText}
-        />;
+        return (
+          <AppointmentRequests
+            appointmentRequests={appointmentRequests}
+            getStatusColor={getStatusColor}
+            getStatusText={getStatusText}
+            getPriorityColor={getPriorityColor}
+            getPriorityText={getPriorityText}
+          />
+        );
       case 'leave':
-        return <LeaveRequests
-          leaveRequests={leaveRequests}
-          getStatusColor={getStatusColor}
-          getStatusText={getStatusText}
-        />;
+        return (
+          <LeaveRequests
+            leaveRequests={leaveRequests}
+            getStatusColor={getStatusColor}
+            getStatusText={getStatusText}
+          />
+        );
       case 'profile':
         return <Profile doctorProfile={doctorProfile} />;
       default:
-        return <ScheduleManagement
-          scheduleData={scheduleData}
-          selectedDate={selectedDate}
-          searchTerm={searchTerm}
-          filterStatus={filterStatus}
-          onDateChange={setSelectedDate}
-          onSearchChange={setSearchTerm}
-          onFilterChange={setFilterStatus}
-          getStatusColor={getStatusColor}
-          getStatusText={getStatusText}
-          getPriorityColor={getPriorityColor}
-          getPriorityText={getPriorityText}
-        />;
+        return (
+          <ScheduleManagement
+            scheduleData={scheduleData}
+            selectedDate={selectedDate}
+            searchTerm={searchTerm}
+            filterStatus={filterStatus}
+            onDateChange={setSelectedDate}
+            onSearchChange={setSearchTerm}
+            onFilterChange={setFilterStatus}
+            getStatusColor={getStatusColor}
+            getStatusText={getStatusText}
+            getPriorityColor={getPriorityColor}
+            getPriorityText={getPriorityText}
+          />
+        );
     }
   };
 
@@ -260,22 +256,16 @@ const DoctorDashboard = () => {
       <div className="flex">
         <Sidebar menuItems={menuItems} activeTab={activeTab} onTabChange={setActiveTab} />
         <div className="flex-1 min-h-screen">
-          <Header
-            dashboardStats={dashboardStats}
-            doctorName={doctorProfile.name}
-            showNotifications={showNotifications}
-            onToggleNotifications={() => setShowNotifications(!showNotifications)}
-          />
           <main className="p-6">
-            {loadingSchedule ? (
-              <div className="text-center text-gray-500 py-8">Đang tải lịch làm việc...</div>
+            {loading ? (
+              <div className="text-center text-gray-500 py-8">Đang tải dữ liệu...</div>
             ) : (
               <>
                 {activeTab === 'schedule' && <DashboardStatsComponent dashboardStats={dashboardStats} />}
                 {renderContent()}
               </>
             )}
-        </main>
+          </main>
         </div>
       </div>
     </div>

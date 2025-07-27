@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Calendar, CheckCircle, Clock, Users, TrendingUp, Activity, AlertCircle } from 'lucide-react';
-import { DashboardStats } from '@/hooks/doctor/types';
+import { DashboardStats } from '@/types/doctorSchedule';
 
 interface DashboardStatsProps {
   dashboardStats: DashboardStats;
@@ -26,7 +26,6 @@ const DashboardStats = ({ dashboardStats }: DashboardStatsProps) => {
           <span className="text-green-600">+12% so với hôm qua</span>
         </div>
       </div>
-
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex items-center justify-between">
           <div>
@@ -39,10 +38,13 @@ const DashboardStats = ({ dashboardStats }: DashboardStatsProps) => {
         </div>
         <div className="flex items-center mt-4 text-sm">
           <Activity className="text-blue-500 mr-1" size={16} />
-          <span className="text-gray-600">{Math.round((dashboardStats.completedToday / dashboardStats.todayAppointments) * 100)}% tỷ lệ hoàn thành</span>
+          <span className="text-gray-600">
+            {dashboardStats.todayAppointments > 0
+              ? `${Math.round((dashboardStats.completedToday / dashboardStats.todayAppointments) * 100)}% tỷ lệ hoàn thành`
+              : 'Chưa có lịch hẹn'}
+          </span>
         </div>
       </div>
-
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex items-center justify-between">
           <div>
@@ -58,7 +60,6 @@ const DashboardStats = ({ dashboardStats }: DashboardStatsProps) => {
           <span className="text-yellow-600">Cần xử lý trong hôm nay</span>
         </div>
       </div>
-
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="flex items-center justify-between">
           <div>

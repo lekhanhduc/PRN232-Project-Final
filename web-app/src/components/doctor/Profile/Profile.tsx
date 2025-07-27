@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { User, Mail, Phone, MapPin, Clock, Edit3 } from 'lucide-react';
-import { DoctorProfile } from '@/hooks/doctor/types';
+import { DoctorProfile } from '@/types/doctorSchedule';
 
 interface ProfileProps {
   doctorProfile: DoctorProfile;

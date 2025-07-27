@@ -192,5 +192,5 @@ export interface WorkScheduleResponse {
 status: string;
 time: string;
 department: string;
-
 }
+

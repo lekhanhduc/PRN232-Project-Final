@@ -1,28 +1,30 @@
 "use client";
 
-import React, { useMemo } from 'react';
-import { Calendar, Plus, Search, Edit3, Trash2, CheckCircle } from 'lucide-react';
-import { ScheduleItem, StatusType } from '@/hooks/doctor/types';
+import React, { useState, useEffect } from 'react';
+import { Plus, Search, Clock, User, Calendar } from 'lucide-react';
+import { WorkScheduleResponse, CompleteAppointmentRequest } from '@/types/doctorSchedule';
+import { doctorScheduleService, DoctorScheduleFilterRequest } from '@/services/doctorScheduleService';
+import { toast } from 'react-hot-toast';
 
 interface ScheduleManagementProps {
-  scheduleData: ScheduleItem[];
+  scheduleData: WorkScheduleResponse[];
   selectedDate: string;
   searchTerm: string;
-  filterStatus: StatusType | 'all';
+  filterStatus: string | undefined;
   onDateChange: (date: string) => void;
   onSearchChange: (term: string) => void;
-  onFilterChange: (status: StatusType | 'all') => void;
-  getStatusColor: (status: StatusType) => string;
-  getStatusText: (status: StatusType) => string;
-  getPriorityColor: (priority: string) => string;
-  getPriorityText: (priority: string) => string;
+  onFilterChange: (status: string | undefined) => void;
+  getStatusColor: (status: string) => string;
+  getStatusText: (status: string) => string;
+  getPriorityColor: (priority: string | undefined) => string;
+  getPriorityText: (priority: string | undefined) => string;
 }
 
 const ScheduleManagement = ({
-  scheduleData,
-  selectedDate,
-  searchTerm,
-  filterStatus,
+  scheduleData: initialScheduleData,
+  selectedDate: initialSelectedDate,
+  searchTerm: initialSearchTerm,
+  filterStatus: initialFilterStatus,
   onDateChange,
   onSearchChange,
   onFilterChange,
@@ -31,130 +33,358 @@ const ScheduleManagement = ({
   getPriorityColor,
   getPriorityText,
 }: ScheduleManagementProps) => {
-  const filteredScheduleData = useMemo(() => {
-    return scheduleData.filter(item => {
-      const matchesSearch = searchTerm === '' || 
-        item.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.phone.includes(searchTerm);
-      const matchesStatus = filterStatus === 'all' || item.status === filterStatus;
-      return matchesSearch && matchesStatus;
+  const [scheduleData, setScheduleData] = useState<WorkScheduleResponse[]>(initialScheduleData);
+  const [selectedDate, setSelectedDate] = useState<string>(initialSelectedDate);
+  const [searchTerm, setSearchTerm] = useState<string>(initialSearchTerm);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [actionLoading, setActionLoading] = useState<number | null>(null); // Track loading for specific actions
+  const [dateRange, setDateRange] = useState<DoctorScheduleFilterRequest>({
+    fromDate: '',
+    toDate: '',
+    includeTimeSlots: true,
+  });
+
+  // Update local state when props change
+  useEffect(() => {
+    setScheduleData(initialScheduleData);
+  }, [initialScheduleData]);
+
+  useEffect(() => {
+    setSelectedDate(initialSelectedDate);
+  }, [initialSelectedDate]);
+
+  useEffect(() => {
+    setSearchTerm(initialSearchTerm);
+  }, [initialSearchTerm]);
+
+  // Fetch schedule data
+  const fetchScheduleData = async () => {
+    setLoading(true);
+    try {
+      const response = await doctorScheduleService.getMyWorkSchedule(dateRange);
+      if (response.code === 200 && response.result) {
+        setScheduleData(response.result);
+      } else {
+        toast.error(response.message || 'Không thể tải lịch làm việc');
+      }
+    } catch (error) {
+      console.error('Error fetching schedule:', error);
+      toast.error('Lỗi khi tải lịch làm việc');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load data when dateRange changes
+  useEffect(() => {
+    if (dateRange.fromDate || dateRange.toDate) {
+      fetchScheduleData();
+    }
+  }, [dateRange]);
+
+  // Handle marking patient as arrived
+  const handleMarkPatientArrived = async (appointmentId: number) => {
+    setActionLoading(appointmentId);
+    try {
+      const response = await doctorScheduleService.markPatientArrived(appointmentId);
+      if (response.code === 200) {
+        toast.success(response.message || 'Đã đánh dấu bệnh nhân có mặt');
+        await fetchScheduleData(); // Refresh schedule data
+      } else {
+        toast.error(response.message || 'Không thể đánh dấu bệnh nhân có mặt');
+      }
+    } catch (error: any) {
+      console.error('Error marking patient arrived:', error);
+      toast.error(error.message || 'Lỗi khi đánh dấu bệnh nhân có mặt');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  // Handle completing an appointment
+  const handleCompleteAppointment = async (appointmentId: number) => {
+    setActionLoading(appointmentId);
+    try {
+      const request: CompleteAppointmentRequest = {};
+      const response = await doctorScheduleService.completeAppointment(appointmentId, request);
+      if (response.code === 200) {
+        toast.success(response.message || 'Hoàn thành ca khám thành công');
+        await fetchScheduleData(); // Refresh schedule data
+      } else {
+        toast.error(response.message || 'Không thể hoàn thành ca khám');
+      }
+    } catch (error: any) {
+      console.error('Error completing appointment:', error);
+      toast.error(error.message || 'Lỗi khi hoàn thành ca khám');
+    } finally {
+      setActionLoading(null);
+    }
+  };
+
+  // Filter data by date, search term, and status
+  const filteredScheduleData = scheduleData.filter((item) => {
+    const matchesDate = selectedDate === '' || item.workDate === selectedDate;
+    const matchesSearch =
+      searchTerm === '' ||
+      item.timeSlots.some(
+        (slot) =>
+          slot.appointment?.patient.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          slot.appointment?.patient.phone.includes(searchTerm)
+      );
+    const matchesStatus =
+      initialFilterStatus === 'all' ||
+      !initialFilterStatus ||
+      item.timeSlots.some((slot) => slot.appointment?.status === initialFilterStatus);
+    return matchesDate && matchesSearch && matchesStatus;
+  });
+
+  const handleDateRangeChange = (field: keyof DoctorScheduleFilterRequest, value: string | boolean) => {
+    setDateRange((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleSelectedDateChange = (date: string) => {
+    setSelectedDate(date);
+    onDateChange(date);
+  };
+
+  const handleSearchTermChange = (term: string) => {
+    setSearchTerm(term);
+    onSearchChange(term);
+  };
+
+  const handleStatusFilterChange = (status: string) => {
+    onFilterChange(status === 'all' ? undefined : status);
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
-  }, [scheduleData, searchTerm, filterStatus]);
+  };
+
+  const formatTime = (timeString: string) => {
+    return timeString.slice(0, 5); // HH:MM
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Quản lý Lịch hẹn</h2>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors">
+        <h2 className="text-2xl font-bold text-gray-800">Thời khóa biểu lịch hẹn</h2>
+        <button
+          onClick={fetchScheduleData}
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700 transition-colors"
+          disabled={loading}
+          aria-label="Làm mới lịch làm việc"
+        >
           <Plus size={20} />
-          Thêm lịch hẹn
+          Làm mới
         </button>
       </div>
 
-      <div className="flex gap-4 items-center flex-wrap">
-        <div className="flex items-center gap-2">
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => onDateChange(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+      {/* Filters */}
+      <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-center">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Từ ngày</label>
+            <input
+              type="date"
+              value={dateRange.fromDate || ''}
+              onChange={(e) => handleDateRangeChange('fromDate', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              aria-describedby="from-date-help"
+            />
+            <span id="from-date-help" className="sr-only">Chọn ngày bắt đầu để lọc lịch làm việc</span>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Đến ngày</label>
+            <input
+              type="date"
+              value={dateRange.toDate || ''}
+              onChange={(e) => handleDateRangeChange('toDate', e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              aria-describedby="to-date-help"
+            />
+            <span id="to-date-help" className="sr-only">Chọn ngày kết thúc để lọc lịch làm việc</span>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Lọc ngày cụ thể</label>
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => handleSelectedDateChange(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              aria-describedby="selected-date-help"
+            />
+            <span id="selected-date-help" className="sr-only">Chọn ngày cụ thể để lọc lịch làm việc</span>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Trạng thái</label>
+            <select
+              value={initialFilterStatus || 'all'}
+              onChange={(e) => handleStatusFilterChange(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              aria-describedby="status-filter-help"
+            >
+              <option value="all">Tất cả</option>
+              <option value="pending">Chờ xử lý</option>
+              <option value="confirmed">Đã xác nhận</option>
+              <option value="completed">Hoàn thành</option>
+              <option value="cancelled">Đã hủy</option>
+            </select>
+            <span id="status-filter-help" className="sr-only">Lọc lịch hẹn theo trạng thái</span>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Tìm kiếm</label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <input
+                type="text"
+                placeholder="Tìm bệnh nhân..."
+                value={searchTerm}
+                onChange={(e) => handleSearchTermChange(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                aria-label="Tìm kiếm bệnh nhân theo tên hoặc số điện thoại"
+              />
+            </div>
+          </div>
         </div>
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Tìm theo tên bệnh nhân hoặc số điện thoại..."
-            value={searchTerm}
-            onChange={(e) => onSearchChange(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-        </div>
-        <select
-          value={filterStatus}
-          onChange={(e) => onFilterChange(e.target.value as StatusType | 'all')}
-          className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-        >
-          <option value="all">Tất cả trạng thái</option>
-          <option value="confirmed">Đã xác nhận</option>
-          <option value="pending">Chờ xử lý</option>
-          <option value="completed">Hoàn thành</option>
-        </select>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Bệnh nhân</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Khoa</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Thời gian</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Triệu chứng</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Độ ưu tiên</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Trạng thái</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Thao tác</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {filteredScheduleData.map((appointment) => (
-                <tr key={appointment.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">
-                    <div>
-                      <div className="font-medium text-gray-900">{appointment.patientName}</div>
-                      <div className="text-sm text-gray-500">{appointment.phone}</div>
-                      {appointment.patientAge && (
-                        <div className="text-xs text-gray-400">{appointment.patientAge} tuổi</div>
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-700">{appointment.department}</td>
-                  <td className="px-6 py-4">
-                    <div className="text-sm font-medium text-gray-900">{appointment.time}</div>
-                    {appointment.duration && (
-                      <div className="text-xs text-gray-500">{appointment.duration} phút</div>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-700 max-w-xs">
-                    <div className="truncate" title={appointment.symptoms}>{appointment.symptoms}</div>
-                  </td>
-                  <td className="px-6 py-4">
-                    {appointment.priority && (
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(appointment.priority)}`}>
-                        {getPriorityText(appointment.priority)}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(appointment.status)}`}>
-                      {getStatusText(appointment.status)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <button className="text-blue-600 hover:text-blue-800 p-1 rounded">
-                        <Edit3 size={16} />
-                      </button>
-                      <button className="text-red-600 hover:text-red-800 p-1 rounded">
-                        <Trash2 size={16} />
-                      </button>
-                      {appointment.status === 'confirmed' && (
-                        <button className="text-green-600 hover:text-green-800 p-1 rounded">
-                          <CheckCircle size={16} />
-                        </button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <div className="flex items-center gap-2">
+            <Calendar className="text-blue-600" size={20} />
+            <span className="text-blue-800 font-medium">Tổng ngày làm việc: {filteredScheduleData.length}</span>
+          </div>
         </div>
+        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+          <div className="flex items-center gap-2">
+            <User className="text-green-600" size={20} />
+            <span className="text-green-800 font-medium">
+              Tổng lịch hẹn: {filteredScheduleData.reduce((total, schedule) => total + schedule.timeSlots.filter((slot) => !slot.isAvailable).length, 0)}
+            </span>
+          </div>
+        </div>
+        <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+          <div className="flex items-center gap-2">
+            <Clock className="text-yellow-600" size={20} />
+            <span className="text-yellow-800 font-medium">
+              Slot trống: {filteredScheduleData.reduce((total, schedule) => total + schedule.timeSlots.filter((slot) => slot.isAvailable).length, 0)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Schedule Display */}
+      <div className="space-y-4">
         {filteredScheduleData.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
-            Không tìm thấy lịch hẹn nào phù hợp với bộ lọc
+          <div className="text-center py-8 text-gray-500 bg-white rounded-lg shadow-sm border border-gray-200">
+            <Calendar className="mx-auto mb-2 text-gray-400" size={48} />
+            <p>Không có lịch làm việc phù hợp</p>
           </div>
         )}
+        {filteredScheduleData.map((schedule) => (
+          <div key={schedule.scheduleId} className="border border-gray-200 rounded-xl shadow-sm p-6 bg-white">
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
+                  <Calendar className="text-blue-600" size={20} />
+                  {formatDate(schedule.workDate)}
+                </h3>
+                <p className="text-sm text-gray-600 mt-1">
+                  Ca làm việc: {formatTime(schedule.startTime)} - {formatTime(schedule.endTime)} | Tối đa: {schedule.maxPatients} bệnh nhân
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    schedule.isAvailable ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                  }`}
+                >
+                  {schedule.isAvailable ? 'Có sẵn' : 'Không sẵn sàng'}
+                </span>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {schedule.timeSlots.map((slot) => (
+                <div
+                  key={slot.slotId}
+                  className={`p-4 rounded-lg border ${
+                    slot.isAvailable ? 'border-gray-200 bg-gray-50' : 'border-blue-200 bg-blue-50'
+                  }`}
+                >
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="font-medium text-gray-800">{slot.slotTimeFormatted}</p>
+                      {slot.appointment && (
+                        <>
+                          <p className="text-sm text-gray-600">Bệnh nhân: {slot.appointment.patient.fullName}</p>
+                          <p className="text-sm text-gray-600">SĐT: {slot.appointment.patient.phone}</p>
+                          <span
+                            className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${getStatusColor(
+                              slot.appointment.status || ''
+                            )}`}
+                          >
+                            {getStatusText(slot.appointment.status || '')}
+                          </span>
+                          {slot.appointment.priority && (
+                            <span
+                              className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ml-2 ${getPriorityColor(
+                                slot.appointment.priority
+                              )}`}
+                            >
+                              {getPriorityText(slot.appointment.priority)}
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </div>
+                    {!slot.isAvailable && slot.appointment && (
+                      <div className="flex gap-2">
+                        {slot.appointment.status === 'pending' && (
+                          <button
+                            onClick={() => handleMarkPatientArrived(slot.appointment.appointmentId)}
+                            className="px-3 py-1 bg-yellow-600 text-white rounded-lg text-sm hover:bg-yellow-700 disabled:opacity-50"
+                            disabled={actionLoading === slot.appointment.appointmentId}
+                            aria-label={`Đánh dấu bệnh nhân có mặt cho lịch hẹn ${slot.appointment.appointmentId}`}
+                          >
+                            {actionLoading === slot.appointment.appointmentId ? 'Đang xử lý...' : 'Đánh dấu có mặt'}
+                          </button>
+                        )}
+                        {(slot.appointment.status === 'pending' || slot.appointment.status === 'confirmed') && (
+                          <button
+                            onClick={() => handleCompleteAppointment(slot.appointment!.appointmentId)}
+                            className="px-3 py-1 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 disabled:opacity-50"
+                            disabled={actionLoading === slot.appointment.appointmentId}
+                            aria-label={`Hoàn thành lịch hẹn ${slot.appointment.appointmentId}`}
+                          >
+                            {actionLoading === slot.appointment.appointmentId ? 'Đang xử lý...' : 'Hoàn thành'}
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

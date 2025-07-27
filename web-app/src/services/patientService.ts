@@ -1,4 +1,4 @@
-import { API_URL } from '@/utils/baseUrl';
+import { API_URL } from '@/utils/BaseUrl';
 import { ApiResponse } from '@/types/apiResonse';
 import { PatientDetailResponse, PatientDetailRequest } from '@/types/user';
 
