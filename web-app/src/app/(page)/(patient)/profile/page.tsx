@@ -83,12 +83,10 @@ const PatientProfile: React.FC = () => {
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
     const [uploadingAvatar, setUploadingAvatar] = useState(false);
 
-    // New states for unified profile
     const [userType, setUserType] = useState<'PATIENT' | 'DOCTOR' | null>(null);
     const [profileData, setProfileData] = useState<ProfileResponse | null>(null);
     const [loading, setLoading] = useState(true);
 
-    // Doctor edit form states
     const [editingDoctorProfile, setEditingDoctorProfile] = useState(false);
     const [doctorEditForm, setDoctorEditForm] = useState({
         fullName: '',
@@ -291,7 +289,6 @@ const PatientProfile: React.FC = () => {
         }
     };
 
-    // Doctor profile functions
     const handleEditDoctorProfile = () => {
         if (profileData) {
             setDoctorEditForm({
@@ -331,7 +328,6 @@ const PatientProfile: React.FC = () => {
 
             const data = await response.json();
             if (data.code === 200) {
-                // Update local profile data
                 setProfileData(prev => prev ? {
                     ...prev,
                     fullName: doctorEditForm.fullName,
@@ -396,7 +392,6 @@ const PatientProfile: React.FC = () => {
 
             <div className="max-w-6xl mx-auto px-6 py-8">
                 <div className="flex gap-8">
-                    {/* Sidebar */}
                     <div className="w-72 flex-shrink-0">
                         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                             <div className="p-6 bg-gray-900 border-b border-gray-200">
@@ -427,10 +422,8 @@ const PatientProfile: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Main Content */}
                     <div className="flex-1">
                         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-                            {/* Profile Tab */}
                             {activeTab === 'profile' && (
                                 <div className="p-6">
                                     <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 pb-4 border-b border-gray-200">
@@ -498,7 +491,6 @@ const PatientProfile: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    {/* Avatar Section */}
                                     <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-8 mb-8 pb-8 border-b border-gray-200">
                                         <div className="relative group">
                                             <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-100 shadow-md">
@@ -520,7 +512,6 @@ const PatientProfile: React.FC = () => {
                                                 )}
                                             </div>
 
-                                            {/* Camera button */}
                                             <div className="absolute bottom-0 right-0">
                                                 <input
                                                     type="file"
@@ -584,7 +575,6 @@ const PatientProfile: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    {/* Profile Form Fields */}
                                     {userType === 'PATIENT' ? (
                                         // Patient Profile Form
                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -730,7 +720,6 @@ const PatientProfile: React.FC = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        // Doctor Profile Form (Editable)
                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                             <div className="space-y-2">
                                                 <label className="block text-sm font-medium text-gray-700 mb-2">

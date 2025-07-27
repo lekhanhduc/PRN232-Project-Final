@@ -14,18 +14,14 @@ export const useDoctors = () => {
     const searchDoctors = async (params: SearchDoctorsParams = {}) => {
         setLoading(true);
         setError(null);
-        
-        console.log('🔍 Debug - Hook searchDoctors called with params:', params);
-        
+
         try {
             const response = await doctorService.searchDoctors({
                 ...params,
                 page: currentPage,
                 pageSize: pageSize
             });
-            
-            console.log('🔍 Debug - Hook received response:', response);
-            
+
             if (response.code === 200 && response.result) {
                 setDoctors(response.result.items);
                 setTotalPages(response.result.totalPages);
