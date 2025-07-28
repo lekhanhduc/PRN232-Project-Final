@@ -116,11 +116,11 @@ namespace medical_appointment_booking.Services.Impl
 
             if (user == null)
             {
-                var role = await roleRepository.FindByRoleName(DefinitionRole.USER);
+                var role = await roleRepository.FindByRoleName(DefinitionRole.PATIENT);
                 if (role == null)
                 {
                     role = new Role();
-                    role.Name = DefinitionRole.USER;
+                    role.Name = DefinitionRole.PATIENT;
                     await roleRepository.CreateRole(role);
                 }
                 user = new User

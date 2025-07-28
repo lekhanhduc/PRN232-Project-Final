@@ -12,8 +12,8 @@ using medical_appointment_booking.Models;
 namespace medical_appointment_booking.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250727133005_Init db")]
-    partial class Initdb
+    [Migration("20250727175545_Init Db")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

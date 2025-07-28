@@ -23,8 +23,6 @@ services:
       - Jwt__Issuer=JwtIssuer
       - Jwt__Audience=JwtAudience
       - Jwt__Subject=JwtSubject
-      - Authentication__Google__RedirectUri=http://your-public-domain:3000/oauth2/callback/google
-      - Authentication__Facebook__RedirectUri=http://your-public-domain:3000/oauth2/callback/facebook
     ports:
       - "5011:5011"
     depends_on:
