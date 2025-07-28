@@ -8,7 +8,7 @@ import { usePatientProfile } from '@/hooks/usePatientProfile';
 import TwoFactorAuth from '@/components/profile/TwoFactorAuth';
 import ChangePassword from '@/components/profile/ChangePassword';
 import { API_URL } from '@/utils/baseUrl';
-import { fetchInterceptor } from '@/utils/interceptor';
+import { fetchInterceptor } from '@/utils/Interceptor';
 import { tokenStorage } from '@/utils/tokenStorage';
 
 interface ProfileResponse {
