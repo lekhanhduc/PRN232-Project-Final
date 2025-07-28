@@ -129,5 +129,18 @@ namespace medical_appointment_booking.Repositories
         {
             return await context.Doctors.AnyAsync(d => d.Id == doctorId);
         }
+
+        public async Task<List<DoctorLeave>> GetDoctorLeavesAsync(long doctorId)
+        {
+            return await context.DoctorLeaves
+                .Where(dl => dl.DoctorId == doctorId)
+                .OrderByDescending(dl => dl.LeaveDate)
+                .ToListAsync();
+        }
+
+        public async Task<Doctor?> GetDoctorByUserIdAsync(long userId)
+        {
+            return await context.Doctors.FirstOrDefaultAsync(d => d.UserId == userId);
+        }
     }
 }

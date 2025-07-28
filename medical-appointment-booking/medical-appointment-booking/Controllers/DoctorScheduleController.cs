@@ -145,5 +145,20 @@ namespace medical_appointment_booking.Controllers
 
             return int.Parse(userIdClaim.Value);
         }
+
+        [HttpGet("leaves")]
+        [Authorize(Roles = "DOCTOR")]
+        public async Task<ApiResponse<List<LeaveResponse>>> GetMyLeaveRequests()
+        {
+            var userId = GetCurrentUserId();
+            var result = await _doctorScheduleService.GetMyLeaveRequestsAsync(userId);
+
+            return new ApiResponse<List<LeaveResponse>>
+            {
+                code = 200,
+                message = "Lấy danh sách yêu cầu nghỉ thành công",
+                result = result
+            };
+        }
     }
 }

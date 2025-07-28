@@ -15,5 +15,6 @@ namespace medical_appointment_booking.Services
 
         // Leave Management
         Task<LeaveResponse> RequestLeaveAsync(long doctorId, LeaveRequest request);
+        Task<List<LeaveResponse>> GetMyLeaveRequestsAsync(long doctorId);
     }
 }
