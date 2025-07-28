@@ -65,6 +65,6 @@
         public long DoctorId { get; set; }
         public DateOnly LeaveDate { get; set; }
         public string? Reason { get; set; }
-        public DateTime RequestedAt { get; set; }
+        public DateTime RequestedAt { get; set; } = DateTime.UtcNow;
     }
 }

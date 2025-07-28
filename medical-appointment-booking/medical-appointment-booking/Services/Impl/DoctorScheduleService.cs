@@ -272,5 +272,28 @@ namespace medical_appointment_booking.Services.Impl
                 RequestedAt = DateTime.UtcNow
             };
         }
+
+        public async Task<List<LeaveResponse>> GetMyLeaveRequestsAsync(long userId)
+        {
+            // Tìm doctor theo userId
+            var doctor = await _doctorScheduleRepository.GetDoctorByUserIdAsync(userId);
+            if (doctor == null)
+            {
+                throw new AppException(ErrorCode.DOCTOR_NOT_FOUND);
+            }
+
+            var doctorId = doctor.Id;
+
+            // Lấy danh sách nghỉ phép
+            var leaves = await _doctorScheduleRepository.GetDoctorLeavesAsync(doctorId);
+
+            return leaves.Select(l => new LeaveResponse
+            {
+                LeaveId = l.Id,
+                DoctorId = l.DoctorId,
+                LeaveDate = l.LeaveDate,
+                Reason = l.Reason
+            }).ToList();
+        }
     }
 }

@@ -1,0 +1,136 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\se17d05_su25\\prn232\\final_project\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\impl\\doctorscheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\impl\\doctorscheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\se17d05_su25\\prn232\\final_project\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\services\\idoctorscheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\services\\idoctorscheduleservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\se17d05_su25\\prn232\\final_project\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\doctorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\se17d05_su25\\prn232\\final_project\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\controllers\\doctorschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\controllers\\doctorschedulecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\se17d05_su25\\prn232\\final_project\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\dtos\\response\\workscheduleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\dtos\\response\\workscheduleresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|d:\\se17d05_su25\\prn232\\final_project\\prn232-project-final\\medical-appointment-booking\\medical-appointment-booking\\repositories\\doctorschedulerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E0BB00A-8E89-4E9B-93B1-D25B7F5E7CD4}|medical-appointment-booking\\medical-appointment-booking.csproj|solutionrelative:medical-appointment-booking\\repositories\\doctorschedulerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DoctorController.cs",
+              "DocumentMoniker": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\DoctorController.cs",
+              "ToolTip": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\DoctorController.cs",
+              "ViewState": "AQIAAIUAAAAAAAAAAAAAAIwAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T04:40:15.091Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DoctorScheduleController.cs",
+              "DocumentMoniker": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorScheduleController.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Controllers\\DoctorScheduleController.cs",
+              "ToolTip": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Controllers\\DoctorScheduleController.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Controllers\\DoctorScheduleController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJ0AAAAbAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T04:39:54.629Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "WorkScheduleResponse.cs",
+              "DocumentMoniker": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\WorkScheduleResponse.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Dtos\\Response\\WorkScheduleResponse.cs",
+              "ToolTip": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Dtos\\Response\\WorkScheduleResponse.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Dtos\\Response\\WorkScheduleResponse.cs",
+              "ViewState": "AQIAADUAAAAAAAAAAAAAwEIAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T04:39:37.029Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DoctorScheduleService.cs",
+              "DocumentMoniker": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\DoctorScheduleService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\Impl\\DoctorScheduleService.cs",
+              "ToolTip": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\Impl\\DoctorScheduleService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\Impl\\DoctorScheduleService.cs",
+              "ViewState": "AQIAAA4BAAAAAAAAAAAuwCgBAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T04:39:03.124Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IDoctorScheduleService.cs",
+              "DocumentMoniker": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IDoctorScheduleService.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Services\\IDoctorScheduleService.cs",
+              "ToolTip": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Services\\IDoctorScheduleService.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Services\\IDoctorScheduleService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T04:38:27.36Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DoctorScheduleRepository.cs",
+              "DocumentMoniker": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\DoctorScheduleRepository.cs",
+              "RelativeDocumentMoniker": "medical-appointment-booking\\Repositories\\DoctorScheduleRepository.cs",
+              "ToolTip": "D:\\SE17D05_SU25\\PRN232\\FINAL_PROJECT\\PRN232-Project-Final\\medical-appointment-booking\\medical-appointment-booking\\Repositories\\DoctorScheduleRepository.cs",
+              "RelativeToolTip": "medical-appointment-booking\\Repositories\\DoctorScheduleRepository.cs",
+              "ViewState": "AQIAAHQAAAAAAAAAAAAAwIkAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-28T04:36:47.911Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1157,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
