@@ -1,4 +1,5 @@
-import React, { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import DoctorSearchBar from '@/components/doctors/DoctorSearchBar';
 import { useDoctors } from '@/hooks/useDoctors';
 import { receptionistService } from '@/services/receptionistService';
@@ -6,17 +7,31 @@ import { doctorService } from '@/services/doctorService';
 import { appointmentService, ServicePackageResponse } from '@/services/appointmentService';
 import { WorkScheduleDto, TimeSlotDto, DoctorSearchResponse } from '@/types/doctor';
 import { PatientDTOResponse } from '@/types/user';
-import { AppointmentCreationRequest, CreateAppointmentResponse } from '@/types/appointment';
+
+// Debounce hook
+function useDebounce<T>(value: T, delay: number): T {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+    return debouncedValue;
+}
 
 interface BookAppointmentModalProps {
     open: boolean;
     patient: PatientDTOResponse | null;
     onClose: () => void;
-    onSuccess: (res?: CreateAppointmentResponse) => void;
+    onSuccess: (res?: any) => void;
 }
 
 const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ open, patient, onClose, onSuccess }) => {
     const [doctorSearchTerm, setDoctorSearchTerm] = useState<string>('');
+    const debouncedDoctorSearch = useDebounce(doctorSearchTerm, 400);
     const { doctors, searchDoctors, loading: loadingDoctors } = useDoctors();
     const [selectedDoctorId, setSelectedDoctorId] = useState<number | null>(null);
     const [schedule, setSchedule] = useState<WorkScheduleDto[]>([]);
@@ -29,6 +44,10 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ open, patie
     const [servicePackagesError, setServicePackagesError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+
+    // Caching for schedules and service packages by doctorId
+    const scheduleCache = useRef<{ [doctorId: number]: WorkScheduleDto[] }>({});
+    const packageCache = useRef<{ [doctorId: number]: ServicePackageResponse[] }>({});
 
     useEffect(() => {
         if (open) {
@@ -46,31 +65,55 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ open, patie
     }, [open]);
 
     useEffect(() => {
-        if (doctorSearchTerm !== '') {
-            searchDoctors({ doctorName: doctorSearchTerm });
+        if (!open) return;
+        if (debouncedDoctorSearch !== '') {
+            searchDoctors({ doctorName: debouncedDoctorSearch });
         } else {
             searchDoctors();
         }
-    }, [doctorSearchTerm]);
+    }, [debouncedDoctorSearch, open]);
 
     useEffect(() => {
-        if (selectedDoctorId) {
-            doctorService.getDoctorAppointmentSchedule(selectedDoctorId).then(res => {
-                setSchedule(res.result?.workSchedules || []);
-            }).catch(() => setSchedule([]));
-            setServicePackagesLoading(true);
-            appointmentService.getActiveServicePackages().then(res => {
-                setServicePackages(res.result || []);
-                setServicePackagesLoading(false);
-            }).catch(() => {
-                setServicePackagesError('Không thể tải gói dịch vụ');
-                setServicePackagesLoading(false);
-            });
+        if (!selectedDoctorId) return;
+        // Check cache first
+        const cachedSchedule = scheduleCache.current[selectedDoctorId];
+        const cachedPackages = packageCache.current[selectedDoctorId];
+        if (cachedSchedule && cachedPackages) {
+            setSchedule(cachedSchedule);
+            setServicePackages(cachedPackages);
+            setServicePackagesLoading(false);
+            setServicePackagesError(null);
+            return;
         }
+        setServicePackagesLoading(true);
+        setServicePackagesError(null);
+        // Fetch both in parallel
+        Promise.all([
+            doctorService.getDoctorAppointmentSchedule(selectedDoctorId),
+            appointmentService.getActiveServicePackages()
+        ]).then(([scheduleRes, packagesRes]) => {
+            const sch = scheduleRes.result?.workSchedules || [];
+            const pkgs = packagesRes.result || [];
+            scheduleCache.current[selectedDoctorId] = sch;
+            packageCache.current[selectedDoctorId] = pkgs;
+            setSchedule(sch);
+            setServicePackages(pkgs);
+            setServicePackagesLoading(false);
+        }).catch(() => {
+            setSchedule([]);
+            setServicePackages([]);
+            setServicePackagesError('Không thể tải lịch/gói dịch vụ');
+            setServicePackagesLoading(false);
+        });
     }, [selectedDoctorId]);
 
-    const availableDays = schedule.filter((day) => day.timeSlots.some((slot: TimeSlotDto) => slot.isAvailable));
-    const availableSlots = schedule.find((d) => d.workDate.split('T')[0] === selectedDate)?.timeSlots.filter((slot: TimeSlotDto) => slot.isAvailable) || [];
+    // Defensive: Only compute availableDays if schedule is an array
+    const availableDays = Array.isArray(schedule)
+        ? schedule.filter((day) => Array.isArray(day.timeSlots) && day.timeSlots.some((slot: TimeSlotDto) => slot.isAvailable))
+        : [];
+    const availableSlots = Array.isArray(schedule)
+        ? (schedule.find((d) => d.workDate && d.workDate.split('T')[0] === selectedDate)?.timeSlots.filter((slot: TimeSlotDto) => slot.isAvailable) || [])
+        : [];
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -80,11 +123,12 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ open, patie
         }
         setLoading(true);
         setError(null);
-        const payload: AppointmentCreationRequest = {
+        const payload = {
             patientId: patient.id,
             doctorId: selectedDoctorId,
             slotId: selectedSlot.slotId,
             appointmentDate: selectedDate,
+            appointmentTime: selectedSlot.slotTime,
             reasonForVisit: reason,
             packageId: packageId,
         };
@@ -101,7 +145,10 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ open, patie
 
     if (!open || !patient) return null;
 
-    return (
+    // Only render portal if document.body is available
+    if (typeof window === 'undefined' || !document.body) return null;
+
+    return ReactDOM.createPortal(
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg max-w-lg w-full p-6">
                 <h3 className="text-lg font-semibold mb-4">Đặt lịch khám cho {patient.firstName}</h3>
@@ -201,7 +248,8 @@ const BookAppointmentModal: React.FC<BookAppointmentModalProps> = ({ open, patie
                     </div>
                 </form>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

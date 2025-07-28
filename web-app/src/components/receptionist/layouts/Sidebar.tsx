@@ -1,16 +1,18 @@
 'use client'
-import { Calendar, Users, Clock } from 'lucide-react';
+import { Calendar, Users, Clock, Lock } from 'lucide-react';
 
 interface SidebarProps {
     activeTab: string;
     onTabChange: (tab: string) => void;
+    tabs?: string[];
 }
 
 export const Sidebar = ({ activeTab, onTabChange }: SidebarProps) => {
     const menuItems = [
         { id: 'appointments', label: 'Lịch hẹn', icon: Calendar },
         { id: 'patients', label: 'Bệnh nhân', icon: Users },
-        { id: 'schedule', label: 'Lịch bác sĩ', icon: Clock }
+        { id: 'schedule', label: 'Lịch bác sĩ', icon: Clock },
+        { id: 'change-password', label: 'Đổi mật khẩu', icon: Lock }
     ];
 
     return (

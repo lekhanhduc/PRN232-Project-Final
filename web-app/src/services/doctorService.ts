@@ -2,7 +2,7 @@ import { ApiResponse } from "@/types/apiResonse";
 import { DoctorCreationRequest, DoctorCreationResponse, DoctorDetailResponse, DoctorSearchResponse, DoctorUpdateRequest, Gender } from "@/types/doctor";
 import { PageResponse } from "@/types/pageResponse";
 import { API_URL } from "@/utils/baseUrl";
-import { fetchInterceptor } from "@/utils/interceptor";
+import { fetchInterceptor } from "@/utils/Interceptor";
 export interface SearchDoctorsParams {
     doctorName?: string;
     specialtyName?: string;
@@ -159,12 +159,10 @@ export const getDoctors = async (params: SearchDoctorsParams = {}): Promise<ApiR
 
     const url = `${API_URL}/api/v1/doctors?${queryParams.toString()}`;
 
-    const accessToken = localStorage.getItem("accessToken"); 
     const response = await fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-             ...(accessToken && { Authorization: `Bearer ${accessToken}` })
         },
     });
 

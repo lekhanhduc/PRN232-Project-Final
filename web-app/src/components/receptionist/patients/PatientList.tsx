@@ -6,6 +6,20 @@ import { PatientDTOResponse } from "@/types/user";
 import { receptionistService } from '@/services/receptionistService';
 import { usePatients } from '@/hooks/usePatients';
 
+// Debounce hook
+function useDebounce<T>(value: T, delay: number): T {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedValue(value);
+        }, delay);
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [value, delay]);
+    return debouncedValue;
+}
+
 export const PatientList = () => {
     const {
         patients,
@@ -18,6 +32,13 @@ export const PatientList = () => {
         totalPages,
         totalElements
     } = usePatients();
+    const [searchInput, setSearchInput] = useState('');
+    const debouncedSearch = useDebounce(searchInput, 400);
+
+    useEffect(() => {
+        setSearchTerm(debouncedSearch);
+    }, [debouncedSearch, setSearchTerm]);
+
     const [showNewPatient, setShowNewPatient] = useState(false);
 
     return (
@@ -39,7 +60,8 @@ export const PatientList = () => {
                     <input
                         type="text"
                         placeholder="Tìm bệnh nhân theo tên, số điện thoại hoặc email..."
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
                         className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                 </div>

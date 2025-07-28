@@ -27,34 +27,20 @@ const DoctorsList: React.FC = () => {
         setCurrentPage
     } = useDoctors();
 
-    // Debounced search effect
+    // Effect: Reset page to 1 when any filter/search changes
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            const params: any = {};
-
-            if (searchTerm.trim()) {
-                // Search by doctor name
-                params.doctorName = searchTerm.trim();
-
-            }
-
-            if (selectedSpecialty !== 'All') {
-                params.specialtyName = selectedSpecialty;
-            }
-
-            if (selectedGender) {
-                params.gender = selectedGender;
-            }
-
-            if (isAvailable !== undefined) {
-                params.isAvailable = isAvailable;
-            }
-
-            searchDoctors(params);
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
+        setCurrentPage(1);
     }, [searchTerm, selectedSpecialty, selectedGender, isAvailable]);
+
+    // Effect: Fetch doctors when currentPage or filters change
+    useEffect(() => {
+        const params: any = {};
+        if (searchTerm.trim()) params.doctorName = searchTerm.trim();
+        if (selectedSpecialty !== 'All') params.specialtyName = selectedSpecialty;
+        if (selectedGender) params.gender = selectedGender;
+        if (isAvailable !== undefined) params.isAvailable = isAvailable;
+        searchDoctors(params);
+    }, [searchTerm, selectedSpecialty, selectedGender, isAvailable, currentPage]);
 
     const handlePageChange = (page: number) => {
         setCurrentPage(page);

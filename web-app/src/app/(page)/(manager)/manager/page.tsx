@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatsCards } from '@/components/manager/layouts/StatsCards';
 import { Dashboard } from '@/components/manager/dashboard/Dashboard';
 import { DoctorsManagement } from '@/components/manager/doctors/DoctorsManagement';

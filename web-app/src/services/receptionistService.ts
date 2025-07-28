@@ -114,7 +114,7 @@ export const receptionistService = {
 
 
     // MAN007: Create Receptionist Account
-    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {   
+    createReceptionist: async (receptionistData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists`, {
                 method: 'POST',
@@ -138,7 +138,7 @@ export const receptionistService = {
 
 
     // MAN008: Update Receptionist Information
-    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {  
+    updateReceptionist: async (userId: number, updateData: CreateReceptionistRequest): Promise<ApiResponse<CreateReceptionistResponse>> => {
         try {
             const response = await fetch(`${API_URL}/api/Manager/receptionists/${userId}`, {
                 method: 'PUT',
@@ -178,6 +178,34 @@ export const receptionistService = {
             return await response.json();
         } catch (error) {
             console.error('Error deleting receptionist:', error);
+            throw error;
+        }
+    },
+
+    async changePassword(currentPassword: string, newPassword: string): Promise<ApiResponse<{ success: boolean }>> {
+        try {
+            const token = localStorage.getItem('accessToken');
+
+            const response = await fetch(`${API_URL}/api/v1/patients/change-password`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    OldPassword: currentPassword,
+                    NewPassword: newPassword
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error changing password:', error);
             throw error;
         }
     }
